@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="leftBarVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="270.0" styleClass="VBox" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane fx:id="logoAnchorPane" prefHeight="69.0" prefWidth="269.0">
+         <children>
+            <Label fx:id="logoInscriptionLabel" layoutX="64.0" layoutY="14.0" text="Dziennik" textAlignment="CENTER">
+               <font>
+                  <Font name="Champagne &amp; Limousines" size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="loggedAsAnchorPane" prefHeight="220.0" prefWidth="269.0">
+         <children>
+            <Label layoutX="14.0" layoutY="18.0" text="Zalogowano jako:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="loggedAsValueLabel" layoutX="14.0" layoutY="35.0" prefHeight="30.0" prefWidth="240.0" text="#">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="loggoutButton" contentDisplay="CENTER" layoutX="15.0" layoutY="70.0" mnemonicParsing="false" onAction="#logOut" text="Wyloguj" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="classifiedsLeftBarButton" accessibleRole="LIST_VIEW" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showClassifiedsLeftBarButton" prefHeight="40.0" prefWidth="270.0" text="Ogłoszenia">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="substitutesLeftBarButton1" accessibleRole="LIST_VIEW" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showSubstitutesLeftBarButton" prefHeight="40.0" prefWidth="270.0" text="Zastępstwa">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</VBox>

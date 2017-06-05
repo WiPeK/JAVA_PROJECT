@@ -1,0 +1,55 @@
+.VBox {
+    -fx-border-style: solid;
+    -fx-border-width: 0 0.5 0 0;
+    -fx-border-color: grey;
+    -fx-border-top: none;
+}
+
+.classifiedsID {
+    -fx-alignment: top-left;
+    -fx-font-size: 16pt;
+    -fx-padding: 15px;
+    -fx-max-width: 740px;
+}
+
+.classifiedsbody {
+    -fx-alignment: top-left;
+    -fx-font-size: 16;
+    -fx-wrap-text: true;
+    -fx-padding: 15px;
+    -fx-max-width: 740px;
+}
+
+.classifiedvbox {
+    -fx-max-width: 740px;
+    -fx-min-height: 30px;
+}
+
+.labeltitle {
+    -fx-alignment: center;
+    -fx-font-size: 20pt;
+    -fx-padding: 15px;
+}
+
+.datelabel {
+    -fx-alignment: center;
+    -fx-font-size: 12pt;
+    -fx-padding: 15px;
+}
+
+.yearlabel {
+    -fx-font-size: 16pt;
+    -fx-padding: 10px;
+}
+
+.semesterbutton {
+    -fx-font-size: 12pt;
+    -fx-padding: 2px;
+    -fx-width: 270px;
+}
+
+.labelsemesterview {
+    -fx-font-size: 16.0px;
+    -fx-padding: 14.0px;
+    -fx-text-fill: rgba(0.0, 0.0, 0.0, 0.87);
+}
