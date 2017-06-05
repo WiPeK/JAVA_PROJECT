@@ -42,7 +42,7 @@ public class Subjects implements Serializable {
         return name;
     }
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<CarriedSubjects> getCarriedSubjects() {
         return carriedSubjects;
     }
@@ -93,5 +93,13 @@ public class Subjects implements Serializable {
         int result = idSubject;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Subjects{" +
+                "idSubject=" + idSubject +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

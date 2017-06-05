@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import pl.wipek.client.admin.AdminClassesController;
 import pl.wipek.common.Action;
 import pl.wipek.db.*;
@@ -78,6 +79,7 @@ public class EditClassesDialogController {
             }
         }
 
+        this.semestersComboBox.setItems(listToComboBox);
         this.semestersComboBox.setCellFactory(new Callback<ListView<SemestersNH>, ListCell<SemestersNH>>() {
             @Override
             public ListCell<SemestersNH> call(ListView<SemestersNH> l) {
@@ -88,7 +90,7 @@ public class EditClassesDialogController {
                         if(semester == null || empty) {
                             setText("Brak");
                         } else {
-                            String comboBoxValue = date.format(semester.getStartDate()) + "-" + date.format(semester.getEndDate()) + " " + semester.getSchoolYear().getName();
+                            String comboBoxValue = semester.getIdSemester() + " " + date.format(semester.getStartDate()) + "-" + date.format(semester.getEndDate()) + " " + semester.getSchoolYear().getName();
                             setText(comboBoxValue);
                         }
                     }
@@ -96,8 +98,22 @@ public class EditClassesDialogController {
             }
         });
 
-        this.semestersComboBox.setItems(listToComboBox);
-        this.semestersComboBox.getSelectionModel().selectFirst();
+        this.semestersComboBox.setConverter(new StringConverter<SemestersNH>() {
+            @Override
+            public String toString(SemestersNH object) {
+                return object.getIdSemester() + " " + date.format(object.getStartDate()) + "-" + date.format(object.getEndDate()) + " " + object.getSchoolYear().getName();
+            }
+
+            @Override
+            public SemestersNH fromString(String string) {
+                String[] splited = string.split("\\s+");
+                Optional<SemestersNH> optSemester = listToComboBox.stream().filter(i -> i.getIdSemester() == Integer.parseInt(splited[0])).findFirst();
+                classes.setSemester(optSemester.orElse(null));
+                return null;
+            }
+        });
+
+        this.semestersComboBox.setValue(this.classes.getSemester());
         this.saveButton.setOnAction(this::saveButtonAction);
         this.deleteButton.setOnAction(this::deleteButtonAction);
         this.disableButton.setOnAction(e -> ((Node)(e.getSource())).getScene().getWindow().hide());

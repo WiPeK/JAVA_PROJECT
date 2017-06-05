@@ -1,13 +1,21 @@
 package pl.wipek.client.admin;
 
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import pl.wipek.client.Controller;
+import pl.wipek.client.admin.dialogs.EditCarriedDialogController;
 import pl.wipek.common.Action;
 import pl.wipek.db.CarriedSubjectsNH;
 import pl.wipek.server.db.CarriedSubjects;
@@ -25,7 +33,11 @@ public class AdminCarriedController {
 
     private TableView<CarriedSubjectsNH> carriedSubjectsNHTableView;
 
+    private final static String carriedYearsEditFXMLPath = "/views/carried.fxml";
+
     private ObservableList<CarriedSubjectsNH> carriedSubjectsNHObservableList = FXCollections.observableArrayList();
+
+    private EditCarriedDialogController editCarriedDialogController;
 
     public AdminCarriedController(AdminsController adminsController) {
         this.adminsController = adminsController;
@@ -54,6 +66,11 @@ public class AdminCarriedController {
         csTableView.setEditable(true);
         Set<Object> csObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllCarriedSubjects", "FROM CarriedSubjects cs"));
         csObjects.forEach(i -> this.carriedSubjectsNHObservableList.add(new CarriedSubjectsNH((CarriedSubjects)i)));
+
+        TableColumn<CarriedSubjectsNH, Integer> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("idCarriedSubject"));
+        idCol.setMinWidth(50);
+        idCol.setMinWidth(75);
 
         TableColumn<CarriedSubjectsNH, String> teacherNameSurnameCol = new TableColumn<>("Nauczyciel");
         teacherNameSurnameCol.setCellValueFactory(c -> new ReadOnlyStringWrapper(c.getValue().getTeacher().getUser().getSurname() + " " + c.getValue().getTeacher().getUser().getName()));
@@ -86,14 +103,37 @@ public class AdminCarriedController {
             return row;
         });
 
-        csTableView.getColumns().addAll(teacherNameSurnameCol, classCol, semesterCol, subjectCol);
+        csTableView.getColumns().addAll(idCol, teacherNameSurnameCol, classCol, semesterCol, subjectCol);
         csTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         csTableView.setItems(this.carriedSubjectsNHObservableList);
         return csTableView;
     }
 
+    @FXML
     private void carriedSubjectsTableRowClick(CarriedSubjectsNH item) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(carriedYearsEditFXMLPath));
+            this.editCarriedDialogController = new EditCarriedDialogController(item, this);
+            loader.setController(this.editCarriedDialogController);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, (e) -> Platform.runLater(editCarriedDialogController::handleWindowShownEvent));
+            stage.show();
+        }catch (Exception e) {
+            Controller.getLogger().error(e);
+            e.printStackTrace();
+        }
     }
 
+    public Controller getController() {
+        return this.adminsController.getController();
+    }
 
+    public TableView<CarriedSubjectsNH> getCarriedSubjectsNHTableView() {
+        return carriedSubjectsNHTableView;
+    }
+
+    public ObservableList<CarriedSubjectsNH> getCarriedSubjectsNHObservableList() {
+        return carriedSubjectsNHObservableList;
+    }
 }

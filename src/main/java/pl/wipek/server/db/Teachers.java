@@ -51,7 +51,7 @@ public class Teachers implements Serializable {
         return title;
     }
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<CarriedSubjects> getCarriedSubjects() {
         return carriedSubjects;
     }

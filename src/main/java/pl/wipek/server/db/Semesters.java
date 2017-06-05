@@ -64,7 +64,7 @@ public class Semesters implements Serializable {
         return schoolYear;
     }
 
-    @OneToMany(mappedBy = "semester")
+    @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL, orphanRemoval = true)
     public Set<CarriedSubjects> getCarriedSubjects() {
         return carriedSubjects;
     }

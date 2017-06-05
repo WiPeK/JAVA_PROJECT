@@ -381,7 +381,6 @@ class Router {
     }
 
     private static Set<Semesters> saveOrUpdateSemester(Set<Semesters> semesters) {
-        System.out.println(semesters);
         for (Semesters semester : semesters) {
             entityManager.clear();
             if(semester.getIdSemester() == 0) {
@@ -501,16 +500,46 @@ class Router {
     }
 
     private static Object actionForCarriedSubject(Object received) {
-        Object result;
+        Object result = null;
         String action = ((CarriedSubjectsNH)received).getAction().getAction();
         CarriedSubjects carriedSubjects = new CarriedSubjects((CarriedSubjectsNH)received);
         CarriedSubjectsNH carriedSubjectsNH = (CarriedSubjectsNH)received;
         switch (action) {
             case "getSemesterToCarriedSubject":
                 carriedSubjectsNH.setSemester(new SemestersNH(carriedSubjects.getSemester()));
+                result = carriedSubjectsNH;
+                break;
+            case "saveOrUpdate":
+                result = actionForSaveOrUpdateCarriedSubject(carriedSubjects);
+                break;
+            case "remove":
+                result = removeCarriedSubject(carriedSubjects);
                 break;
         }
-        result = carriedSubjectsNH;
+        return result;
+    }
+
+    private static Boolean removeCarriedSubject(CarriedSubjects carriedSubjects) {
+        Boolean result;
+        entityManager.remove(entityManager.find(CarriedSubjects.class, carriedSubjects.getIdCarriedSubject()));
+        result = Boolean.TRUE;
+        entityManager.flush();
+        entityManager.clear();
+        return result;
+    }
+
+    private static Object actionForSaveOrUpdateCarriedSubject(CarriedSubjects carriedSubjects) {
+        Object result;
+        if(carriedSubjects.getIdCarriedSubject() == 0) {
+            entityManager.persist(carriedSubjects);
+            entityManager.flush();
+            entityManager.refresh(carriedSubjects);
+        } else {
+            entityManager.merge(carriedSubjects);
+            entityManager.flush();
+        }
+        entityManager.clear();
+        result = carriedSubjects;
         return result;
     }
 
@@ -710,6 +739,7 @@ class Router {
             case "getAllClasses":
             case "getAllSemesters":
             case "getAllCarriedSubjects":
+            case "getAllTeachers":
                 result = HibernateUtil.getAll((Action) received);
                 break;
         }

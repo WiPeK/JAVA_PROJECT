@@ -78,7 +78,7 @@ public class CarriedSubjects implements Serializable {
      * get value of id of teacher who teach subject
      * @return int with teacher id
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ID_TEACHER", nullable = false)
     public Teachers getTeacher() {
         return teacher;
@@ -88,7 +88,7 @@ public class CarriedSubjects implements Serializable {
      * get value of id of class which has classes
      * @return int with class id
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ID_CLASS", nullable = false)
     public Classes getClasses() {
         return classes;
