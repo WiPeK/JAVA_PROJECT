@@ -2,29 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminClassesController.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminClassesController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController$1$1.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController$1.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController$2.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/dialogs/EditClassesDialogController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/db/StudentsClassesNH.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/db/StudentsClassesNH.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/db/UsersNH.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/db/UsersNH.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/server/ClientTask.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/server/ClientTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/server/Router.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/server/Router.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/server/Server.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/server/Server.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/server/db/StudentsClasses.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/server/db/StudentsClasses.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/StudentsGradesDialog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/views/studentGrades.fxml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminGradesController.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminGradesController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminUsersController.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminUsersController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminsController.class" afterPath="$PROJECT_DIR$/target/classes/pl/wipek/client/admin/AdminsController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminClassesController.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminClassesController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/db/StudentsClassesNH.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/db/StudentsClassesNH.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/db/UsersNH.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/db/UsersNH.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/server/ClientTask.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/server/ClientTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminUsersController.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminUsersController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminsController.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminsController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/server/Router.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/server/Router.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/server/Server.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/server/Server.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/wipek/server/db/StudentsClasses.java" afterPath="$PROJECT_DIR$/src/main/java/pl/wipek/server/db/StudentsClasses.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" afterPath="$PROJECT_DIR$/target/classes/META-INF/persistence.xml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,18 +73,61 @@
             <file leaf-file-name="AdminUsersController.java" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminUsersController.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-3319">
-                    <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+                  <state relative-caret-position="765">
+                    <caret line="133" column="9" lean-forward="true" selection-start-line="133" selection-start-column="9" selection-end-line="133" selection-end-column="9" />
                     <folding />
                   </state>
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="EditUserDialogController.java" pinned="false" current-in-tab="true">
+            <file leaf-file-name="EditUserDialogController.java" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditUserDialogController.java">
                 <provider selected="true" editor-type-id="text-editor">
                   <state relative-caret-position="135">
                     <caret line="144" column="8" lean-forward="false" selection-start-line="144" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="TeachersController.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/TeachersController.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="-1513">
+                    <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="EditClassesDialogController.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="51">
+                    <caret line="112" column="58" lean-forward="true" selection-start-line="112" selection-start-column="58" selection-end-line="112" selection-end-column="58" />
+                    <folding>
+                      <element signature="e#3089#3752#0" expanded="true" />
+                      <element signature="e#3751#3752#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="StudentsController.java" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/StudentsController.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="1247">
+                    <caret line="110" column="16" lean-forward="true" selection-start-line="110" selection-start-column="16" selection-end-line="111" selection-end-column="144" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="AdminSchoolYearsController.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminSchoolYearsController.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="1059">
+                    <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
                     <folding />
                   </state>
                 </provider>
@@ -114,21 +144,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AdminCarriedController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminCarriedController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="115" column="63" lean-forward="false" selection-start-line="115" selection-start-column="63" selection-end-line="115" selection-end-column="63" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Router.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/Router.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="627" column="30" lean-forward="false" selection-start-line="627" selection-start-column="30" selection-end-line="627" selection-end-column="30" />
+            <state relative-caret-position="164">
+              <caret line="562" column="36" lean-forward="false" selection-start-line="562" selection-start-column="18" selection-end-line="562" selection-end-column="36" />
               <folding>
                 <element signature="method#saveOrUpdateSchoolYear#0;class#Router#0" expanded="false" />
                 <element signature="method#saveOrUpdateSemester#0;class#Router#0" expanded="false" />
@@ -141,51 +161,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Classes.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/db/Classes.java">
+      <file leaf-file-name="AdminGradesController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="56" column="62" lean-forward="false" selection-start-line="56" selection-start-column="62" selection-end-line="56" selection-end-column="62" />
-              <folding />
+            <state relative-caret-position="664">
+              <caret line="119" column="24" lean-forward="false" selection-start-line="119" selection-start-column="24" selection-end-line="119" selection-end-column="24" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1218#1219#0" expanded="true" />
+                <element signature="e#1274#1275#0" expanded="true" />
+                <element signature="e#4448#4449#0" expanded="true" />
+                <element signature="e#4508#4509#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Students.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/db/Students.java">
+      <file leaf-file-name="StudentsGradesDialog.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/StudentsGradesDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="20" column="25" lean-forward="false" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StudentsClasses.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/db/StudentsClasses.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="persistence.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="59" lean-forward="false" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditClassesDialogController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="190" column="81" lean-forward="false" selection-start-line="190" selection-start-column="81" selection-end-line="190" selection-end-column="81" />
+            <state relative-caret-position="245">
+              <caret line="92" column="27" lean-forward="false" selection-start-line="92" selection-start-column="27" selection-end-line="92" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -193,22 +189,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Users.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/db/Users.java">
+      <file leaf-file-name="EditCarriedDialogController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditCarriedDialogController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AdminClassesController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminClassesController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="51" column="41" lean-forward="true" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
-              <folding />
+            <state relative-caret-position="51">
+              <caret line="158" column="23" lean-forward="true" selection-start-line="158" selection-start-column="23" selection-end-line="158" selection-end-column="23" />
+              <folding>
+                <element signature="e#6438#7068#0" expanded="true" />
+                <element signature="e#7067#7068#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -218,8 +207,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -233,6 +222,8 @@
       <find>getStudentsClassesToC</find>
       <find>getSt</find>
       <find>ForClass</find>
+      <find>getSemesterToClass</find>
+      <find>getSemester</find>
     </findStrings>
     <dirStrings>
       <dir>E:\SchoolDiary\src\main\java\pl\wipek\client</dir>
@@ -282,8 +273,14 @@
         <option value="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
         <option value="$PROJECT_DIR$/src/main/java/pl/wipek/server/db/StudentsClasses.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/wipek/server/db/Classes.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/server/Router.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminsController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminUsersController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/views/studentGrades.fxml" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/client/StudentsController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/server/Router.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/StudentsGradesDialog.java" />
       </list>
     </option>
   </component>
@@ -420,6 +417,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SchoolDiary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SchoolDiary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="META-INF" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -477,40 +500,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SchoolDiary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SchoolDiary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wipek" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1013,6 +1002,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17542787" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1030,7 +1020,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -1051,38 +1040,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/ClassifiedsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/helpers/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2312">
-          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/Login.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1137,13 +1098,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminSubjectsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="182" column="5" lean-forward="true" selection-start-line="140" selection-start-column="4" selection-end-line="182" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/views/carried.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder">
         <state />
@@ -1170,48 +1124,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="141" column="0" lean-forward="true" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/StudentsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-136">
-          <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/SubstitutesController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-578">
           <caret line="20" column="6" lean-forward="false" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/TeacherGradesTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-391">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/TeachersController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminSchoolYearsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1267,20 +1183,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditCarriedDialogController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-187">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2098#2610#0" expanded="false" />
-            <element signature="e#2609#2610#0" expanded="false" />
-            <element signature="e#4130#4625#0" expanded="false" />
-            <element signature="e#4624#4625#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/db/CarriedSubjects.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1224">
@@ -1297,17 +1199,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="34" lean-forward="false" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditSchoolYearsDialogController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="51" column="9" lean-forward="false" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1335,22 +1231,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/db/UsersNH.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-141">
-          <caret line="196" column="0" lean-forward="false" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminUsersController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3319">
-          <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminCarriedController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1359,26 +1239,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminClassesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="51" column="41" lean-forward="true" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/db/Users.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
           <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditUserDialogController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="144" column="8" lean-forward="false" selection-start-line="144" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1431,10 +1295,134 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminSubjectsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="157" column="9" lean-forward="true" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditUserDialogController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="144" column="8" lean-forward="false" selection-start-line="144" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="98" column="68" lean-forward="false" selection-start-line="98" selection-start-column="68" selection-end-line="98" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminClassesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-323">
+          <caret line="51" column="41" lean-forward="true" selection-start-line="51" selection-start-column="41" selection-end-line="51" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/db/UsersNH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/views/studentGrades.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/TeachersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1513">
+          <caret line="21" column="6" lean-forward="false" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/TeacherGradesTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-187">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminGradesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="664">
+          <caret line="119" column="24" lean-forward="false" selection-start-line="119" selection-start-column="24" selection-end-line="119" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1218#1219#0" expanded="true" />
+            <element signature="e#1274#1275#0" expanded="true" />
+            <element signature="e#4448#4449#0" expanded="true" />
+            <element signature="e#4508#4509#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="112" column="58" lean-forward="true" selection-start-line="112" selection-start-column="58" selection-end-line="112" selection-end-column="58" />
+          <folding>
+            <element signature="e#3089#3752#0" expanded="true" />
+            <element signature="e#3751#3752#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminUsersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="133" column="9" lean-forward="true" selection-start-line="133" selection-start-column="9" selection-end-line="133" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/AdminSchoolYearsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1059">
+          <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/db/PartialGradesNH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/server/Router.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="627" column="30" lean-forward="false" selection-start-line="627" selection-start-column="30" selection-end-line="627" selection-end-column="30" />
+        <state relative-caret-position="164">
+          <caret line="562" column="36" lean-forward="false" selection-start-line="562" selection-start-column="18" selection-end-line="562" selection-end-column="36" />
           <folding>
             <element signature="method#saveOrUpdateSchoolYear#0;class#Router#0" expanded="false" />
             <element signature="method#saveOrUpdateSemester#0;class#Router#0" expanded="false" />
@@ -1446,10 +1434,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditClassesDialogController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/EditCarriedDialogController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="190" column="81" lean-forward="false" selection-start-line="190" selection-start-column="81" selection-end-line="190" selection-end-column="81" />
+        <state relative-caret-position="51">
+          <caret line="158" column="23" lean-forward="true" selection-start-line="158" selection-start-column="23" selection-end-line="158" selection-end-column="23" />
+          <folding>
+            <element signature="e#6438#7068#0" expanded="true" />
+            <element signature="e#7067#7068#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/StudentsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1247">
+          <caret line="110" column="16" lean-forward="true" selection-start-line="110" selection-start-column="16" selection-end-line="111" selection-end-column="144" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/wipek/client/admin/dialogs/StudentsGradesDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="92" column="27" lean-forward="false" selection-start-line="92" selection-start-column="27" selection-end-line="92" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

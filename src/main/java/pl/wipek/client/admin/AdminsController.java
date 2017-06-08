@@ -27,6 +27,8 @@ public class AdminsController {
 
     private AdminClassesController adminClassesController;
 
+    private AdminGradesController adminGradesController;
+
     public AdminsController(Controller controller) throws Exception {
         this.controller = controller;
     }
@@ -93,7 +95,8 @@ public class AdminsController {
     }
 
     private void buttonManageGradesAction(ActionEvent event) {
-
+        this.adminGradesController = new AdminGradesController(this);
+        this.adminGradesController.buttonStudentGradesAction(event);
     }
 
     private void buttonManageCarriedAction(ActionEvent event) {

@@ -370,10 +370,8 @@ class Router {
             entityManager.persist(schoolYears);
             entityManager.flush();
             entityManager.refresh(schoolYears);
-            //schoolYears.setSemesters(saveOrUpdateSemester(schoolYears.getSemesters()));
         } else {
             entityManager.merge(schoolYears);
-            //schoolYears.setSemesters(saveOrUpdateSemester(schoolYears.getSemesters()));
         }
         entityManager.clear();
         result = schoolYears;

@@ -73,7 +73,7 @@ public class AdminUsersController {
         TableView<UsersNH> usersManageTableTableView = new TableView<>();
         usersManageTableTableView.setEditable(true);
 
-        this.usersManageTableObservableList.removeAll(this.usersManageTableObservableList);
+        this.usersManageTableObservableList.clear();
         Set<Object> usersObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllUsers", "FROM Users u"));
         usersObjects.forEach(i -> this.usersManageTableObservableList.add(new UsersNH((Users)i)));
 
