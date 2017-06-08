@@ -78,7 +78,9 @@ public class StudentsClassesNH implements Serializable{
 
         StudentsClassesNH that = (StudentsClassesNH) o;
 
-        return idStudentsClasses == that.idStudentsClasses;
+        if (idStudentsClasses != that.idStudentsClasses) return false;
+        if (student != null ? !student.equals(that.student) : that.student != null) return false;
+        return classes != null ? classes.equals(that.classes) : that.classes == null;
     }
 
     @Override

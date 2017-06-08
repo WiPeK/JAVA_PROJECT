@@ -28,6 +28,12 @@ public class StudentsClasses implements Serializable {
         this.classes = new Classes(studentsClassesNH.getClasses());
     }
 
+    public StudentsClasses(int idStudentsClasses, Students student, Classes classes) {
+        this.idStudentsClasses = idStudentsClasses;
+        this.student = student;
+        this.classes = classes;
+    }
+
     @Id
     @SequenceGenerator(name="classes_seq", sequenceName = "CLASSES_SEQ", initialValue = 500, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "classes_seq")

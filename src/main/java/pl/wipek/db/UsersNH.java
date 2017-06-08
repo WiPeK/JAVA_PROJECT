@@ -39,7 +39,7 @@ public class UsersNH implements Serializable {
 
     private String type = "";
 
-    transient private boolean isInClass = false;
+    transient private boolean inClass = false;
 
     public UsersNH(Users users) {
         this.idUser = users.getIdUser();
@@ -192,11 +192,11 @@ public class UsersNH implements Serializable {
     }
 
     public boolean isInClass() {
-        return isInClass;
+        return inClass;
     }
 
     public void setInClass(boolean inClass) {
-        isInClass = inClass;
+        this.inClass = inClass;
     }
 
     @Override

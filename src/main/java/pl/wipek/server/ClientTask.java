@@ -57,7 +57,7 @@ public class ClientTask implements Runnable {
                     if(((Action)received).getAction().equals("EXIT")) {
                         this.socket.close();
                         log.info("Disconnect: " + this.socket.getRemoteSocketAddress().toString());
-                        Thread.currentThread().interrupt();
+                        //Thread.currentThread().interrupt();
                         return;
                     }
                 }

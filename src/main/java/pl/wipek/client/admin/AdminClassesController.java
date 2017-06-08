@@ -45,7 +45,7 @@ public class AdminClassesController {
     }
 
     @FXML
-    void buttonManageClassesAction(ActionEvent event) {
+    public void buttonManageClassesAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
         vBox.setMinWidth(754);

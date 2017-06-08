@@ -586,7 +586,48 @@ class Router {
                 rec.setStudentsClasses(sc);
                 result = rec;
                 break;
+            case "saveOrUpdate":
+                result = saveOrUpdateClasses(rec);
+                break;
+            case "remove":
+                result = removeClasses(classes);
+                break;
         }
+        return result;
+    }
+
+    private static Object removeClasses(Classes classes) {
+        Boolean result;
+        entityManager.remove(entityManager.find(Classes.class, classes.getIdClass()));
+        result = Boolean.TRUE;
+        entityManager.flush();
+        entityManager.clear();
+        return result;
+    }
+
+    private static ClassesNH saveOrUpdateClasses(ClassesNH rec) {
+        Classes classes = new Classes(rec);
+        classes.setStudentsClasses(new HashSet<>(0));
+        if(classes.getIdClass() == 0) {
+            entityManager.persist(classes);
+            entityManager.flush();
+            entityManager.refresh(classes);
+        } else {
+            entityManager.merge(classes);
+            entityManager.flush();
+        }
+        rec.getStudentsClasses().forEach(i -> {
+            Students student = new Students();
+            student.setIdStudent(i.getStudent().getIdStudent());
+            Users user = entityManager.createQuery("FROM Users u WHERE student.idStudent = :student", Users.class)
+                    .setParameter("student", student.getIdStudent()).getSingleResult();
+            student.setUser(user);
+            classes.getStudentsClasses().add(new StudentsClasses(i.getIdStudentsClasses(), student, classes));
+        });
+        entityManager.merge(classes);
+        entityManager.flush();
+        ClassesNH result = new ClassesNH(classes);
+        entityManager.clear();
         return result;
     }
 

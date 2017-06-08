@@ -1,6 +1,10 @@
 package pl.wipek.client.admin.dialogs;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +14,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import pl.wipek.client.Controller;
 import pl.wipek.client.admin.AdminClassesController;
 import pl.wipek.common.Action;
 import pl.wipek.db.*;
@@ -151,24 +156,14 @@ public class EditClassesDialogController {
 
         TableColumn<UsersNH, Boolean> checkCol = new TableColumn<>("W tej klasie?");
         checkCol.setMinWidth(150);
-        checkCol.setCellValueFactory(new PropertyValueFactory<>("isInClass"));
-//        checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
-        checkCol.setCellFactory(new Callback<TableColumn<UsersNH, Boolean>, TableCell<UsersNH, Boolean>>() {
-            @Override
-            public TableCell<UsersNH, Boolean> call(TableColumn<UsersNH, Boolean> param) {
-                return new CheckBoxTableCell<UsersNH, Boolean>() {
-                    @Override
-                    public void updateItem(Boolean item, boolean empty) {
-                        super.updateItem(item, empty);
-//                        TableRow row = getTableRow();
-//                        UsersNH user = (UsersNH) row.getItem();
-//                        list.remove(user);
-//                        user.setInClass(!user.isInClass());
-//                        list.add(user);
-                    }
-                };
-            }
+        checkCol.setCellValueFactory(param -> {
+            UsersNH user = param.getValue();
+
+            SimpleBooleanProperty booleanProperty = new SimpleBooleanProperty(user.isInClass());
+            booleanProperty.addListener((observable, oldValue, newValue) -> user.setInClass(newValue));
+            return booleanProperty;
         });
+        checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
 
         this.studentsTableView.getColumns().addAll(userNameColumn, userSurnameColumn, userPeselColumn, checkCol);
         this.studentsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -176,19 +171,70 @@ public class EditClassesDialogController {
     }
 
     private void deleteButtonAction(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Usuwanie");
+        alert.setHeaderText("Usuwanie klasy " + this.classes.getName());
+        alert.setContentText("Czy na pewno chcesz wykonać czynność?");
 
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent()) {
+            if (result.get() == ButtonType.OK){
+                this.classes.setAction(new Action("remove"));
+                this.adminClassesController.getController().getClient().requestServer(this.classes);
+                Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                alertInfo.setTitle("Informacja");
+                alertInfo.setHeaderText("Usuwanie klasy");
+                alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
+                alertInfo.showAndWait();
+                Controller.getLogger().info("Usunięto klase");
+                ((Node)event.getSource()).getScene().getWindow().hide();
+                this.adminClassesController.getClassesNHObservableList().clear();
+                this.adminClassesController.buttonManageClassesAction(new ActionEvent());
+            } else {
+                event.consume();
+            }
+        }
     }
 
     private void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.classNameTextField.getText(), "minLength:2|maxLength:50")
                 && this.semestersComboBox.getSelectionModel() != null) {
             this.classes.setName(this.classNameTextField.getText());
-            Set<UsersNH> tmp = this.list.parallelStream().filter(i -> {
-                Optional<StudentsClassesNH> opt = this.classes.getStudentsClasses().stream().filter(j -> j.getStudent().equals(i.getStudent())).findAny();
-                return i.isInClass() && !opt.isPresent();
-            }).collect(Collectors.toCollection(HashSet::new));
-            tmp.forEach(i -> this.classes.getStudentsClasses().add(new StudentsClassesNH(i.getStudent(), this.classes)));
-            this.classes.getStudentsClasses().forEach(System.out::println);
+            this.classes.setSemester(this.semestersComboBox.getValue());
+
+            for (UsersNH usersNH : this.list) {
+                Optional<StudentsClassesNH> hasStudentClasses = usersNH.getStudent().getStudentsClasses().parallelStream().filter(i -> i.getClasses().equals(this.classes)).findFirst();
+                if(!hasStudentClasses.isPresent() && usersNH.isInClass()) {
+                    Optional<StudentsClassesNH> isInClasses = this.classes.getStudentsClasses().parallelStream().filter(i -> i.getStudent().equals(usersNH.getStudent())).findFirst();
+                    if(!isInClasses.isPresent()) {
+                        this.classes.getStudentsClasses().add(new StudentsClassesNH(usersNH.getStudent(), this.classes));
+                    }
+                } else if(hasStudentClasses.isPresent() && !usersNH.isInClass()) {
+                    Optional<StudentsClassesNH> isInClasses = this.classes.getStudentsClasses().stream().filter(i -> i.getStudent().equals(usersNH.getStudent())).findFirst();
+                    this.classes.getStudentsClasses().remove(isInClasses.orElse(null));
+                }
+            }
+
+            this.classes.setAction(new Action("saveOrUpdate"));
+            ClassesNH result = (ClassesNH)this.adminClassesController.getController().getClient().requestServer(this.classes);
+            if(result != null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Informacja");
+                alert.setHeaderText("Aktualizacja klas");
+                alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
+                alert.showAndWait();
+                Controller.getLogger().info("Edytowano lub dodano klasę");
+                ((Node)event.getSource()).getScene().getWindow().hide();
+                this.adminClassesController.getClassesNHObservableList().clear();
+                this.adminClassesController.buttonManageClassesAction(new ActionEvent());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Problem z aktualizacją klas");
+                alert.setContentText("Wystąpił błąd z aktualizacją klas. Spróbuj ponownie.");
+                alert.showAndWait();
+            }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd wprowadzonych danych!");

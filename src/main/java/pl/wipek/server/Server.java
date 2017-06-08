@@ -48,8 +48,10 @@ public class Server {
      */
     void startServer() {
         String ip = null;
+        ServerSocket serverSocket = null;
         try{
             ip = InetAddress.getLocalHost().getHostAddress();
+            serverSocket = new ServerSocket(this.portNumber);
         }catch (Exception e) {
             log.error(e);
         }
@@ -59,7 +61,6 @@ public class Server {
 
         while(true) {
             try {
-                ServerSocket serverSocket = new ServerSocket(this.portNumber);
                 Socket socket = serverSocket.accept();
 
                 Thread serverThread = new Thread(() -> {
