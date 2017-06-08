@@ -17,55 +17,118 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 /**
- * Created by Krszysztof Adamczyk on 28.05.2017.
+ * @author Krzysztof Adamczyk on 28.05.2017.
+ * Managing work with school years and semesters
  */
 public class EditSchoolYearsDialogController {
 
+    /**
+     * @see SchoolYearsNH
+     */
     private SchoolYearsNH schoolYears;
 
+    /**
+     * @see AdminSchoolYearsController
+     */
     private AdminSchoolYearsController adminSchoolYearsController;
 
+    /**
+     * @see Label
+     * Contains state: editing or creating state and year name if editing
+     */
     @FXML
     private Label yearHeadLabel;
 
+    /**
+     * @see TextField
+     * Input which contains editable value with school year name
+     */
     @FXML
     private TextField yearNameTextField;
 
+    /**
+     * @see DatePicker
+     * Contains date of school year start
+     */
     @FXML
     private DatePicker startDatePicker;
 
+    /**
+     * @see DatePicker
+     * Contains date of school year end
+     */
     @FXML
     private DatePicker endDatePicker;
 
+    /**
+     * @see DatePicker
+     * Contains date of first semester start
+     */
     @FXML
     private DatePicker semStartDatePicker;
 
+    /**
+     * @see DatePicker
+     * Contains date of first semester end
+     */
     @FXML
     private DatePicker semEndDatePicker;
 
+    /**
+     * @see DatePicker
+     * Contains date of second semester start
+     */
     @FXML
     private DatePicker semTStartDatePicker;
 
+    /**
+     * @see DatePicker
+     * Cpntains date of second semester end
+     */
     @FXML
     private DatePicker semTEndDatePicker;
 
+    /**
+     * @see Button
+     * Button respondend for deleting SchoolYear entity
+     * on action EditSchoolYearDialogController.deleteButtonAction
+     */
     @FXML
     private Button deleteButton;
 
+    /**
+     * @see Button
+     * Button is hiding dialog
+     */
     @FXML
     private Button disableButton;
 
+    /**
+     * @see Button
+     * On action calling method which validate inputs data end save or update entity
+     */
     @FXML
     private Button saveButton;
+
+    /**
+     * Status managing object
+     * true when objects is create
+     * false when objects is editing
+     */
+    private boolean creating;
 
     public EditSchoolYearsDialogController(SchoolYearsNH schoolYears, AdminSchoolYearsController adminSchoolYearsController) {
         this.schoolYears = schoolYears;
         this.adminSchoolYearsController = adminSchoolYearsController;
     }
 
+    /**
+     * Event on EditSchoolYearsDialog is showing
+     * Setting up components
+     */
     @FXML
     public void handleWindowShownEvent() {
-        boolean creating = this.schoolYears.getIdSchoolYear() == 0;
+        this.creating = this.schoolYears.getIdSchoolYear() == 0;
         this.yearHeadLabel.setText(creating ? "Nowy rok" : "Edycja " + this.schoolYears.getName());
         this.deleteButton.setDisable(creating);
         this.yearNameTextField.setText(creating ? "" : this.schoolYears.getName());
@@ -85,6 +148,12 @@ public class EditSchoolYearsDialogController {
         this.saveButton.setOnAction(this::saveButtonAction);
     }
 
+    /**
+     * Event on saveButton action
+     * Validate inputs values
+     * Sending request to server for saving or updating Classifieds entity with related sets
+     * @param event ActionEvent
+     */
     private void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.yearNameTextField.getText(), "minLength:2|maxLength:50")
                 && this.isEndDateAfterStartDate(this.startDatePicker.getValue(), this.endDatePicker.getValue())
@@ -115,7 +184,7 @@ public class EditSchoolYearsDialogController {
                 alert.setHeaderText("Aktualizacja roczników");
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
-                Controller.getLogger().info("Edytowano lub dodano rocznik");
+                Controller.getLogger().info((this.creating ? "Saving SchoolYear: " : "Updating SchoolYear: ") + result);
                 ((Node)event.getSource()).getScene().getWindow().hide();
                 this.adminSchoolYearsController.buttonManageSchoolYears(new ActionEvent());
             } else {
@@ -124,6 +193,7 @@ public class EditSchoolYearsDialogController {
                 alert.setHeaderText("Problem z aktualizacją roku");
                 alert.setContentText("Wystąpił błąd z aktualizacją roku. Spróbuj ponownie.");
                 alert.showAndWait();
+                Controller.getLogger().info((this.creating ? "Error in saving SchoolYear: " : "Error in updating SchoolYear: ") + this.schoolYears);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -134,6 +204,11 @@ public class EditSchoolYearsDialogController {
         }
     }
 
+    /**
+     * Event on deleteButton action
+     * Sending request to server for deleting SchoolYear entity
+     * @param event ActionEvent
+     */
     private void deleteButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie");
@@ -152,7 +227,7 @@ public class EditSchoolYearsDialogController {
                 alertInfo.setHeaderText("Usuwanie rocznika");
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
-                Controller.getLogger().info("Usunięto rok");
+                Controller.getLogger().info("Deleting classifieds: " + this.schoolYears);
                 ((Node)event.getSource()).getScene().getWindow().hide();
             } else {
                 event.consume();
@@ -160,6 +235,12 @@ public class EditSchoolYearsDialogController {
         }
     }
 
+    /**
+     * Validate are end date is after start date
+     * @param start start date
+     * @param end end date
+     * @return boolean true if end date is after start date otherwise false
+     */
     private boolean isEndDateAfterStartDate(LocalDate start, LocalDate end) {
         return end.isAfter(start);
     }

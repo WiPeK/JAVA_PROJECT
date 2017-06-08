@@ -1,10 +1,7 @@
 package pl.wipek.client.admin.dialogs;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,48 +28,115 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Krszysztof Adamczyk on 30.05.2017.
+ * @author Krzysztof Adamczyk on 30.05.2017.
+ * Managing dialog when we working on classes
  */
 public class EditClassesDialogController {
 
+    /**
+     * @see ClassesNH
+     */
     private ClassesNH classes;
 
+    /**
+     * @see AdminClassesController
+     */
     private AdminClassesController adminClassesController;
 
+    /**
+     * @see TextField
+     * Contains label with class name
+     */
     @FXML
     private TextField classNameTextField;
 
+    /**
+     * @see ComboBox
+     * Contains semesters options value from database
+     */
     @FXML
     private ComboBox<SemestersNH> semestersComboBox;
 
+    /**
+     * @see Button
+     * On action calling method which validate inputs data end save or update entity
+     */
     @FXML
     private Button saveButton;
 
+    /**
+     * @see Button
+     * Button is hiding dialog
+     */
     @FXML
     private Button disableButton;
 
+    /**
+     * @see Button
+     * Button respondend for deleting Classes entity
+     * on action EditClassesDialogController.deleteButtonAction
+     */
     @FXML
     private Button deleteButton;
 
+    /**
+     * @see Label
+     * Contains state String: editing or creating
+     */
     @FXML
     private Label headerLabel;
 
+    /**
+     * @see TableView
+     * Contains users objects which are students who can be assigned to class
+     */
     @FXML
     private TableView<UsersNH> studentsTableView;
 
+    /**
+     * @see ObservableList
+     * Contains list with users which are students, content is items for studentsTableView
+     */
     private ObservableList<UsersNH> list = FXCollections.observableArrayList();
+
+    /**
+     * Status managing object
+     * true when objects is create
+     * false when objects is editing
+     */
+    private boolean creating;
+
+    /**
+     * Default template date to showing dates
+     */
+    private DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 
     public EditClassesDialogController(ClassesNH classes, AdminClassesController adminClassesController) {
         this.classes = classes;
         this.adminClassesController = adminClassesController;
     }
 
+    /**
+     * Event on EditClassesDialog is showing
+     * Setting up components
+     */
     @FXML
     public void handleWindowShownEvent() {
-        boolean creating = this.classes.getIdClass() == 0;
+        this.creating = this.classes.getIdClass() == 0;
         this.headerLabel.setText(creating ? "Dodawanie nowej klasy" : "Edycja klasy " + this.classes.getName());
         this.classNameTextField.setText(creating ? "" : this.classes.getName());
-        DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        this.setUpSemestersComboBox();
+        this.saveButton.setOnAction(this::saveButtonAction);
+        this.deleteButton.setOnAction(this::deleteButtonAction);
+        this.disableButton.setOnAction(e -> ((Node)(e.getSource())).getScene().getWindow().hide());
+        this.fillTable();
+    }
+
+    /**
+     * Setting semestersComboBox
+     * Fill with data from databases receiving from server request
+     */
+    private void setUpSemestersComboBox() {
         ObservableList<SemestersNH> listToComboBox = FXCollections.observableArrayList();
 
         Set<Object> semestersObjects = this.adminClassesController.getController().getRelationHelper().getAllAsSet(new Action("getAllSemesters", "FROM Semesters sm"));
@@ -119,12 +183,11 @@ public class EditClassesDialogController {
         });
 
         this.semestersComboBox.setValue(this.classes.getSemester());
-        this.saveButton.setOnAction(this::saveButtonAction);
-        this.deleteButton.setOnAction(this::deleteButtonAction);
-        this.disableButton.setOnAction(e -> ((Node)(e.getSource())).getScene().getWindow().hide());
-        this.fillTable();
     }
 
+    /**
+     * Initializing table, adding columns and setting table items from database receiving from server
+     */
     private void fillTable() {
         this.studentsTableView.setEditable(true);
 
@@ -170,6 +233,11 @@ public class EditClassesDialogController {
         this.studentsTableView.setItems(list);
     }
 
+    /**
+     * Event on deleteButton action
+     * Sending request to server for deleting Classes entity
+     * @param event ActionEvent
+     */
     private void deleteButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie");
@@ -179,6 +247,7 @@ public class EditClassesDialogController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent()) {
             if (result.get() == ButtonType.OK){
+                Controller.getLogger().info("Deleting Classes: " + this.classes);
                 this.classes.setAction(new Action("remove"));
                 this.adminClassesController.getController().getClient().requestServer(this.classes);
                 Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
@@ -186,7 +255,6 @@ public class EditClassesDialogController {
                 alertInfo.setHeaderText("Usuwanie klasy");
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
-                Controller.getLogger().info("Usunięto klase");
                 ((Node)event.getSource()).getScene().getWindow().hide();
                 this.adminClassesController.getClassesNHObservableList().clear();
                 this.adminClassesController.buttonManageClassesAction(new ActionEvent());
@@ -196,6 +264,11 @@ public class EditClassesDialogController {
         }
     }
 
+    /**
+     * Event on saveButton action
+     * Sending request to server for saving or updating Classes entity with related sets
+     * @param event ActionEvent
+     */
     private void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.classNameTextField.getText(), "minLength:2|maxLength:50")
                 && this.semestersComboBox.getSelectionModel() != null) {
@@ -223,7 +296,7 @@ public class EditClassesDialogController {
                 alert.setHeaderText("Aktualizacja klas");
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
-                Controller.getLogger().info("Edytowano lub dodano klasę");
+                Controller.getLogger().info((this.creating ? "Saving Classes: " : "Updating Classes: ") + result);
                 ((Node)event.getSource()).getScene().getWindow().hide();
                 this.adminClassesController.getClassesNHObservableList().clear();
                 this.adminClassesController.buttonManageClassesAction(new ActionEvent());
@@ -233,6 +306,7 @@ public class EditClassesDialogController {
                 alert.setHeaderText("Problem z aktualizacją klas");
                 alert.setContentText("Wystąpił błąd z aktualizacją klas. Spróbuj ponownie.");
                 alert.showAndWait();
+                Controller.getLogger().info((this.creating ? "Error in saving Classes: " : "Error in updating Classes: ") + this.classes);
             }
 
         } else {

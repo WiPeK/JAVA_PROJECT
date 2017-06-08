@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Created by Krszysztof Adamczyk on 24.05.2017.
+ * Created by Krzysztof Adamczyk on 24.05.2017.
  */
 public class EditSubstitutesDialogController extends DialogPane {
 
