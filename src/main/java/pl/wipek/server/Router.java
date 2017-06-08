@@ -781,6 +781,9 @@ class Router {
             case "getAllTeachers":
                 result = HibernateUtil.getAll((Action) received);
                 break;
+            case "getAmountStats":
+                result = HibernateUtil.getAmountStats();
+                break;
         }
         return result;
     }

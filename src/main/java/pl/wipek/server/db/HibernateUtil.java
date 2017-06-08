@@ -6,6 +6,8 @@ import pl.wipek.common.ResultContainer;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Acer on 15.04.2017.
@@ -27,4 +29,17 @@ public class HibernateUtil {
         return resultContainer;
     }
 
+    public static ResultContainer getAmountStats() {
+        entityManager.clear();
+        ResultContainer resultContainer = new ResultContainer();
+        List result = new ArrayList();
+        result.add(entityManager.createQuery("FROM Classes cs").getResultList().size());
+        result.add(entityManager.createQuery("FROM Subjects su").getResultList().size());
+        result.add(entityManager.createQuery("FROM Admins ad").getResultList().size());
+        result.add(entityManager.createQuery("FROM Teachers tc").getResultList().size());
+        result.add(entityManager.createQuery("FROM Students st").getResultList().size());
+        result.add(entityManager.createQuery("FROM Users u").getResultList().size());
+        resultContainer.setResult(result);
+        return resultContainer;
+    }
 }

@@ -29,6 +29,8 @@ public class AdminsController {
 
     private AdminGradesController adminGradesController;
 
+    private AdminStatisticsController adminStatisticsController;
+
     public AdminsController(Controller controller) throws Exception {
         this.controller = controller;
     }
@@ -141,8 +143,9 @@ public class AdminsController {
     }
 
     @FXML
-    private void buttonStatisticsAction(ActionEvent actionEvent) {
-
+    private void buttonStatisticsAction(ActionEvent event) {
+        this.adminStatisticsController = new AdminStatisticsController(this);
+        this.adminStatisticsController.buttonStatisticsAction(event);
     }
 
     public Controller getController() {
