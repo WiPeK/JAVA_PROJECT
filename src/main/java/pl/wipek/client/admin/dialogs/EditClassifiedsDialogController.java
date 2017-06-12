@@ -36,7 +36,7 @@ public class EditClassifiedsDialogController extends DialogPane {
 
     /**
      * @see Button
-     * Button respondend for deleting Classified entity
+     * Button respond for deleting Classified entity
      * on action EditClassifiedsDialogController.deleteClassifiedsButtonAction
      */
     @FXML

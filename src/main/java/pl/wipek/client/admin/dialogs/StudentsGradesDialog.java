@@ -20,7 +20,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by Krzysztof Adamczyk on 08.06.2017.
+ * @author Krzysztof Adamczyk on 08.06.2017.
+ * Showing student grades
  */
 public class StudentsGradesDialog {
 

@@ -22,80 +22,174 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * @author Created by Krszysztof Adamczyk on 17.05.2017.
+ * @author Krzysztof Adamczyk on 17.05.2017.
+ * Managing work with User entities in dialog running in AdminUsersController after click on row in table with all users.
  */
 public class EditUserDialogController extends DialogPane {
 
+    /**
+     * @see Label
+     * Contains operation status value
+     */
     @FXML
     private Label createOrEditLabel;
 
+    /**
+     * @see Label
+     * Contains user name and surname when user is edited
+     */
     @FXML
     private Label editedUserNameSurnameLabel;
 
+    /**
+     * @see TextField
+     * Contains user name when editing or empty when creating user
+     */
     @FXML
     private TextField userNameTextBox;
 
+    /**
+     * @see TextField
+     * Contains user surname when editing or empty when creating user
+     */
     @FXML
     private TextField userSurnameTextBox;
 
+    /**
+     * @see TextField
+     * Contains email name when editing or empty when creating user
+     */
     @FXML
     private TextField userEmailTextBox;
 
+    /**
+     * @see TextField
+     * Contains user pesel when editing or empty when creating user
+     */
     @FXML
     private TextField userPeselTextBox;
 
+    /**
+     * @see PasswordField
+     * Contains user password
+     */
     @FXML
     private PasswordField userPasswordField;
 
+    /**
+     * @see ComboBox
+     * Contains type of created or updated user
+     */
     @FXML
     private ComboBox<String> userTypeComboBox;
 
+    /**
+     * @see TextField
+     * Contains user academic degree if teacher or admin
+     */
     @FXML
     private TextField userTitleField;
 
+    /**
+     * @see Label
+     * Contains date when user was created
+     */
     @FXML
     private Label userCreateDateLabel;
 
+    /**
+     * @see Label
+     * Contains date when user last was logged in
+     */
     @FXML
     private Label userLastLoginDateLabel;
 
+    /**
+     * @see Label
+     * Contains date when user last was logged out
+     */
     @FXML
     private Label userLastLogoutLabel;
 
+    /**
+     * @see Button
+     * Button is hiding dialog
+     */
     @FXML
     private Button disableButton;
 
+    /**
+     * @see Button
+     * On action calling method which validate inputs data end save or update entity
+     */
     @FXML
     private Button saveButton;
 
+    /**
+     * @see Label
+     * Contains user academic degree if teacher or admin
+     */
     @FXML
     private Label userTitleLabel;
 
+    /**
+     * @see Label
+     * Contains user create date
+     */
     @FXML
     private Label createDateLabel;
 
+    /**
+     * @see Label
+     * Contains user last login date
+     */
     @FXML
     private Label lastLoginLabel;
 
+    /**
+     * @see Label
+     * Contains last logout date user
+     */
     @FXML
     private Label lastLogoutLabel;
 
+    /**
+     * @see Button
+     * Button respond for deleting Users entity
+     */
     @FXML
     private Button deleteUserButton;
 
+    /**
+     * @see UsersNH
+     */
     private UsersNH user;
 
+    /**
+     * @see AdminUsersController
+     */
     private AdminUsersController adminUsersController;
+
+    /**
+     * Status managing object
+     * true when objects is create
+     * false when objects is editing
+     */
+    private boolean creating;
 
     public EditUserDialogController(UsersNH user, AdminUsersController adminUsersController) throws Exception {
         this.user = user;
         this.adminUsersController = adminUsersController;
     }
 
+    /**
+     * Event on EditUserDialog is showing
+     * Setting up components
+     */
     @FXML
     public void handleWindowShownEvent(){
         try {
-            boolean creating = this.user.getIdUser() == 0;
+            creating = this.user.getIdUser() == 0;
             this.deleteUserButton.setDisable(creating);
             this.createOrEditLabel.setText(creating ? "Tworzenie nowego użytkownika" : "Edycja użytkownika");
             this.editedUserNameSurnameLabel.setText(creating ? "" : this.user.getName() + " " + this.user.getSurname());
@@ -103,26 +197,13 @@ public class EditUserDialogController extends DialogPane {
             this.userSurnameTextBox.setText(creating ? "" : this.user.getSurname());
             this.userEmailTextBox.setText(creating ? "" : this.user.getEmail());
             this.userPeselTextBox.setText(creating ? "" : this.user.getPesel());
-            ObservableList<String> listToComboBox = FXCollections.observableArrayList();
-            listToComboBox.addAll("Administrator", "Nauczyciel", "Uczeń", "Brak");
-            this.userTypeComboBox.setItems(listToComboBox);
-            this.userTypeComboBox.getSelectionModel().select(this.user.getType().equals("") ? "Brak" : this.user.getType());
+            this.setUpUserTypeComboBox();
             if(this.user.getType() != null && !this.user.getType().equals("Uczeń")) {
                 this.userTitleLabel.setDisable(false);
                 this.userTitleField.setDisable(false);
                 this.userTitleField.setText(this.user.getAdmin() == null ? (this.user.getTeacher() == null ? "" : this.user.getTeacher().getTitle()) : this.user.getAdmin().getTitle());
             }
-            this.userTypeComboBox.setOnAction(e -> {
-                String selected = this.userTypeComboBox.getSelectionModel().getSelectedItem();
-                if(selected.equals(listToComboBox.get(0)) || selected.equals(listToComboBox.get(1))) {
-                    this.userTitleLabel.setDisable(false);
-                    this.userTitleField.setDisable(false);
-                    this.userTitleField.setText(this.user.getAdmin() == null ? (this.user.getTeacher() == null ? "" : this.user.getTeacher().getTitle()) : this.user.getAdmin().getTitle());
-                }else {
-                    this.userTitleLabel.setDisable(true);
-                    this.userTitleField.setDisable(true);
-                }
-            });
+
             this.userCreateDateLabel.setText(creating ? "" : (this.user.getCreateDate() == null ? "" : this.user.getCreateDate().toString()));
             this.userLastLoginDateLabel.setText(creating ? "" : (this.user.getLastLogIn() == null ? "" : this.user.getLastLogIn().toString()));
             this.userLastLogoutLabel.setText(creating ? "" : (this.user.getLastLogOut() == null ? "" : this.user.getLastLogOut().toString()));
@@ -140,6 +221,34 @@ public class EditUserDialogController extends DialogPane {
         }
     }
 
+    /**
+     * Setting userTypeComboBox
+     */
+    @FXML
+    private void setUpUserTypeComboBox() {
+        ObservableList<String> listToComboBox = FXCollections.observableArrayList();
+        listToComboBox.addAll("Administrator", "Nauczyciel", "Uczeń", "Brak");
+        this.userTypeComboBox.setItems(listToComboBox);
+        this.userTypeComboBox.getSelectionModel().select(this.user.getType().equals("") ? "Brak" : this.user.getType());
+
+        this.userTypeComboBox.setOnAction(e -> {
+            String selected = this.userTypeComboBox.getSelectionModel().getSelectedItem();
+            if(selected.equals(listToComboBox.get(0)) || selected.equals(listToComboBox.get(1))) {
+                this.userTitleLabel.setDisable(false);
+                this.userTitleField.setDisable(false);
+                this.userTitleField.setText(this.user.getAdmin() == null ? (this.user.getTeacher() == null ? "" : this.user.getTeacher().getTitle()) : this.user.getAdmin().getTitle());
+            }else {
+                this.userTitleLabel.setDisable(true);
+                this.userTitleField.setDisable(true);
+            }
+        });
+    }
+
+    /**
+     * Event on deleteButton action
+     * Sending request to server for deleting Users entity with related sets
+     * @param event ActionEvent
+     */
     @FXML
     private void deleteUserButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -151,6 +260,7 @@ public class EditUserDialogController extends DialogPane {
         if(result.isPresent()) {
             if (result.get() == ButtonType.OK){
                 this.user.setAction(new Action("remove"));
+                Controller.getLogger().info("Deleting user: " + this.user);
                 this.adminUsersController.getController().getClient().requestServer(this.user);
                 this.adminUsersController.getUsersManageTableObservableList().remove(this.user);
                 this.adminUsersController.getUsersManageTableTableView().refresh();
@@ -159,7 +269,6 @@ public class EditUserDialogController extends DialogPane {
                 alertInfo.setHeaderText("Usuwanie użytkownika");
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
-                Controller.getLogger().info("Usunięto użytkownika");
                 ((Node)event.getSource()).getScene().getWindow().hide();
             } else {
                 event.consume();
@@ -167,6 +276,11 @@ public class EditUserDialogController extends DialogPane {
         }
     }
 
+    /**
+     * Event on saveButton action
+     * Sending request to server for saving or updating Users entity with related sets
+     * @param event ActionEvent
+     */
     @FXML
     private void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.userNameTextBox.getText(), "minLength:2|maxLength:50|onlyLetters")
@@ -248,7 +362,7 @@ public class EditUserDialogController extends DialogPane {
                 alert.setHeaderText("Aktualizacja użytkowników");
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
-                Controller.getLogger().info("Edytowano lub dodano użytkownika");
+                Controller.getLogger().info((this.creating ? "Saving User: " : "Updating User: ") + result);
                 ((Node)event.getSource()).getScene().getWindow().hide();
             }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -256,6 +370,7 @@ public class EditUserDialogController extends DialogPane {
                 alert.setHeaderText("Problem z aktualizacją użytkowników");
                 alert.setContentText("Wystąpił błąd z aktualizacją użytkowników. Spróbuj ponownie.");
                 alert.showAndWait();
+                Controller.getLogger().info((this.creating ? "Error in saving user: " : "Error in updating user: ") + this.user);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -266,7 +381,10 @@ public class EditUserDialogController extends DialogPane {
         }
     }
 
-    @FXML
+    /**
+     * Check password is valid
+     * @return boolean true if password passing validation otherwise false
+     */
     private boolean validPassword() {
         return this.userPasswordField.getText().length() <= 0 || Validator.validate(this.userPasswordField.getText(), "minLength:4|maxLength:255");
     }

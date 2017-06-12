@@ -18,40 +18,83 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Created by Krzysztof Adamczyk on 24.05.2017.
+ * @author Krzysztof Adamczyk on 24.05.2017.
+ * Managing work with Substitutes entities in dialog running in AdminClassifiedsController
  */
 public class EditSubstitutesDialogController extends DialogPane {
 
+    /**
+     * @see TextArea
+     * Contains value of Substitute body
+     */
     @FXML
     private TextArea bodyTextArea;
 
+    /**
+     * @see Label
+     * Contains name and surname admin who add classified
+     */
     @FXML
     private Label addedByLabel;
 
+    /**
+     * @see Button
+     * Button respond for deleting Substitutes entity
+     * on action EditSubstitutesDialogController.deleteSubstitutesButtonAction
+     */
     @FXML
     private Button deleteSubstituteButton;
 
+    /**
+     * @see Button
+     * Button is hiding dialog
+     */
     @FXML
     private Button disableButton;
 
+    /**
+     * @see Button
+     * On action calling method which validate inputs data end save or update entity
+     */
     @FXML
     private Button saveButton;
 
+    /**
+     * @see DatePicker
+     * Contains date of substitute
+     */
     @FXML
     private DatePicker datePicker;
 
+    /**
+     * @see SubstitutesNH
+     */
     private SubstitutesNH substitutes;
 
+    /**
+     * @see AdminSubstitutesController
+     */
     private AdminSubstitutesController adminSubstitutesController;
+
+    /**
+     * Status managing object
+     * true when objects is create
+     * false when objects is editing
+     */
+    private boolean creating;
 
     public EditSubstitutesDialogController(SubstitutesNH substitutes, AdminSubstitutesController adminSubstitutesController) {
         this.substitutes = substitutes;
         this.adminSubstitutesController = adminSubstitutesController;
     }
 
+    /**
+     * Event on EditSubstitutesDialog is showing
+     * Setting up components
+     */
     @FXML
     public void handleWindowShownEvent() {
-        boolean creating = this.substitutes.getIdSubstitute() == 0;
+        this.creating = this.substitutes.getIdSubstitute() == 0;
         this.addedByLabel.setText(!creating ? "Dodane przez: " + this.substitutes.getAdmin().getUser().getName() + " " + this.substitutes.getAdmin().getUser().getSurname() : "");
         this.deleteSubstituteButton.setDisable(creating);
         this.bodyTextArea.setText(creating ? "" : this.substitutes.getBody());
@@ -63,6 +106,11 @@ public class EditSubstitutesDialogController extends DialogPane {
         this.saveButton.setOnAction(this::saveButtonAction);
     }
 
+    /**
+     * Event on saveButton action
+     * Sending request to server for saving or updating Substitutes entity with related sets
+     * @param actionEvent ActionEvent
+     */
     @FXML
     private void saveButtonAction(ActionEvent actionEvent) {
         if(Validator.validate(this.bodyTextArea.getText(), "minLength:3|maxLength:5000")) {
@@ -85,6 +133,7 @@ public class EditSubstitutesDialogController extends DialogPane {
                 alert.setHeaderText("Aktualizacja zastępstw");
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
+                Controller.getLogger().info((this.creating ? "Saving Substitutes: " : "Updating Substitutes: ") + result);
                 this.adminSubstitutesController.getSubstitutesNHObservableList().removeAll(this.adminSubstitutesController.getSubstitutesNHObservableList());
                 this.adminSubstitutesController.getSubstitutesManageTableView().setItems(null);
                 Set<Object> substitutesObjects = this.adminSubstitutesController.getController().getRelationHelper().getAllAsSet(new Action("getAllClassifieds", "FROM Substitutes s"));
@@ -98,6 +147,7 @@ public class EditSubstitutesDialogController extends DialogPane {
                 alert.setHeaderText("Problem z aktualizacją zestępstw");
                 alert.setContentText("Wystąpił błąd z aktualizacją zastępstw. Spróbuj ponownie.");
                 alert.showAndWait();
+                Controller.getLogger().info((this.creating ? "Error in saving Substitutes: " : "Error in updating Substitutes: ") + this.substitutes);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -108,6 +158,11 @@ public class EditSubstitutesDialogController extends DialogPane {
         }
     }
 
+    /**
+     * Event on deleteButton action
+     * Sending request to server for deleting Substitutes entity
+     * @param actionEvent ActionEvent
+     */
     @FXML
     private void deleteSubstitutesButtonAction(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -118,6 +173,7 @@ public class EditSubstitutesDialogController extends DialogPane {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent()) {
             this.substitutes.setAction(new Action("remove"));
+            Controller.getLogger().info("Deleting substitutes: " + this.substitutes);
             this.adminSubstitutesController.getController().getClient().requestServer(this.substitutes);
             Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
             this.adminSubstitutesController.getSubstitutesNHObservableList().remove(this.substitutes);
