@@ -35,7 +35,10 @@ public class ClientTask implements Runnable {
         this.socket = socket;
     }
 
-    //todo docs
+    /**
+     * @see EntityManagerFactory
+     * contains session with connection to database
+     */
     final static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pl.wipek.database");
 
     /**

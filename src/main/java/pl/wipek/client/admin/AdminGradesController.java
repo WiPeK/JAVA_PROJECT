@@ -23,24 +23,46 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Krzysztof Adamczyk on 06.06.2017.
+ * @author Krzysztof Adamczyk on 06.06.2017.
+ * Managing event after click on Grades button
  */
 public class AdminGradesController {
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String studentGradesFXMLPath = "/views/studentGrades.fxml";
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
+    /**
+     * @see TableView
+     */
     private TableView<UsersNH> usersManageTableView;
 
+    /**
+     * @see ObservableList
+     * Contains UsersNH items
+     */
     private ObservableList<UsersNH> observableList = FXCollections.observableArrayList();
 
+    /**
+     * @see StudentsGradesDialog
+     */
     private StudentsGradesDialog studentsGradesDialog;
 
     public AdminGradesController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonGrades button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonStudentGradesAction(ActionEvent event) {
         try {
@@ -61,6 +83,10 @@ public class AdminGradesController {
         }
     }
 
+    /**
+     * Creating table with UsersNH objects
+     * @return TableView
+     */
     private TableView<UsersNH> getTable() {
         TableView<UsersNH> table = new TableView<>();
         Set<Object> usersObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllUsers", "FROM Users u"));
@@ -101,6 +127,10 @@ public class AdminGradesController {
         return table;
     }
 
+    /**
+     * Event on usersManageTableView row click
+     * @param item UsersNH from table row
+     */
     private void usersTableRowClick(UsersNH item) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(studentGradesFXMLPath));
@@ -116,6 +146,11 @@ public class AdminGradesController {
         }
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }

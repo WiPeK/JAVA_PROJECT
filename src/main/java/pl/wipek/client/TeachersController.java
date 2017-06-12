@@ -119,7 +119,6 @@ class TeachersController {
      */
     @FXML
     private void classButtonAction(ActionEvent event) {
-        //todo replace it to center controller
         String buttonId = ((Button)event.getSource()).getId();
         ButtonHelper buttonHelper = this.buttonHelpers.get(buttonId);
         if(buttonHelper != null) {
@@ -137,7 +136,6 @@ class TeachersController {
 
                 ScrollPane scrollPane = new ScrollPane();
                 Set<GradesNH> grades = carriedSubjects.getGrades();
-                //todo sorting users by surname
                 TableView<TeacherGradesTable> teacherGradesTableTable = this.getTeacherTable(grades);
                 teacherGradesTableTable.setPrefHeight(630);
 

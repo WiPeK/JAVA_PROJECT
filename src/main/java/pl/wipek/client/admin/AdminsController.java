@@ -8,33 +8,68 @@ import pl.wipek.client.Controller;
 
 /**
  * @author  Created by Krszysztof Adamczyk on 14.05.2017.
+ * Managing left bar action for admin logging and clicking on buttons
  */
 public class AdminsController {
 
+    /**
+     * @see Controller
+     */
     private Controller controller;
 
+    /**
+     * @see AdminUsersController
+     */
     private AdminUsersController adminUsersController;
 
+    /**
+     * @see AdminClassifiedsController
+     */
     private AdminClassifiedsController adminClassifiedsController;
 
+    /**
+     * @see AdminSubstitutesController
+     */
     private AdminSubstitutesController adminSubstitutesController;
 
+    /**
+     * @see AdminSubjectsController
+     */
     private AdminSubjectsController adminSubjectsController;
 
+    /**
+     * @see AdminSchoolYearsController
+     */
     private AdminSchoolYearsController adminSchoolYearsController;
 
+    /**
+     * @see AdminCarriedController
+     */
     private AdminCarriedController adminCarriedController;
 
+    /**
+     * @see AdminClassesController
+     */
     private AdminClassesController adminClassesController;
 
+    /**
+     * @see AdminGradesController
+     */
     private AdminGradesController adminGradesController;
 
+    /**
+     * @see AdminStatisticsController
+     */
     private AdminStatisticsController adminStatisticsController;
 
     public AdminsController(Controller controller) throws Exception {
         this.controller = controller;
     }
 
+    /**
+     * Initializing left bar with buttons after admin logging
+     * @throws Exception
+     */
     @FXML
     public void leftBarForAdmin() throws Exception {
         VBox vBox = new VBox();
@@ -96,58 +131,92 @@ public class AdminsController {
         this.controller.getLeftBar().getLeftBarVBox().getChildren().add(vBox);
     }
 
+    /**
+     * Event on buttonManageGrades click
+     * @param event ActionEvent
+     */
     private void buttonManageGradesAction(ActionEvent event) {
         this.adminGradesController = new AdminGradesController(this);
         this.adminGradesController.buttonStudentGradesAction(event);
     }
 
+    /**
+     * Event on buttonManageCarried click
+     * @param event ActionEvent
+     */
     private void buttonManageCarriedAction(ActionEvent event) {
         this.adminCarriedController = new AdminCarriedController(this);
         this.adminCarriedController.buttonManageCarriedAction(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonManageUsers click
+     * @param event ActionEvent
+     */
     private void buttonManageUsersAction(ActionEvent event){
         this.adminUsersController = new AdminUsersController(this);
         this.adminUsersController.buttonManageUsersAction(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonManageSubstitutes click
+     * @param event ActionEvent
+     */
     private void buttonManageSubstitutesAction(ActionEvent event) {
         this.adminSubstitutesController = new AdminSubstitutesController(this);
         this.adminSubstitutesController.buttonManageSubstitutesAction(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonManageClassifieds click
+     * @param event ActionEvent
+     */
     private void buttonManageClassifiedsAction(ActionEvent event) {
         this.adminClassifiedsController = new AdminClassifiedsController(this);
         this.adminClassifiedsController.buttonManageClassifiedsAction(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonManageSchoolYears click
+     * @param event ActionEvent
+     */
     private void buttonManageSchoolYearsAction(ActionEvent event) {
         this.adminSchoolYearsController = new AdminSchoolYearsController(this);
         this.adminSchoolYearsController.buttonManageSchoolYears(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonManageSubjects click
+     * @param event ActionEvent
+     */
     private void buttonManageSubjectsAction(ActionEvent event) {
         this.adminSubjectsController = new AdminSubjectsController(this);
         this.adminSubjectsController.buttonManageSubjectsAction(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonManageClasses click
+     * @param event ActionEvent
+     */
     private void buttonManageClassesAction(ActionEvent event) {
         this.adminClassesController = new AdminClassesController(this);
         this.adminClassesController.buttonManageClassesAction(event);
     }
 
-    @FXML
+    /**
+     * Event on buttonStatistics click
+     * @param event ActionEvent
+     */
     private void buttonStatisticsAction(ActionEvent event) {
         this.adminStatisticsController = new AdminStatisticsController(this);
         this.adminStatisticsController.buttonStatisticsAction(event);
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return controller;
     }

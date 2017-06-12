@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Created by Krszysztof Adamczyk on 24.05.2017.
+ * @author Krzysztof Adamczyk on 24.05.2017.
  */
 public class AdminSubjectsController {
 

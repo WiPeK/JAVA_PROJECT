@@ -26,24 +26,46 @@ import java.text.SimpleDateFormat;
 import java.util.Set;
 
 /**
- * Created by Krszysztof Adamczyk on 30.05.2017.
+ * @author Krzysztof Adamczyk on 30.05.2017.
+ * Managing event after click on Managing class button
  */
 public class AdminClassesController {
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
+    /**
+     * @see TableView
+     */
     private TableView<ClassesNH> classesManageTableView;
 
+    /**
+     * @see ObservableList
+     * Contains ClassesNH items
+     */
     private ObservableList<ClassesNH> classesNHObservableList = FXCollections.observableArrayList();
 
+    /**
+     * @see EditClassesDialogController
+     */
     private EditClassesDialogController editClassesDialogController;
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String classesEditFXMLPath = "/views/classesEdit.fxml";
 
     public AdminClassesController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageClasses button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageClassesAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
@@ -62,6 +84,10 @@ public class AdminClassesController {
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
 
+    /**
+     * Creating table with ClassesNH objects
+     * @return TableView
+     */
     private TableView<ClassesNH> getTable() {
         TableView<ClassesNH> classesTableView = new TableView<>();
         classesTableView.setEditable(true);
@@ -119,6 +145,10 @@ public class AdminClassesController {
         return classesTableView;
     }
 
+    /**
+     * Event on classesManageTableView row click
+     * @param item CarriedSubjectNH from table row
+     */
     private void classesTableRowClick(ClassesNH item) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource(classesEditFXMLPath));
@@ -134,14 +164,27 @@ public class AdminClassesController {
         }
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }
 
+    /**
+     * Return classesManageTableView object
+     * @return TableView
+     */
     public TableView<ClassesNH> getClassesManageTableView() {
         return classesManageTableView;
     }
 
+    /**
+     * Return Observable list with table items
+     * @return ObservableList
+     */
     public ObservableList<ClassesNH> getClassesNHObservableList() {
         return classesNHObservableList;
     }

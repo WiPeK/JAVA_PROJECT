@@ -24,24 +24,46 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * Created by Krszysztof Adamczyk on 28.05.2017.
+ * @author Krzysztof Adamczyk on 28.05.2017.
+ * Managing event after click on Managing schools years button
  */
 public class AdminSchoolYearsController {
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
+    /**
+     * @see TableView
+     */
     private TableView<SchoolYearsNH> schYrsManageTableView;
 
+    /**
+     * @see ObservableList
+     * Contains SchoolYearsNH items
+     */
     private ObservableList<SchoolYearsNH> schYrsNHObservableList = FXCollections.observableArrayList();
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String schoolYearsEditFXMLPath = "/views/schYrsEdit.fxml";
 
+    /**
+     * @see EditSchoolYearsDialogController
+     */
     private EditSchoolYearsDialogController editSchoolYearsDialogController;
 
     AdminSchoolYearsController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageSchoolYears button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageSchoolYears(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
@@ -60,6 +82,10 @@ public class AdminSchoolYearsController {
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
 
+    /**
+     * Creating table with SchoolYearsNH objects
+     * @return TableView
+     */
     private TableView<SchoolYearsNH> getTable() {
         TableView<SchoolYearsNH> schYrsTableView = new TableView<>();
         schYrsTableView.setEditable(true);
@@ -115,6 +141,10 @@ public class AdminSchoolYearsController {
         return schYrsTableView;
     }
 
+    /**
+     * Event on schYrsManageTableView row click
+     * @param item SchoolYearsNH from table row
+     */
     @FXML
     private void schYrsTableRowClick(SchoolYearsNH item) {
         try{
@@ -131,14 +161,27 @@ public class AdminSchoolYearsController {
         }
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }
 
+    /**
+     * Return classesManageTableView object
+     * @return TableView
+     */
     public TableView<SchoolYearsNH> getSchYrsManageTableView() {
         return schYrsManageTableView;
     }
 
+    /**
+     * Return Observable list with table items
+     * @return ObservableList
+     */
     public ObservableList<SchoolYearsNH> getSchYrsNHObservableList() {
         return schYrsNHObservableList;
     }

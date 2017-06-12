@@ -27,6 +27,11 @@ public class RelationHelper {
         this.client = client;
     }
 
+    /**
+     * Get related object from server
+     * @param object
+     * @return object
+     */
     public Object getRelated(Object object) {
         Object tmpObject = this.client.requestServer(object);
         if(tmpObject != null) {
@@ -35,6 +40,11 @@ public class RelationHelper {
         return object;
     }
 
+    /**
+     * Get set of objects
+     * @param action action contains action name and query
+     * @return Set with objects
+     */
     public Set<Object> getAllAsSet(Action action) {
         ResultContainer resultContainer = (ResultContainer)this.client.requestServer(action);
         Set<Object> result = new HashSet<>();
@@ -42,6 +52,11 @@ public class RelationHelper {
         return result;
     }
 
+    /**
+     * Get list of objects
+     * @param action action contains action name and query
+     * @return Set with objects
+     */
     public List getAll(Action action) {
         ResultContainer resultContainer = (ResultContainer)this.client.requestServer(action);
         return resultContainer.getResult();

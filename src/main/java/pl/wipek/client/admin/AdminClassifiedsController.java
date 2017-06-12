@@ -27,28 +27,58 @@ import java.util.Arrays;
 import java.util.Set;
 
 /**
- * Created by Krszysztof Adamczyk on 24.05.2017.
+ * @author Krzysztof Adamczyk on 24.05.2017.
+ * Managing event after click on Managing classifieds button
  */
 public class AdminClassifiedsController {
 
+    /**
+     * @see EditClassifiedsDialogController
+     */
     private EditClassifiedsDialogController editClassifiedsDialogController;
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String classifiedsEditFXMLPath = "/views/classifiedsEdit.fxml";
 
+    /**
+     * @see TableView
+     */
     private TableView<ClassifiedsNH> classifiedsManageTableView;
 
+    /**
+     * @see ObservableList
+     * Contains ClassifiedsNH items
+     */
     private ObservableList<ClassifiedsNH> classifiedsNHObservableList = FXCollections.observableArrayList();
 
+    /**
+     * @see ComboBox
+     * Contains criteria to search in table
+     */
     private ComboBox<String> searchCriterium;
 
+    /**
+     * @see TextField
+     * Input when admin can type searched phrase
+     */
     private TextField searchInput;
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
     public AdminClassifiedsController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageClassifieds button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageClassifiedsAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
@@ -64,23 +94,10 @@ public class AdminClassifiedsController {
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
 
-    @FXML
-    private void searchByBody() {
-        if(this.searchInput.getText().equals("")) {
-            this.classifiedsManageTableView.setItems(this.classifiedsNHObservableList);
-            this.classifiedsManageTableView.refresh();
-        } else {
-            ObservableList<ClassifiedsNH> tmpList = FXCollections.observableArrayList();
-            this.classifiedsNHObservableList.forEach(i -> {
-                if(i.getBody().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
-                    tmpList.add(i);
-                }
-            });
-            this.classifiedsManageTableView.setItems(tmpList);
-            this.classifiedsManageTableView.refresh();
-        }
-    }
-
+    /**
+     * Creating table with Classifieds objects
+     * @return TableView
+     */
     @FXML
     private TableView<ClassifiedsNH> getTable() {
         TableView<ClassifiedsNH> classifiedsManageTableView = new TableView<>();
@@ -122,6 +139,10 @@ public class AdminClassifiedsController {
         return classifiedsManageTableView;
     }
 
+    /**
+     * Event on classifiedsManageTableView row click
+     * @param item ClassifiedsNH from table row
+     */
     @FXML
     private void classifiedsTableRowClick(ClassifiedsNH item) {
         try{
@@ -138,6 +159,10 @@ public class AdminClassifiedsController {
         }
     }
 
+    /**
+     * Creating search bar components
+     * @return HBox with components
+     */
     @FXML
     private HBox getSearchBar() {
         HBox hBox = new HBox();
@@ -153,6 +178,10 @@ public class AdminClassifiedsController {
         return hBox;
     }
 
+    /**
+     * Event on typing in classifiedsSearchInput key is pressed
+     * @param keyEvent KeyEvent
+     */
     @FXML
     private void classifiedsSearchInputKeyPressed(KeyEvent keyEvent) {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
@@ -172,6 +201,29 @@ public class AdminClassifiedsController {
         }
     }
 
+    /**
+     * Method respond for searching in classifieds bodies when search by body criteria is selected
+     */
+    @FXML
+    private void searchByBody() {
+        if(this.searchInput.getText().equals("")) {
+            this.classifiedsManageTableView.setItems(this.classifiedsNHObservableList);
+            this.classifiedsManageTableView.refresh();
+        } else {
+            ObservableList<ClassifiedsNH> tmpList = FXCollections.observableArrayList();
+            this.classifiedsNHObservableList.forEach(i -> {
+                if(i.getBody().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
+                    tmpList.add(i);
+                }
+            });
+            this.classifiedsManageTableView.setItems(tmpList);
+            this.classifiedsManageTableView.refresh();
+        }
+    }
+
+    /**
+     * Method respond for searching in classifieds admins names or surnames when search by author criteria is selected
+     */
     @FXML
     private void searchByAdmin() {
         if(this.searchInput.getText().equals("")) {
@@ -189,14 +241,27 @@ public class AdminClassifiedsController {
         }
     }
 
+    /**
+     * Return classifiedsManageTableView object
+     * @return TableView
+     */
     public TableView<ClassifiedsNH> getClassifiedsManageTableView() {
         return classifiedsManageTableView;
     }
 
+    /**
+     * Return Observable list with table items
+     * @return ObservableList
+     */
     public ObservableList<ClassifiedsNH> getClassifiedsNHObservableList() {
         return classifiedsNHObservableList;
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }

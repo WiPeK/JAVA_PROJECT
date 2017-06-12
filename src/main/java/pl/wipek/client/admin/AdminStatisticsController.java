@@ -15,17 +15,29 @@ import java.util.Set;
 
 /**
  * @author Krzysztof Adamczyk on 08.06.2017.
+ * Showing statictics
  */
 public class AdminStatisticsController {
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
+
+    /**
+     * @see ObservableList
+     */
+    private ObservableList<String> categories = FXCollections.observableArrayList();
 
     public AdminStatisticsController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
-    private ObservableList<String> categories = FXCollections.observableArrayList();
-
+    /**
+     * Event on buttonStatistics button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonStatisticsAction(ActionEvent event) {
         VBox vBox = new VBox();
@@ -38,6 +50,10 @@ public class AdminStatisticsController {
         this.adminsController.getController().getRootBorderPane().setCenter(vBox);
     }
 
+    /**
+     * Creating Bar with amounts from database
+     * @return
+     */
     private BarChart<String, Number> getAmountBar() {
         Set<Object> stats = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAmountStats"));
         NumberAxis yAxis = new NumberAxis(0, 1500, 10);

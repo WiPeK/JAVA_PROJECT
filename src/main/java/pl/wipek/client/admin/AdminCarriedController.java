@@ -26,23 +26,45 @@ import java.util.Set;
 
 /**
  * @author Krszysztof Adamczyk on 30.05.2017.
+ * Managing action after click on "Zarzadzaj Nauczanymi Przedmiotami" on left bar
  */
 public class AdminCarriedController {
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
+    /**
+     * @see TableView
+     */
     private TableView<CarriedSubjectsNH> carriedSubjectsNHTableView;
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String carriedYearsEditFXMLPath = "/views/carried.fxml";
 
+    /**
+     * @see ObservableList
+     * Contains CarriedSubjectNH items
+     */
     private ObservableList<CarriedSubjectsNH> carriedSubjectsNHObservableList = FXCollections.observableArrayList();
 
+    /**
+     * @see EditCarriedDialogController
+     */
     private EditCarriedDialogController editCarriedDialogController;
 
     public AdminCarriedController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageCarried button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageCarriedAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
@@ -61,6 +83,10 @@ public class AdminCarriedController {
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
 
+    /**
+     * Creating table with CarriedSubjectsNH objects
+     * @return TableView
+     */
     private TableView<CarriedSubjectsNH> getTable() {
         TableView<CarriedSubjectsNH> csTableView = new TableView<>();
         csTableView.setEditable(true);
@@ -109,6 +135,10 @@ public class AdminCarriedController {
         return csTableView;
     }
 
+    /**
+     * Event on carriedSubjectsNHTableView row click
+     * @param item CarriedSubjectNH from table row
+     */
     @FXML
     private void carriedSubjectsTableRowClick(CarriedSubjectsNH item) {
         try{
@@ -125,14 +155,27 @@ public class AdminCarriedController {
         }
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }
 
+    /**
+     * Return carriedSubjectsNHTableView object
+     * @return TableView
+     */
     public TableView<CarriedSubjectsNH> getCarriedSubjectsNHTableView() {
         return carriedSubjectsNHTableView;
     }
 
+    /**
+     * Return Observable list with table items
+     * @return ObservableList
+     */
     public ObservableList<CarriedSubjectsNH> getCarriedSubjectsNHObservableList() {
         return carriedSubjectsNHObservableList;
     }

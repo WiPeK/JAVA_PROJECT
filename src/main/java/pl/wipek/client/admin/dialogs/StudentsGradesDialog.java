@@ -21,35 +21,78 @@ import java.util.stream.Collectors;
 
 /**
  * @author Krzysztof Adamczyk on 08.06.2017.
- * Showing student grades
+ * Showing student gradesin admin panel
  */
 public class StudentsGradesDialog {
 
+    /**
+     * @see UsersNH
+     */
     private UsersNH user;
 
+    /**
+     * @see AdminGradesController
+     */
     private AdminGradesController adminGradesController;
 
+    /**
+     * @see Label
+     * Contains student name and surname
+     */
     @FXML
     private Label studentNameSurnameLabel;
 
+    /**
+     * @see ComboBox
+     * Contains students classes to choose by admin
+     */
     @FXML
     private ComboBox<ClassesNH> classComboBox;
 
+    /**
+     * @see TableView
+     * Contains list with all students
+     */
     @FXML
     private TableView<UserGradesTable> studentGradesTable;
 
+    /**
+     * @see ObservableList
+     * @see UserGradesTable
+     * Contains UserGradesTable object for every student
+     */
     private ObservableList<UserGradesTable> items = FXCollections.observableArrayList();
+
+    /**
+     * Default template date to showing dates
+     */
+    private DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 
     public StudentsGradesDialog(UsersNH user, AdminGradesController adminGradesController) {
         this.user = user;
         this.adminGradesController = adminGradesController;
     }
 
+    /**
+     * Event on StudentsGradesDialog is showing
+     * Setting up components
+     */
     public void handleWindowShownEvent() {
         this.studentNameSurnameLabel.setText(this.user.getName() + " " + this.user.getSurname());
         this.user.getStudent().setAction(new Action("getStudentsClassesToStudent"));
         this.user.setStudent((StudentsNH)this.adminGradesController.getController().getRelationHelper().getRelated(this.user.getStudent()));
 
+        this.user.getStudent().setAction(new Action("getGradesToStudent"));
+        this.user.setStudent((StudentsNH) this.adminGradesController.getController().getRelationHelper().getRelated(this.user.getStudent()));
+        this.fillTable();
+        this.setUpClassComboBox();
+    }
+
+    /**
+     * Setting up classComboBox with items and events
+     */
+    @FXML
+    private void setUpClassComboBox() {
         ObservableList<ClassesNH> listToComboBox = FXCollections.observableArrayList();
 
         this.user.getStudent().getStudentsClasses().forEach(i -> {
@@ -59,12 +102,6 @@ public class StudentsGradesDialog {
             i.getClasses().setSemester((SemestersNH)this.adminGradesController.getController().getRelationHelper().getRelated(i.getClasses().getSemester()));
             listToComboBox.add(i.getClasses());
         });
-        DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-        this.user.getStudent().setAction(new Action("getGradesToStudent"));
-        this.user.setStudent((StudentsNH) this.adminGradesController.getController().getRelationHelper().getRelated(this.user.getStudent()));
-
-        this.fillTable();
-
         this.classComboBox.setItems(listToComboBox);
         this.classComboBox.setConverter(new StringConverter<ClassesNH>() {
             @Override
@@ -88,9 +125,11 @@ public class StudentsGradesDialog {
             grades.forEach(i -> items.add(new UserGradesTable(i)));
             this.studentGradesTable.setItems(items);
         });
-
     }
 
+    /**
+     * Filling TableView with columns
+     */
     private void fillTable() {
         TableColumn<UserGradesTable, String> subjectColumn = new TableColumn<>("Przedmiot");
         subjectColumn.setMinWidth(100);
