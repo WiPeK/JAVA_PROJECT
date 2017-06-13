@@ -24,19 +24,35 @@ import java.util.Set;
 
 /**
  * @author Krzysztof Adamczyk on 24.05.2017.
+ * Managing event after click Managing Subjects button
  */
 public class AdminSubjectsController {
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
+    /**
+     * @see TableView
+     */
     private TableView<SubjectsNH> subjectsManageTableView;
 
+    /**
+     * @see ObservableList
+     * Contains SubjectsNH items
+     */
     private ObservableList<SubjectsNH> subjectsNHObservableList = FXCollections.observableArrayList();
 
     public AdminSubjectsController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageSubjects button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageSubjectsAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
@@ -55,6 +71,10 @@ public class AdminSubjectsController {
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
 
+    /**
+     * Creating table with SubjectsNH objects
+     * @return TableView
+     */
     @FXML
     private TableView<SubjectsNH> getTable() {
         TableView<SubjectsNH> subjectsTableView = new TableView<>();
@@ -87,6 +107,10 @@ public class AdminSubjectsController {
         return subjectsTableView;
     }
 
+    /**
+     * Event on subjectsManageTableView row click
+     * @param subjects SubjectsNH from table row
+     */
     @FXML
     private void subjectsTableRowClick(SubjectsNH subjects) {
         SubjectsNH subject = subjects;
@@ -123,6 +147,7 @@ public class AdminSubjectsController {
                 alertInfo.setHeaderText("Usuwanie przedmiotu");
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
+                Controller.getLogger().info("Deleting Subject: " + subjects);
                 this.subjectsNHObservableList.removeAll(this.subjectsNHObservableList);
                 Set<Object> subjectsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects s"));
                 subjectsObjects.forEach(i -> this.subjectsNHObservableList.add(new SubjectsNH((Subjects) i)));
@@ -138,6 +163,11 @@ public class AdminSubjectsController {
         }
     }
 
+    /**
+     * Method show dialog when admin can add, edit or delete Subject
+     * @param subjects SubjectNH
+     * @return Pair<String, String>
+     */
     private Pair<String, String> showDialog(SubjectsNH subjects) {
         Dialog<Pair<ButtonType, String>> dialog = new Dialog<>();
         dialog.setTitle("Przedmiot");

@@ -103,7 +103,7 @@ public class AdminClassifiedsController {
         TableView<ClassifiedsNH> classifiedsManageTableView = new TableView<>();
         classifiedsManageTableView.setEditable(true);
 
-        this.classifiedsNHObservableList.removeAll(this.classifiedsNHObservableList);
+        this.classifiedsNHObservableList.clear();
 
         Set<Object> classifiedsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllClassifieds", "FROM Classifieds c ORDER BY idClassifieds DESC"));
         classifiedsObjects.forEach(i -> this.classifiedsNHObservableList.add(new ClassifiedsNH((Classifieds)i)));

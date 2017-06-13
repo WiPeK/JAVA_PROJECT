@@ -30,27 +30,57 @@ import java.util.Set;
 
 /**
  * @author Created by Krszysztof Adamczyk on 24.05.2017.
+ * Managing event after click on Managing Substitutes button
  */
 public class AdminSubstitutesController {
 
+    /**
+     * @see EditSubstitutesDialogController
+     */
     private EditSubstitutesDialogController editSubstitutesDialogController;
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String substitutesEditFXMLPath = "/views/substitutesEdit.fxml";
 
+    /**
+     * @see TableView
+     */
     private TableView<SubstitutesNH> substitutesManageTableView;
 
+    /**
+     * @see ObservableList
+     * Contains SubstitutesNH items
+     */
     private ObservableList<SubstitutesNH> substitutesNHObservableList = FXCollections.observableArrayList();
 
+    /**
+     * @see ComboBox
+     * Contains criteria to search in table
+     */
     private ComboBox<String> searchCriterium;
 
+    /**
+     * @see TextField
+     * Input when admin can type searched phrase
+     */
     private TextField searchInput;
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
     public AdminSubstitutesController(AdminsController adminsController) {
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageSubstitutes button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageSubstitutesAction(ActionEvent event) {
         try{
@@ -71,12 +101,16 @@ public class AdminSubstitutesController {
         }
     }
 
+    /**
+     * Creating table with Substitutes objects
+     * @return TableView
+     */
     @FXML
     private TableView<SubstitutesNH> getTable() {
         TableView<SubstitutesNH> substitutesNHTableView = new TableView<>();
         substitutesNHTableView.setEditable(true);
 
-        this.substitutesNHObservableList.removeAll(this.substitutesNHObservableList);
+        this.substitutesNHObservableList.clear();
 
         Set<Object> substitutesObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubstitutes", "FROM Substitutes s"));
         substitutesObjects.forEach(i -> this.substitutesNHObservableList.add(new SubstitutesNH((Substitutes) i)));
@@ -117,6 +151,10 @@ public class AdminSubstitutesController {
         return substitutesNHTableView;
     }
 
+    /**
+     * Event on substitutesManageTableView row click
+     * @param item SubstitutesNH from table row
+     */
     @FXML
     private void substitutesTableRowClick(SubstitutesNH item) {
         try{
@@ -133,23 +171,10 @@ public class AdminSubstitutesController {
         }
     }
 
-    @FXML
-    private void searchByBody() {
-        if(this.searchInput.getText().equals("")) {
-            this.substitutesManageTableView.setItems(this.substitutesNHObservableList);
-            this.substitutesManageTableView.refresh();
-        } else {
-            ObservableList<SubstitutesNH> tmpList = FXCollections.observableArrayList();
-            this.substitutesNHObservableList.forEach(i -> {
-                if(i.getBody().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
-                    tmpList.add(i);
-                }
-            });
-            this.substitutesManageTableView.setItems(tmpList);
-            this.substitutesManageTableView.refresh();
-        }
-    }
-
+    /**
+     * Creating search bar components
+     * @return HBox with components
+     */
     @FXML
     private HBox getSearchBar() {
         HBox hBox = new HBox();
@@ -165,6 +190,10 @@ public class AdminSubstitutesController {
         return hBox;
     }
 
+    /**
+     * Event on typing in substitutesSearchInput key is pressed
+     * @param keyEvent KeyEvent
+     */
     @FXML
     private void substitutesSearchInputKeyPressed(KeyEvent keyEvent) {
         if(keyEvent.getCode().equals(KeyCode.ENTER)) {
@@ -184,6 +213,29 @@ public class AdminSubstitutesController {
         }
     }
 
+    /**
+     * Method respond for searching in substitutes bodies when search by body criteria is selected
+     */
+    @FXML
+    private void searchByBody() {
+        if(this.searchInput.getText().equals("")) {
+            this.substitutesManageTableView.setItems(this.substitutesNHObservableList);
+            this.substitutesManageTableView.refresh();
+        } else {
+            ObservableList<SubstitutesNH> tmpList = FXCollections.observableArrayList();
+            this.substitutesNHObservableList.forEach(i -> {
+                if(i.getBody().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
+                    tmpList.add(i);
+                }
+            });
+            this.substitutesManageTableView.setItems(tmpList);
+            this.substitutesManageTableView.refresh();
+        }
+    }
+
+    /**
+     * Method respond for searching in substitutes admins names or surnames when search by author criteria is selected
+     */
     @FXML
     private void searchByAdmin() {
         if(this.searchInput.getText().equals("")) {
@@ -201,14 +253,27 @@ public class AdminSubstitutesController {
         }
     }
 
+    /**
+     * Return substitutesManageTableView object
+     * @return TableView
+     */
     public TableView<SubstitutesNH> getSubstitutesManageTableView() {
         return substitutesManageTableView;
     }
 
+    /**
+     * Return Observable list with table items
+     * @return ObservableList
+     */
     public ObservableList<SubstitutesNH> getSubstitutesNHObservableList() {
         return substitutesNHObservableList;
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }

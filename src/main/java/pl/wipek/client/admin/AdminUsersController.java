@@ -26,28 +26,58 @@ import java.util.Arrays;
 import java.util.Set;
 
 /**
- * Created by Krszysztof Adamczyk on 24.05.2017.
+ * @author Krzysztof Adamczyk on 24.05.2017.
+ * Managing event after click on Managing Users button
  */
 public class AdminUsersController {
 
+    /**
+     * Contains path to fxml file with view
+     */
     private final static String userEditFXMLPath = "/views/userEdit.fxml";
 
+    /**
+     * @see ObservableList
+     * Contains UsersNH items
+     */
     private ObservableList<UsersNH> usersManageTableObservableList = FXCollections.observableArrayList();
 
+    /**
+     * @see EditUserDialogController
+     */
     private EditUserDialogController editUserDialogController;
 
+    /**
+     * @see TableView
+     */
     private TableView<UsersNH> usersManageTableTableView;
 
+    /**
+     * @see ComboBox
+     * Contains criteria to search in table
+     */
     private ComboBox<String> searchCriterium;
 
+    /**
+     * @see TextField
+     * Input when admin can type searched phrase
+     */
     private TextField searchInput;
 
+    /**
+     * @see AdminsController
+     */
     private AdminsController adminsController;
 
     AdminUsersController(AdminsController adminsController){
         this.adminsController = adminsController;
     }
 
+    /**
+     * Event on buttonManageUsers button click
+     * Setting up center of Controller rootBorderPane
+     * @param event ActionEvent button click
+     */
     @FXML
     public void buttonManageUsersAction(ActionEvent event){
         try {
@@ -68,6 +98,10 @@ public class AdminUsersController {
         }
     }
 
+    /**
+     * Creating table with UsersNH objects
+     * @return TableView
+     */
     @FXML
     private TableView<UsersNH> getTable() throws Exception {
         TableView<UsersNH> usersManageTableTableView = new TableView<>();
@@ -118,6 +152,10 @@ public class AdminUsersController {
         return usersManageTableTableView;
     }
 
+    /**
+     * Event on usersManageTableTableView row click
+     * @param item UsersNH from table row
+     */
     @FXML
     private void usersTableRowClick(UsersNH item) {
         try {
@@ -134,40 +172,10 @@ public class AdminUsersController {
         }
     }
 
-    @FXML
-    private void searchByEmail() throws Exception {
-        if(this.searchInput.getText().equals("")) {
-            this.usersManageTableTableView.setItems(this.usersManageTableObservableList);
-            this.usersManageTableTableView.refresh();
-        } else {
-            ObservableList<UsersNH> tmpList = FXCollections.observableArrayList();
-            this.usersManageTableObservableList.forEach(i -> {
-                if(i.getEmail().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
-                    tmpList.add(i);
-                }
-            });
-            this.usersManageTableTableView.setItems(tmpList);
-            this.usersManageTableTableView.refresh();
-        }
-    }
-
-    @FXML
-    private void searchByName() throws Exception {
-        if(this.searchInput.getText().equals("")) {
-            this.usersManageTableTableView.setItems(this.usersManageTableObservableList);
-            this.usersManageTableTableView.refresh();
-        } else {
-            ObservableList<UsersNH> tmpList = FXCollections.observableArrayList();
-            this.usersManageTableObservableList.forEach(i -> {
-                if(i.getName().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
-                    tmpList.add(i);
-                }
-            });
-            this.usersManageTableTableView.setItems(tmpList);
-            this.usersManageTableTableView.refresh();
-        }
-    }
-
+    /**
+     * Creating search bar components
+     * @return HBox with components
+     */
     @FXML
     private HBox getSearchBar() throws Exception {
         HBox hBox = new HBox();
@@ -183,6 +191,10 @@ public class AdminUsersController {
         return hBox;
     }
 
+    /**
+     * Event on typing in searchInput key is pressed
+     * @param keyEvent KeyEvent
+     */
     @FXML
     private void searchInputKeyPressed(KeyEvent keyEvent) {
         try {
@@ -214,6 +226,49 @@ public class AdminUsersController {
         }
     }
 
+    /**
+     * Method respond for searching in users emails when search by email criteria is selected
+     */
+    @FXML
+    private void searchByEmail() throws Exception {
+        if(this.searchInput.getText().equals("")) {
+            this.usersManageTableTableView.setItems(this.usersManageTableObservableList);
+            this.usersManageTableTableView.refresh();
+        } else {
+            ObservableList<UsersNH> tmpList = FXCollections.observableArrayList();
+            this.usersManageTableObservableList.forEach(i -> {
+                if(i.getEmail().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
+                    tmpList.add(i);
+                }
+            });
+            this.usersManageTableTableView.setItems(tmpList);
+            this.usersManageTableTableView.refresh();
+        }
+    }
+
+    /**
+     * Method respond for searching in users names when search by name criteria is selected
+     */
+    @FXML
+    private void searchByName() throws Exception {
+        if(this.searchInput.getText().equals("")) {
+            this.usersManageTableTableView.setItems(this.usersManageTableObservableList);
+            this.usersManageTableTableView.refresh();
+        } else {
+            ObservableList<UsersNH> tmpList = FXCollections.observableArrayList();
+            this.usersManageTableObservableList.forEach(i -> {
+                if(i.getName().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
+                    tmpList.add(i);
+                }
+            });
+            this.usersManageTableTableView.setItems(tmpList);
+            this.usersManageTableTableView.refresh();
+        }
+    }
+
+    /**
+     * Method respond for searching in users surnames when search by surname criteria is selected
+     */
     @FXML
     private void searchBySurname() throws Exception {
         if(this.searchInput.getText().equals("")) {
@@ -231,6 +286,9 @@ public class AdminUsersController {
         }
     }
 
+    /**
+     * Method respond for searching in users pesels when search by pesel criteria is selected
+     */
     @FXML
     private void searchByPesel() throws Exception {
         if(this.searchInput.getText().equals("")) {
@@ -248,14 +306,27 @@ public class AdminUsersController {
         }
     }
 
+    /**
+     * Return Observable list with table items
+     * @return ObservableList
+     */
     public ObservableList<UsersNH> getUsersManageTableObservableList() {
         return usersManageTableObservableList;
     }
 
+    /**
+     * Return usersManageTableTableView object
+     * @return TableView
+     */
     public TableView<UsersNH> getUsersManageTableTableView() {
         return usersManageTableTableView;
     }
 
+    /**
+     * @see Controller
+     * Return Controller Object
+     * @return Controller
+     */
     public Controller getController() {
         return this.adminsController.getController();
     }
