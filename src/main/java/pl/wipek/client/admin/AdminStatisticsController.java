@@ -81,4 +81,7 @@ public class AdminStatisticsController {
         categories.addAll(Arrays.asList(names));
         return categories;
     }
+
+
+
 }
