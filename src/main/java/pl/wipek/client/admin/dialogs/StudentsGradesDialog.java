@@ -3,6 +3,7 @@ package pl.wipek.client.admin.dialogs;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,17 +24,7 @@ import java.util.stream.Collectors;
  * @author Krzysztof Adamczyk on 08.06.2017.
  * Showing student gradesin admin panel
  */
-public class StudentsGradesDialog {
-
-    /**
-     * @see UsersNH
-     */
-    private UsersNH user;
-
-    /**
-     * @see AdminGradesController
-     */
-    private AdminGradesController adminGradesController;
+public class StudentsGradesDialog extends DialogAbstractController<UsersNH> {
 
     /**
      * @see Label
@@ -69,8 +60,7 @@ public class StudentsGradesDialog {
     private DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 
     public StudentsGradesDialog(UsersNH user, AdminGradesController adminGradesController) {
-        this.user = user;
-        this.adminGradesController = adminGradesController;
+        super(user, adminGradesController);
     }
 
     /**
@@ -78,15 +68,33 @@ public class StudentsGradesDialog {
      * Setting up components
      */
     public void handleWindowShownEvent() {
-        this.studentNameSurnameLabel.setText(this.user.getName() + " " + this.user.getSurname());
-        this.user.getStudent().setAction(new Action("getStudentsClassesToStudent"));
-        this.user.setStudent((StudentsNH)this.adminGradesController.getController().getRelationHelper().getRelated(this.user.getStudent()));
+        this.studentNameSurnameLabel.setText(this.item.getName() + " " + this.item.getSurname());
+        this.item.getStudent().setAction(new Action("getStudentsClassesToStudent"));
+        this.item.setStudent((StudentsNH)this.adminController.getController().getRelationHelper().getRelated(this.item.getStudent()));
 
-        this.user.getStudent().setAction(new Action("getGradesToStudent"));
-        this.user.setStudent((StudentsNH) this.adminGradesController.getController().getRelationHelper().getRelated(this.user.getStudent()));
+        this.item.getStudent().setAction(new Action("getGradesToStudent"));
+        this.item.setStudent((StudentsNH) this.adminController.getController().getRelationHelper().getRelated(this.item.getStudent()));
         this.fillTable();
         this.setUpClassComboBox();
     }
+
+    /**
+     * Event on saveButton action
+     * Sending request to server for saving or updating entity with related sets
+     *
+     * @param event ActionEvent
+     */
+    @Override
+    protected void saveButtonAction(ActionEvent event) {}
+
+    /**
+     * Event on deleteButton action
+     * Sending request to server for deleting Users entity with related sets
+     *
+     * @param event ActionEvent
+     */
+    @Override
+    protected void deleteButtonAction(ActionEvent event) {}
 
     /**
      * Setting up classComboBox with items and events
@@ -95,11 +103,11 @@ public class StudentsGradesDialog {
     private void setUpClassComboBox() {
         ObservableList<ClassesNH> listToComboBox = FXCollections.observableArrayList();
 
-        this.user.getStudent().getStudentsClasses().forEach(i -> {
+        this.item.getStudent().getStudentsClasses().forEach(i -> {
             i.getClasses().setAction(new Action("getSemesterToClass"));
-            i.setClasses((ClassesNH)this.adminGradesController.getController().getRelationHelper().getRelated(i.getClasses()));
+            i.setClasses((ClassesNH)this.adminController.getController().getRelationHelper().getRelated(i.getClasses()));
             i.getClasses().getSemester().setAction(new Action("getYearToSemester"));
-            i.getClasses().setSemester((SemestersNH)this.adminGradesController.getController().getRelationHelper().getRelated(i.getClasses().getSemester()));
+            i.getClasses().setSemester((SemestersNH)this.adminController.getController().getRelationHelper().getRelated(i.getClasses().getSemester()));
             listToComboBox.add(i.getClasses());
         });
         this.classComboBox.setItems(listToComboBox);
@@ -120,7 +128,7 @@ public class StudentsGradesDialog {
             }
         });
         this.classComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Set<GradesNH> grades = this.user.getStudent().getGrades().parallelStream().filter(i -> i.getCarriedSubjects().getClasses().equals(newValue)).collect(Collectors.toCollection(HashSet::new));
+            Set<GradesNH> grades = this.item.getStudent().getGrades().parallelStream().filter(i -> i.getCarriedSubjects().getClasses().equals(newValue)).collect(Collectors.toCollection(HashSet::new));
             this.items.clear();
             grades.forEach(i -> items.add(new UserGradesTable(i)));
             this.studentGradesTable.setItems(items);

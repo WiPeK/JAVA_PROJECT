@@ -1,20 +1,11 @@
 package pl.wipek.client.admin;
 
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import pl.wipek.client.Controller;
 import pl.wipek.client.admin.dialogs.EditCarriedDialogController;
 import pl.wipek.common.Action;
 import pl.wipek.db.CarriedSubjectsNH;
@@ -28,57 +19,36 @@ import java.util.Set;
  * @author Krszysztof Adamczyk on 30.05.2017.
  * Managing action after click on "Zarzadzaj Nauczanymi Przedmiotami" on left bar
  */
-public class AdminCarriedController {
-
-    /**
-     * @see AdminsController
-     */
-    private AdminsController adminsController;
-
-    /**
-     * @see TableView
-     */
-    private TableView<CarriedSubjectsNH> carriedSubjectsNHTableView;
-
-    /**
-     * Contains path to fxml file with view
-     */
-    private final static String carriedYearsEditFXMLPath = "/views/carried.fxml";
-
-    /**
-     * @see ObservableList
-     * Contains CarriedSubjectNH items
-     */
-    private ObservableList<CarriedSubjectsNH> carriedSubjectsNHObservableList = FXCollections.observableArrayList();
-
-    /**
-     * @see EditCarriedDialogController
-     */
-    private EditCarriedDialogController editCarriedDialogController;
+public final class AdminCarriedController extends AdminsAbstractController<CarriedSubjectsNH> {
 
     public AdminCarriedController(AdminsController adminsController) {
-        this.adminsController = adminsController;
+        super(adminsController);
+        this.fxmlPath = "/views/carried.fxml";
     }
 
     /**
-     * Event on buttonManageCarried button click
+     * Event on manage button click
      * Setting up center of Controller rootBorderPane
+     *
      * @param event ActionEvent button click
      */
-    @FXML
-    public void buttonManageCarriedAction(ActionEvent event) {
+    @Override
+    public void manageButtonAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
         vBox.setMinWidth(754);
         Label title = new Label("Nauczane przedmioty");
 
-        this.carriedSubjectsNHTableView = this.getTable();
-        this.carriedSubjectsNHTableView.setPrefHeight(530);
+        this.tableView = this.getTable();
+        this.tableView.setPrefHeight(530);
 
         Button newSubject = new Button("Dodaj przedmiot nauczycielowi");
-        newSubject.setOnAction(ae -> this.carriedSubjectsTableRowClick(new CarriedSubjectsNH()));
+        newSubject.setOnAction(ae -> {
+            this.setDialogAbstractController(new EditCarriedDialogController(null, this));
+            this.tableRowClickAction(new CarriedSubjectsNH());
+        });
 
-        vBox.getChildren().addAll(title, newSubject, this.carriedSubjectsNHTableView);
+        vBox.getChildren().addAll(title, newSubject, this.tableView);
         scrollPane.setContent(vBox);
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
@@ -87,11 +57,11 @@ public class AdminCarriedController {
      * Creating table with CarriedSubjectsNH objects
      * @return TableView
      */
-    private TableView<CarriedSubjectsNH> getTable() {
+    protected TableView<CarriedSubjectsNH> getTable() {
         TableView<CarriedSubjectsNH> csTableView = new TableView<>();
         csTableView.setEditable(true);
         Set<Object> csObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllCarriedSubjects", "FROM CarriedSubjects cs"));
-        csObjects.forEach(i -> this.carriedSubjectsNHObservableList.add(new CarriedSubjectsNH((CarriedSubjects)i)));
+        csObjects.forEach(i -> this.observableList.add(new CarriedSubjectsNH((CarriedSubjects)i)));
 
         TableColumn<CarriedSubjectsNH, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("idCarriedSubject"));
@@ -123,7 +93,8 @@ public class AdminCarriedController {
             TableRow<CarriedSubjectsNH> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
                 if(e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
-                    this.carriedSubjectsTableRowClick(row.getItem());
+                    this.setDialogAbstractController(new EditCarriedDialogController(row.getItem(), this));
+                    this.tableRowClickAction(row.getItem());
                 }
             });
             return row;
@@ -131,52 +102,7 @@ public class AdminCarriedController {
 
         csTableView.getColumns().addAll(idCol, teacherNameSurnameCol, classCol, semesterCol, subjectCol);
         csTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        csTableView.setItems(this.carriedSubjectsNHObservableList);
+        csTableView.setItems(this.observableList);
         return csTableView;
-    }
-
-    /**
-     * Event on carriedSubjectsNHTableView row click
-     * @param item CarriedSubjectNH from table row
-     */
-    @FXML
-    private void carriedSubjectsTableRowClick(CarriedSubjectsNH item) {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(carriedYearsEditFXMLPath));
-            this.editCarriedDialogController = new EditCarriedDialogController(item, this);
-            loader.setController(this.editCarriedDialogController);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
-            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, (e) -> Platform.runLater(editCarriedDialogController::handleWindowShownEvent));
-            stage.show();
-        }catch (Exception e) {
-            Controller.getLogger().error(e);
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @see Controller
-     * Return Controller Object
-     * @return Controller
-     */
-    public Controller getController() {
-        return this.adminsController.getController();
-    }
-
-    /**
-     * Return carriedSubjectsNHTableView object
-     * @return TableView
-     */
-    public TableView<CarriedSubjectsNH> getCarriedSubjectsNHTableView() {
-        return carriedSubjectsNHTableView;
-    }
-
-    /**
-     * Return Observable list with table items
-     * @return ObservableList
-     */
-    public ObservableList<CarriedSubjectsNH> getCarriedSubjectsNHObservableList() {
-        return carriedSubjectsNHObservableList;
     }
 }

@@ -31,17 +31,7 @@ import java.util.stream.Collectors;
  * @author Krzysztof Adamczyk on 30.05.2017.
  * Managing dialog when we working on classes
  */
-public class EditClassesDialogController {
-
-    /**
-     * @see ClassesNH
-     */
-    private ClassesNH classes;
-
-    /**
-     * @see AdminClassesController
-     */
-    private AdminClassesController adminClassesController;
+public class EditClassesDialogController extends DialogAbstractController<ClassesNH> {
 
     /**
      * @see TextField
@@ -56,28 +46,6 @@ public class EditClassesDialogController {
      */
     @FXML
     private ComboBox<SemestersNH> semestersComboBox;
-
-    /**
-     * @see Button
-     * On action calling method which validate inputs data end save or update entity
-     */
-    @FXML
-    private Button saveButton;
-
-    /**
-     * @see Button
-     * Button is hiding dialog
-     */
-    @FXML
-    private Button disableButton;
-
-    /**
-     * @see Button
-     * Button respondend for deleting Classes entity
-     * on action EditClassesDialogController.deleteButtonAction
-     */
-    @FXML
-    private Button deleteButton;
 
     /**
      * @see Label
@@ -100,20 +68,12 @@ public class EditClassesDialogController {
     private ObservableList<UsersNH> list = FXCollections.observableArrayList();
 
     /**
-     * Status managing object
-     * true when objects is create
-     * false when objects is editing
-     */
-    private boolean creating;
-
-    /**
      * Default template date to showing dates
      */
     private DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 
     public EditClassesDialogController(ClassesNH classes, AdminClassesController adminClassesController) {
-        this.classes = classes;
-        this.adminClassesController = adminClassesController;
+        super(classes, adminClassesController);
     }
 
     /**
@@ -122,9 +82,9 @@ public class EditClassesDialogController {
      */
     @FXML
     public void handleWindowShownEvent() {
-        this.creating = this.classes.getIdClass() == 0;
-        this.headerLabel.setText(creating ? "Dodawanie nowej klasy" : "Edycja klasy " + this.classes.getName());
-        this.classNameTextField.setText(creating ? "" : this.classes.getName());
+        this.creating = this.item.getIdClass() == 0;
+        this.headerLabel.setText(creating ? "Dodawanie nowej klasy" : "Edycja klasy " + this.item.getName());
+        this.classNameTextField.setText(creating ? "" : this.item.getName());
         this.setUpSemestersComboBox();
         this.saveButton.setOnAction(this::saveButtonAction);
         this.deleteButton.setOnAction(this::deleteButtonAction);
@@ -139,8 +99,8 @@ public class EditClassesDialogController {
     private void setUpSemestersComboBox() {
         ObservableList<SemestersNH> listToComboBox = FXCollections.observableArrayList();
 
-        Set<Object> semestersObjects = this.adminClassesController.getController().getRelationHelper().getAllAsSet(new Action("getAllSemesters", "FROM Semesters sm"));
-        listToComboBox.add(this.classes.getSemester());
+        Set<Object> semestersObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllSemesters", "FROM Semesters sm"));
+        listToComboBox.add(this.item.getSemester());
         for (Object semObject : semestersObjects) {
             Semesters tmp = (Semesters) semObject;
             if(tmp.getEndDate().compareTo(new Date()) > 0) {
@@ -177,12 +137,12 @@ public class EditClassesDialogController {
             public SemestersNH fromString(String string) {
                 String[] splited = string.split("\\s+");
                 Optional<SemestersNH> optSemester = listToComboBox.stream().filter(i -> i.getIdSemester() == Integer.parseInt(splited[0])).findFirst();
-                classes.setSemester(optSemester.orElse(null));
+                item.setSemester(optSemester.orElse(null));
                 return null;
             }
         });
 
-        this.semestersComboBox.setValue(this.classes.getSemester());
+        this.semestersComboBox.setValue(this.item.getSemester());
     }
 
     /**
@@ -192,15 +152,15 @@ public class EditClassesDialogController {
         this.studentsTableView.setEditable(true);
 
         Set<UsersNH> tmpList = new HashSet<>(0);
-        Set<Object> usersObjects = this.adminClassesController.getController().getRelationHelper().getAllAsSet(new Action("getAllUsers", "FROM Users u"));
+        Set<Object> usersObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllUsers", "FROM Users u"));
         usersObjects.forEach(i -> tmpList.add(new UsersNH((Users)i)));
         Set<UsersNH> studentsList = tmpList.stream().filter(i -> i.getStudent() != null).collect(Collectors.toCollection(HashSet::new));
         for (UsersNH it : studentsList) {
             UsersNH tmp = it;
             tmp.getStudent().setAction(new Action("getStudentsClassesToStudent"));
-            tmp.setStudent((StudentsNH)this.adminClassesController.getController().getRelationHelper().getRelated(tmp.getStudent()));
+            tmp.setStudent((StudentsNH)this.adminController.getController().getRelationHelper().getRelated(tmp.getStudent()));
 
-            Optional<StudentsClassesNH> res = tmp.getStudent().getStudentsClasses().parallelStream().filter(i -> i.getClasses().getIdClass() == this.classes.getIdClass()).findFirst();
+            Optional<StudentsClassesNH> res = tmp.getStudent().getStudentsClasses().parallelStream().filter(i -> i.getClasses().getIdClass() == this.item.getIdClass()).findFirst();
             tmp.setInClass(res.isPresent());
             list.add(tmp);
         }
@@ -238,26 +198,26 @@ public class EditClassesDialogController {
      * Sending request to server for deleting Classes entity
      * @param event ActionEvent
      */
-    private void deleteButtonAction(ActionEvent event) {
+    protected void deleteButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie");
-        alert.setHeaderText("Usuwanie klasy " + this.classes.getName());
+        alert.setHeaderText("Usuwanie klasy " + this.item.getName());
         alert.setContentText("Czy na pewno chcesz wykonać czynność?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent()) {
             if (result.get() == ButtonType.OK){
-                Controller.getLogger().info("Deleting Classes: " + this.classes);
-                this.classes.setAction(new Action("remove"));
-                this.adminClassesController.getController().getClient().requestServer(this.classes);
+                Controller.getLogger().info("Deleting Classes: " + this.item);
+                this.item.setAction(new Action("remove"));
+                this.adminController.getController().getClient().requestServer(this.item);
                 Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
                 alertInfo.setTitle("Informacja");
                 alertInfo.setHeaderText("Usuwanie klasy");
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
                 ((Node)event.getSource()).getScene().getWindow().hide();
-                this.adminClassesController.getClassesNHObservableList().clear();
-                this.adminClassesController.buttonManageClassesAction(new ActionEvent());
+                this.adminController.getObservableList().clear();
+                this.adminController.manageButtonAction(new ActionEvent());
             } else {
                 event.consume();
             }
@@ -269,27 +229,27 @@ public class EditClassesDialogController {
      * Sending request to server for saving or updating Classes entity with related sets
      * @param event ActionEvent
      */
-    private void saveButtonAction(ActionEvent event) {
+    protected void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.classNameTextField.getText(), "minLength:2|maxLength:50")
                 && this.semestersComboBox.getSelectionModel() != null) {
-            this.classes.setName(this.classNameTextField.getText());
-            this.classes.setSemester(this.semestersComboBox.getValue());
+            this.item.setName(this.classNameTextField.getText());
+            this.item.setSemester(this.semestersComboBox.getValue());
 
             for (UsersNH usersNH : this.list) {
-                Optional<StudentsClassesNH> hasStudentClasses = usersNH.getStudent().getStudentsClasses().parallelStream().filter(i -> i.getClasses().equals(this.classes)).findFirst();
+                Optional<StudentsClassesNH> hasStudentClasses = usersNH.getStudent().getStudentsClasses().parallelStream().filter(i -> i.getClasses().equals(this.item)).findFirst();
                 if(!hasStudentClasses.isPresent() && usersNH.isInClass()) {
-                    Optional<StudentsClassesNH> isInClasses = this.classes.getStudentsClasses().parallelStream().filter(i -> i.getStudent().equals(usersNH.getStudent())).findFirst();
+                    Optional<StudentsClassesNH> isInClasses = this.item.getStudentsClasses().parallelStream().filter(i -> i.getStudent().equals(usersNH.getStudent())).findFirst();
                     if(!isInClasses.isPresent()) {
-                        this.classes.getStudentsClasses().add(new StudentsClassesNH(usersNH.getStudent(), this.classes));
+                        this.item.getStudentsClasses().add(new StudentsClassesNH(usersNH.getStudent(), this.item));
                     }
                 } else if(hasStudentClasses.isPresent() && !usersNH.isInClass()) {
-                    Optional<StudentsClassesNH> isInClasses = this.classes.getStudentsClasses().stream().filter(i -> i.getStudent().equals(usersNH.getStudent())).findFirst();
-                    this.classes.getStudentsClasses().remove(isInClasses.orElse(null));
+                    Optional<StudentsClassesNH> isInClasses = this.item.getStudentsClasses().stream().filter(i -> i.getStudent().equals(usersNH.getStudent())).findFirst();
+                    this.item.getStudentsClasses().remove(isInClasses.orElse(null));
                 }
             }
 
-            this.classes.setAction(new Action("saveOrUpdate"));
-            ClassesNH result = (ClassesNH)this.adminClassesController.getController().getClient().requestServer(this.classes);
+            this.item.setAction(new Action("saveOrUpdate"));
+            ClassesNH result = (ClassesNH)this.adminController.getController().getClient().requestServer(this.item);
             if(result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
@@ -298,15 +258,15 @@ public class EditClassesDialogController {
                 alert.showAndWait();
                 Controller.getLogger().info((this.creating ? "Saving Classes: " : "Updating Classes: ") + result);
                 ((Node)event.getSource()).getScene().getWindow().hide();
-                this.adminClassesController.getClassesNHObservableList().clear();
-                this.adminClassesController.buttonManageClassesAction(new ActionEvent());
+                this.adminController.getObservableList().clear();
+                this.adminController.manageButtonAction(new ActionEvent());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");
                 alert.setHeaderText("Problem z aktualizacją klas");
                 alert.setContentText("Wystąpił błąd z aktualizacją klas. Spróbuj ponownie.");
                 alert.showAndWait();
-                Controller.getLogger().info((this.creating ? "Error in saving Classes: " : "Error in updating Classes: ") + this.classes);
+                Controller.getLogger().info((this.creating ? "Error in saving Classes: " : "Error in updating Classes: ") + this.item);
             }
 
         } else {

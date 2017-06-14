@@ -14,18 +14,16 @@ import pl.wipek.db.AdminsNH;
 import pl.wipek.db.StudentsNH;
 import pl.wipek.db.TeachersNH;
 import pl.wipek.db.UsersNH;
-import pl.wipek.server.db.Users;
 import pl.wipek.validators.Validator;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author Krzysztof Adamczyk on 17.05.2017.
  * Managing work with User entities in dialog running in AdminUsersController after click on row in table with all users.
  */
-public class EditUserDialogController extends DialogPane {
+public final class EditUserDialogController extends DialogAbstractController<UsersNH> {
 
     /**
      * @see Label
@@ -112,20 +110,6 @@ public class EditUserDialogController extends DialogPane {
     private Label userLastLogoutLabel;
 
     /**
-     * @see Button
-     * Button is hiding dialog
-     */
-    @FXML
-    private Button disableButton;
-
-    /**
-     * @see Button
-     * On action calling method which validate inputs data end save or update entity
-     */
-    @FXML
-    private Button saveButton;
-
-    /**
      * @see Label
      * Contains user academic degree if teacher or admin
      */
@@ -153,33 +137,8 @@ public class EditUserDialogController extends DialogPane {
     @FXML
     private Label lastLogoutLabel;
 
-    /**
-     * @see Button
-     * Button respond for deleting Users entity
-     */
-    @FXML
-    private Button deleteUserButton;
-
-    /**
-     * @see UsersNH
-     */
-    private UsersNH user;
-
-    /**
-     * @see AdminUsersController
-     */
-    private AdminUsersController adminUsersController;
-
-    /**
-     * Status managing object
-     * true when objects is create
-     * false when objects is editing
-     */
-    private boolean creating;
-
-    public EditUserDialogController(UsersNH user, AdminUsersController adminUsersController) throws Exception {
-        this.user = user;
-        this.adminUsersController = adminUsersController;
+    public EditUserDialogController(UsersNH user, AdminUsersController adminUsersController){
+        super(user, adminUsersController);
     }
 
     /**
@@ -189,32 +148,32 @@ public class EditUserDialogController extends DialogPane {
     @FXML
     public void handleWindowShownEvent(){
         try {
-            creating = this.user.getIdUser() == 0;
-            this.deleteUserButton.setDisable(creating);
+            creating = this.item.getIdUser() == 0;
+            this.deleteButton.setDisable(creating);
             this.createOrEditLabel.setText(creating ? "Tworzenie nowego użytkownika" : "Edycja użytkownika");
-            this.editedUserNameSurnameLabel.setText(creating ? "" : this.user.getName() + " " + this.user.getSurname());
-            this.userNameTextBox.setText(creating ? "" : this.user.getName());
-            this.userSurnameTextBox.setText(creating ? "" : this.user.getSurname());
-            this.userEmailTextBox.setText(creating ? "" : this.user.getEmail());
-            this.userPeselTextBox.setText(creating ? "" : this.user.getPesel());
+            this.editedUserNameSurnameLabel.setText(creating ? "" : this.item.getName() + " " + this.item.getSurname());
+            this.userNameTextBox.setText(creating ? "" : this.item.getName());
+            this.userSurnameTextBox.setText(creating ? "" : this.item.getSurname());
+            this.userEmailTextBox.setText(creating ? "" : this.item.getEmail());
+            this.userPeselTextBox.setText(creating ? "" : this.item.getPesel());
             this.setUpUserTypeComboBox();
-            if(this.user.getType() != null && !this.user.getType().equals("Uczeń")) {
+            if(this.item.getType() != null && !this.item.getType().equals("Uczeń")) {
                 this.userTitleLabel.setDisable(false);
                 this.userTitleField.setDisable(false);
-                this.userTitleField.setText(this.user.getAdmin() == null ? (this.user.getTeacher() == null ? "" : this.user.getTeacher().getTitle()) : this.user.getAdmin().getTitle());
+                this.userTitleField.setText(this.item.getAdmin() == null ? (this.item.getTeacher() == null ? "" : this.item.getTeacher().getTitle()) : this.item.getAdmin().getTitle());
             }
 
-            this.userCreateDateLabel.setText(creating ? "" : (this.user.getCreateDate() == null ? "" : this.user.getCreateDate().toString()));
-            this.userLastLoginDateLabel.setText(creating ? "" : (this.user.getLastLogIn() == null ? "" : this.user.getLastLogIn().toString()));
-            this.userLastLogoutLabel.setText(creating ? "" : (this.user.getLastLogOut() == null ? "" : this.user.getLastLogOut().toString()));
+            this.userCreateDateLabel.setText(creating ? "" : (this.item.getCreateDate() == null ? "" : this.item.getCreateDate().toString()));
+            this.userLastLoginDateLabel.setText(creating ? "" : (this.item.getLastLogIn() == null ? "" : this.item.getLastLogIn().toString()));
+            this.userLastLogoutLabel.setText(creating ? "" : (this.item.getLastLogOut() == null ? "" : this.item.getLastLogOut().toString()));
             if(creating) {
                 this.createDateLabel.setVisible(false);
                 this.lastLoginLabel.setVisible(false);
                 this.lastLogoutLabel.setVisible(false);
             }
-            this.disableButton.setOnAction(e -> ((Node)(e.getSource())).getScene().getWindow().hide());
             this.saveButton.setOnAction(this::saveButtonAction);
-            this.deleteUserButton.setOnAction(this::deleteUserButtonAction);
+            this.deleteButton.setOnAction(this::deleteButtonAction);
+            this.disableButton.setOnAction(e -> ((Node)(e.getSource())).getScene().getWindow().hide());
         }catch (Exception e) {
             Controller.getLogger().error(e);
             e.printStackTrace();
@@ -229,14 +188,14 @@ public class EditUserDialogController extends DialogPane {
         ObservableList<String> listToComboBox = FXCollections.observableArrayList();
         listToComboBox.addAll("Administrator", "Nauczyciel", "Uczeń", "Brak");
         this.userTypeComboBox.setItems(listToComboBox);
-        this.userTypeComboBox.getSelectionModel().select(this.user.getType().equals("") ? "Brak" : this.user.getType());
+        this.userTypeComboBox.getSelectionModel().select(this.item.getType().equals("") ? "Brak" : this.item.getType());
 
         this.userTypeComboBox.setOnAction(e -> {
             String selected = this.userTypeComboBox.getSelectionModel().getSelectedItem();
             if(selected.equals(listToComboBox.get(0)) || selected.equals(listToComboBox.get(1))) {
                 this.userTitleLabel.setDisable(false);
                 this.userTitleField.setDisable(false);
-                this.userTitleField.setText(this.user.getAdmin() == null ? (this.user.getTeacher() == null ? "" : this.user.getTeacher().getTitle()) : this.user.getAdmin().getTitle());
+                this.userTitleField.setText(this.item.getAdmin() == null ? (this.item.getTeacher() == null ? "" : this.item.getTeacher().getTitle()) : this.item.getAdmin().getTitle());
             }else {
                 this.userTitleLabel.setDisable(true);
                 this.userTitleField.setDisable(true);
@@ -245,118 +204,83 @@ public class EditUserDialogController extends DialogPane {
     }
 
     /**
-     * Event on deleteButton action
-     * Sending request to server for deleting Users entity with related sets
-     * @param event ActionEvent
-     */
-    @FXML
-    private void deleteUserButtonAction(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Usuwanie");
-        alert.setHeaderText("Usuwanie użytkownika " + this.user.getName() + " " + this.user.getSurname());
-        alert.setContentText("Czy na pewno chcesz wykonać czynność?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent()) {
-            if (result.get() == ButtonType.OK){
-                this.user.setAction(new Action("remove"));
-                Controller.getLogger().info("Deleting user: " + this.user);
-                this.adminUsersController.getController().getClient().requestServer(this.user);
-                this.adminUsersController.getUsersManageTableObservableList().remove(this.user);
-                this.adminUsersController.getUsersManageTableTableView().refresh();
-                Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-                alertInfo.setTitle("Informacja");
-                alertInfo.setHeaderText("Usuwanie użytkownika");
-                alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
-                alertInfo.showAndWait();
-                ((Node)event.getSource()).getScene().getWindow().hide();
-            } else {
-                event.consume();
-            }
-        }
-    }
-
-    /**
      * Event on saveButton action
      * Sending request to server for saving or updating Users entity with related sets
      * @param event ActionEvent
      */
     @FXML
-    private void saveButtonAction(ActionEvent event) {
+    protected void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.userNameTextBox.getText(), "minLength:2|maxLength:50|onlyLetters")
                 && Validator.validate(this.userSurnameTextBox.getText(), "minLength:2|maxLength:50|onlyLetters")
                 && Validator.validate(this.userEmailTextBox.getText(), "isValidEmail")
                 && Validator.validate(this.userPeselTextBox.getText(), "exactLength:11|onlyNumbers")
                 && this.validPassword()) {
 
-            this.user.setName(this.userNameTextBox.getText());
-            this.user.setSurname(this.userSurnameTextBox.getText());
-            this.user.setEmail(this.userEmailTextBox.getText());
-            this.user.setPesel(this.userPeselTextBox.getText());
-            this.user.setCreateDate(new Date());
+            this.item.setName(this.userNameTextBox.getText());
+            this.item.setSurname(this.userSurnameTextBox.getText());
+            this.item.setEmail(this.userEmailTextBox.getText());
+            this.item.setPesel(this.userPeselTextBox.getText());
+            this.item.setCreateDate(new Date());
 
             if(this.userPasswordField.getText().length() >= 4) {
-                this.user.setPassword(Hasher.hashSHA512(this.userPasswordField.getText()));
+                this.item.setPassword(Hasher.hashSHA512(this.userPasswordField.getText()));
             }
-            this.user.setAction(new Action("saveOrUpdate"));
+            this.item.setAction(new Action("saveOrUpdate"));
             if(!this.userTypeComboBox.getSelectionModel().isEmpty()) {
                 if(this.userTypeComboBox.getSelectionModel().getSelectedItem().equals("Administrator")) {
-                    if(this.user.getStudent() != null) {
-                        this.user.getStudent().setAction(new Action("remove"));
+                    if(this.item.getStudent() != null) {
+                        this.item.getStudent().setAction(new Action("remove"));
                     }
-                    if(this.user.getTeacher() != null) {
-                        this.user.getTeacher().setAction(new Action("remove"));
+                    if(this.item.getTeacher() != null) {
+                        this.item.getTeacher().setAction(new Action("remove"));
                     }
                     AdminsNH adminsNH = new AdminsNH();
-                    adminsNH.setUser(this.user);
-                    int idAdmin = this.user.getAdmin() != null ? this.user.getAdmin().getIdAdmin() : 0;
+                    adminsNH.setUser(this.item);
+                    int idAdmin = this.item.getAdmin() != null ? this.item.getAdmin().getIdAdmin() : 0;
                     adminsNH.setIdAdmin(idAdmin);
                     adminsNH.setTitle(this.userTitleField.getText());
-                    this.user.setAdmin(adminsNH);
-                    this.user.setType("Administrator");
+                    this.item.setAdmin(adminsNH);
+                    this.item.setType("Administrator");
                 }
                 else if(this.userTypeComboBox.getSelectionModel().getSelectedItem().equals("Nauczyciel")) {
-                    if(this.user.getStudent() != null) {
-                        this.user.getStudent().setAction(new Action("remove"));
+                    if(this.item.getStudent() != null) {
+                        this.item.getStudent().setAction(new Action("remove"));
                     }
-                    if(this.user.getAdmin() != null) {
-                        this.user.getAdmin().setAction(new Action("remove"));
+                    if(this.item.getAdmin() != null) {
+                        this.item.getAdmin().setAction(new Action("remove"));
                     }
                     TeachersNH teachersNH = new TeachersNH();
-                    teachersNH.setUser(this.user);
-                    int idTeacher = this.user.getTeacher() != null ? this.user.getTeacher().getIdTeacher() : 0;
+                    teachersNH.setUser(this.item);
+                    int idTeacher = this.item.getTeacher() != null ? this.item.getTeacher().getIdTeacher() : 0;
                     teachersNH.setIdTeacher(idTeacher);
                     teachersNH.setTitle(this.userTitleField.getText());
-                    this.user.setTeacher(teachersNH);
-                    this.user.setType("Nauczyciel");
+                    this.item.setTeacher(teachersNH);
+                    this.item.setType("Nauczyciel");
                 }
                 else if(this.userTypeComboBox.getSelectionModel().getSelectedItem().equals("Uczeń")) {
-                    if(this.user.getTeacher() != null) {
-                        this.user.getTeacher().setAction(new Action("remove"));
+                    if(this.item.getTeacher() != null) {
+                        this.item.getTeacher().setAction(new Action("remove"));
                     }
-                    if(this.user.getAdmin() != null) {
-                        this.user.getAdmin().setAction(new Action("remove"));
+                    if(this.item.getAdmin() != null) {
+                        this.item.getAdmin().setAction(new Action("remove"));
                     }
                     StudentsNH studentsNH = new StudentsNH();
-                    int idStudent = this.user.getStudent() != null ? this.user.getStudent().getIdStudent() : 0;
+                    int idStudent = this.item.getStudent() != null ? this.item.getStudent().getIdStudent() : 0;
                     studentsNH.setIdStudent(idStudent);
-                    studentsNH.setUser(this.user);
-                    this.user.setStudent(studentsNH);
-                    this.user.setType("Uczeń");
+                    studentsNH.setUser(this.item);
+                    this.item.setStudent(studentsNH);
+                    this.item.setType("Uczeń");
                 }
                 else if(this.userTypeComboBox.getSelectionModel().getSelectedItem().equals("Brak")) {
-                    this.user.setType("");
+                    this.item.setType("");
                 }
             }
 
-            UsersNH result = (UsersNH) this.adminUsersController.getController().getClient().requestServer(this.user);
+            UsersNH result = (UsersNH) this.adminController.getController().getClient().requestServer(this.item);
             if(result != null) {
-                this.adminUsersController.getUsersManageTableObservableList().removeAll(this.adminUsersController.getUsersManageTableObservableList());
-                this.adminUsersController.getUsersManageTableTableView().setItems(null);
-                Set<Object> usersObjects = this.adminUsersController.getController().getRelationHelper().getAllAsSet(new Action("getAllUsers", "FROM Users u"));
-                usersObjects.forEach(i -> this.adminUsersController.getUsersManageTableObservableList().add(new UsersNH((Users)i)));
-                this.adminUsersController.getUsersManageTableTableView().setItems(this.adminUsersController.getUsersManageTableObservableList());
-                this.adminUsersController.getUsersManageTableTableView().refresh();
+                this.adminController.getObservableList().clear();
+                this.adminController.getTableView().setItems(null);
+                this.adminController.manageButtonAction(new ActionEvent());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
                 alert.setHeaderText("Aktualizacja użytkowników");
@@ -370,7 +294,7 @@ public class EditUserDialogController extends DialogPane {
                 alert.setHeaderText("Problem z aktualizacją użytkowników");
                 alert.setContentText("Wystąpił błąd z aktualizacją użytkowników. Spróbuj ponownie.");
                 alert.showAndWait();
-                Controller.getLogger().info((this.creating ? "Error in saving user: " : "Error in updating user: ") + this.user);
+                Controller.getLogger().info((this.creating ? "Error in saving user: " : "Error in updating user: ") + this.item);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -378,6 +302,39 @@ public class EditUserDialogController extends DialogPane {
             alert.setHeaderText("Niepoprawne dane!");
             alert.setContentText("Imię: 2-50 liter\nNazwisko: 2-50 liter\nPesel: 11 cyfr");
             alert.showAndWait();
+        }
+    }
+
+    /**
+     * Event on deleteButton action
+     * Sending request to server for deleting Users entity with related sets
+     *
+     * @param event ActionEvent
+     */
+    @Override
+    protected void deleteButtonAction(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Usuwanie");
+        alert.setHeaderText("Usuwanie użytkownika " + this.item.getName() + " " + this.item.getSurname());
+        alert.setContentText("Czy na pewno chcesz wykonać czynność?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent()) {
+            if (result.get() == ButtonType.OK){
+                this.item.setAction(new Action("remove"));
+                Controller.getLogger().info("Deleting user: " + this.item);
+                this.adminController.getController().getClient().requestServer(this.item);
+                this.adminController.getObservableList().remove(this.item);
+                this.adminController.getTableView().refresh();
+                Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                alertInfo.setTitle("Informacja");
+                alertInfo.setHeaderText("Usuwanie użytkownika");
+                alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
+                alertInfo.showAndWait();
+                ((Node)event.getSource()).getScene().getWindow().hide();
+            } else {
+                event.consume();
+            }
         }
     }
 

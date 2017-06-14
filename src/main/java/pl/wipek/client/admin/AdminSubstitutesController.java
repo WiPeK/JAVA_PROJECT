@@ -1,13 +1,10 @@
 package pl.wipek.client.admin;
 
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -15,8 +12,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import pl.wipek.client.Controller;
 import pl.wipek.client.admin.dialogs.EditSubstitutesDialogController;
 import pl.wipek.common.Action;
@@ -32,28 +27,7 @@ import java.util.Set;
  * @author Created by Krszysztof Adamczyk on 24.05.2017.
  * Managing event after click on Managing Substitutes button
  */
-public class AdminSubstitutesController {
-
-    /**
-     * @see EditSubstitutesDialogController
-     */
-    private EditSubstitutesDialogController editSubstitutesDialogController;
-
-    /**
-     * Contains path to fxml file with view
-     */
-    private final static String substitutesEditFXMLPath = "/views/substitutesEdit.fxml";
-
-    /**
-     * @see TableView
-     */
-    private TableView<SubstitutesNH> substitutesManageTableView;
-
-    /**
-     * @see ObservableList
-     * Contains SubstitutesNH items
-     */
-    private ObservableList<SubstitutesNH> substitutesNHObservableList = FXCollections.observableArrayList();
+public final class AdminSubstitutesController extends AdminsAbstractController<SubstitutesNH> {
 
     /**
      * @see ComboBox
@@ -67,32 +41,29 @@ public class AdminSubstitutesController {
      */
     private TextField searchInput;
 
-    /**
-     * @see AdminsController
-     */
-    private AdminsController adminsController;
-
     public AdminSubstitutesController(AdminsController adminsController) {
-        this.adminsController = adminsController;
+        super(adminsController);
+        this.fxmlPath = "/views/substitutesEdit.fxml";
     }
 
     /**
-     * Event on buttonManageSubstitutes button click
+     * Event on manage button click
      * Setting up center of Controller rootBorderPane
+     *
      * @param event ActionEvent button click
      */
-    @FXML
-    public void buttonManageSubstitutesAction(ActionEvent event) {
+    @Override
+    public void manageButtonAction(ActionEvent event) {
         try{
             ScrollPane scrollPane = new ScrollPane();
             VBox vBox = new VBox();
             vBox.setMinWidth(754);
             Label title = new Label("Zastępstwa");
 
-            this.substitutesManageTableView = this.getTable();
-            this.substitutesManageTableView.setPrefHeight(630);
+            this.tableView = this.getTable();
+            this.tableView.setPrefHeight(630);
 
-            vBox.getChildren().addAll(title, this.getSearchBar(), substitutesManageTableView);
+            vBox.getChildren().addAll(title, this.getSearchBar(), tableView);
             scrollPane.setContent(vBox);
             this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
         }catch (Exception e) {
@@ -106,14 +77,14 @@ public class AdminSubstitutesController {
      * @return TableView
      */
     @FXML
-    private TableView<SubstitutesNH> getTable() {
+    protected TableView<SubstitutesNH> getTable() {
         TableView<SubstitutesNH> substitutesNHTableView = new TableView<>();
         substitutesNHTableView.setEditable(true);
 
-        this.substitutesNHObservableList.clear();
+        this.observableList.clear();
 
         Set<Object> substitutesObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubstitutes", "FROM Substitutes s"));
-        substitutesObjects.forEach(i -> this.substitutesNHObservableList.add(new SubstitutesNH((Substitutes) i)));
+        substitutesObjects.forEach(i -> this.observableList.add(new SubstitutesNH((Substitutes) i)));
 
         TableColumn<SubstitutesNH, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idSubstitute"));
@@ -139,7 +110,8 @@ public class AdminSubstitutesController {
             TableRow<SubstitutesNH> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
                 if(e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
-                    this.substitutesTableRowClick(row.getItem());
+                    this.setDialogAbstractController(new EditSubstitutesDialogController(row.getItem(), this));
+                    this.tableRowClickAction(row.getItem());
                 }
             });
             return row;
@@ -147,28 +119,8 @@ public class AdminSubstitutesController {
 
         substitutesNHTableView.getColumns().addAll(idColumn, adminNameSurname, dateColumn, bodyColumn);
         substitutesNHTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        substitutesNHTableView.setItems(this.substitutesNHObservableList);
+        substitutesNHTableView.setItems(this.observableList);
         return substitutesNHTableView;
-    }
-
-    /**
-     * Event on substitutesManageTableView row click
-     * @param item SubstitutesNH from table row
-     */
-    @FXML
-    private void substitutesTableRowClick(SubstitutesNH item) {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(substitutesEditFXMLPath));
-            this.editSubstitutesDialogController = new EditSubstitutesDialogController(item, this);
-            loader.setController(this.editSubstitutesDialogController);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
-            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, (e) -> Platform.runLater(this.editSubstitutesDialogController::handleWindowShownEvent));
-            stage.show();
-        }catch (Exception e) {
-            Controller.getLogger().error(e);
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -185,7 +137,10 @@ public class AdminSubstitutesController {
         this.searchCriterium = new ComboBox<>(FXCollections.observableArrayList(Arrays.asList(optionsArray)));
         searchCriterium.setPromptText("Wybierz kryterium wyszukiwania");
         Button newSubstitutes = new Button("Dodaj nowe ogłoszenie");
-        newSubstitutes.setOnAction(ae -> this.substitutesTableRowClick(new SubstitutesNH()));
+        newSubstitutes.setOnAction(ae -> {
+            this.setDialogAbstractController(new EditSubstitutesDialogController(null, this));
+            this.tableRowClickAction(new SubstitutesNH());
+        });
         hBox.getChildren().addAll(searchInput, searchCriterium, newSubstitutes);
         return hBox;
     }
@@ -206,8 +161,8 @@ public class AdminSubstitutesController {
                     this.searchByBody();
                 }
                 else {
-                    this.substitutesManageTableView.setItems(this.substitutesNHObservableList);
-                    this.substitutesManageTableView.refresh();
+                    this.tableView.setItems(this.observableList);
+                    this.tableView.refresh();
                 }
             }
         }
@@ -219,17 +174,17 @@ public class AdminSubstitutesController {
     @FXML
     private void searchByBody() {
         if(this.searchInput.getText().equals("")) {
-            this.substitutesManageTableView.setItems(this.substitutesNHObservableList);
-            this.substitutesManageTableView.refresh();
+            this.tableView.setItems(this.observableList);
+            this.tableView.refresh();
         } else {
             ObservableList<SubstitutesNH> tmpList = FXCollections.observableArrayList();
-            this.substitutesNHObservableList.forEach(i -> {
+            this.observableList.forEach(i -> {
                 if(i.getBody().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
                     tmpList.add(i);
                 }
             });
-            this.substitutesManageTableView.setItems(tmpList);
-            this.substitutesManageTableView.refresh();
+            this.tableView.setItems(tmpList);
+            this.tableView.refresh();
         }
     }
 
@@ -239,42 +194,17 @@ public class AdminSubstitutesController {
     @FXML
     private void searchByAdmin() {
         if(this.searchInput.getText().equals("")) {
-            this.substitutesManageTableView.setItems(this.substitutesNHObservableList);
-            this.substitutesManageTableView.refresh();
+            this.tableView.setItems(this.observableList);
+            this.tableView.refresh();
         } else {
             ObservableList<SubstitutesNH> tmpList = FXCollections.observableArrayList();
-            this.substitutesNHObservableList.forEach(i -> {
+            this.observableList.forEach(i -> {
                 if(i.getAdmin().getUser().getName().toLowerCase().contains(this.searchInput.getText().toLowerCase()) || i.getAdmin().getUser().getSurname().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
                     tmpList.add(i);
                 }
             });
-            this.substitutesManageTableView.setItems(tmpList);
-            this.substitutesManageTableView.refresh();
+            this.tableView.setItems(tmpList);
+            this.tableView.refresh();
         }
-    }
-
-    /**
-     * Return substitutesManageTableView object
-     * @return TableView
-     */
-    public TableView<SubstitutesNH> getSubstitutesManageTableView() {
-        return substitutesManageTableView;
-    }
-
-    /**
-     * Return Observable list with table items
-     * @return ObservableList
-     */
-    public ObservableList<SubstitutesNH> getSubstitutesNHObservableList() {
-        return substitutesNHObservableList;
-    }
-
-    /**
-     * @see Controller
-     * Return Controller Object
-     * @return Controller
-     */
-    public Controller getController() {
-        return this.adminsController.getController();
     }
 }

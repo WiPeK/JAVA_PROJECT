@@ -1,21 +1,12 @@
 package pl.wipek.client.admin;
 
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import pl.wipek.client.Controller;
 import pl.wipek.client.admin.dialogs.EditClassesDialogController;
 import pl.wipek.common.Action;
 import pl.wipek.db.ClassesNH;
@@ -29,57 +20,36 @@ import java.util.Set;
  * @author Krzysztof Adamczyk on 30.05.2017.
  * Managing event after click on Managing class button
  */
-public class AdminClassesController {
-
-    /**
-     * @see AdminsController
-     */
-    private AdminsController adminsController;
-
-    /**
-     * @see TableView
-     */
-    private TableView<ClassesNH> classesManageTableView;
-
-    /**
-     * @see ObservableList
-     * Contains ClassesNH items
-     */
-    private ObservableList<ClassesNH> classesNHObservableList = FXCollections.observableArrayList();
-
-    /**
-     * @see EditClassesDialogController
-     */
-    private EditClassesDialogController editClassesDialogController;
-
-    /**
-     * Contains path to fxml file with view
-     */
-    private final static String classesEditFXMLPath = "/views/classesEdit.fxml";
+public final class AdminClassesController extends AdminsAbstractController<ClassesNH> {
 
     public AdminClassesController(AdminsController adminsController) {
-        this.adminsController = adminsController;
+        super(adminsController);
+        this.fxmlPath = "/views/classesEdit.fxml";
     }
 
     /**
-     * Event on buttonManageClasses button click
+     * Event on manage button click
      * Setting up center of Controller rootBorderPane
+     *
      * @param event ActionEvent button click
      */
-    @FXML
-    public void buttonManageClassesAction(ActionEvent event) {
+    @Override
+    public void manageButtonAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
         vBox.setMinWidth(754);
         Label title = new Label("Klasy");
 
-        this.classesManageTableView = this.getTable();
-        this.classesManageTableView.setPrefHeight(530);
+        this.tableView = this.getTable();
+        this.tableView.setPrefHeight(530);
 
         Button newSubject = new Button("Dodaj nową klasę");
-        newSubject.setOnAction(ae -> this.classesTableRowClick(new ClassesNH()));
+        newSubject.setOnAction(ae -> {
+            this.setDialogAbstractController(new EditClassesDialogController(null, this));
+            this.tableRowClickAction(new ClassesNH());
+        });
 
-        vBox.getChildren().addAll(title, newSubject, this.classesManageTableView);
+        vBox.getChildren().addAll(title, newSubject, this.tableView);
         scrollPane.setContent(vBox);
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
@@ -88,7 +58,7 @@ public class AdminClassesController {
      * Creating table with ClassesNH objects
      * @return TableView
      */
-    private TableView<ClassesNH> getTable() {
+    protected TableView<ClassesNH> getTable() {
         TableView<ClassesNH> classesTableView = new TableView<>();
         classesTableView.setEditable(true);
 
@@ -99,7 +69,7 @@ public class AdminClassesController {
             tmp = (ClassesNH)this.adminsController.getController().getRelationHelper().getRelated(tmp);
             tmp.setAction(new Action("getStudentsClassesToClasses"));
             tmp = (ClassesNH)this.adminsController.getController().getRelationHelper().getRelated(tmp);
-            this.classesNHObservableList.add(tmp);
+            this.observableList.add(tmp);
         }
 
         TableColumn<ClassesNH, Integer> idCol = new TableColumn<>("ID");
@@ -132,7 +102,8 @@ public class AdminClassesController {
             TableRow<ClassesNH> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
                 if(e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
-                    this.classesTableRowClick(row.getItem());
+                    this.setDialogAbstractController(new EditClassesDialogController(row.getItem(), this));
+                    this.tableRowClickAction(row.getItem());
                 }
             });
             return row;
@@ -140,52 +111,8 @@ public class AdminClassesController {
 
         classesTableView.getColumns().addAll(idCol, nameCol, semCol, studentsCol, carriedCol);
         classesTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        classesTableView.setItems(this.classesNHObservableList);
+        classesTableView.setItems(this.observableList);
 
         return classesTableView;
-    }
-
-    /**
-     * Event on classesManageTableView row click
-     * @param item CarriedSubjectNH from table row
-     */
-    private void classesTableRowClick(ClassesNH item) {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(classesEditFXMLPath));
-            this.editClassesDialogController = new EditClassesDialogController(item, this);
-            loader.setController(this.editClassesDialogController);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
-            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, (e) -> Platform.runLater(editClassesDialogController::handleWindowShownEvent));
-            stage.show();
-        }catch (Exception e) {
-            Controller.getLogger().error(e);
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @see Controller
-     * Return Controller Object
-     * @return Controller
-     */
-    public Controller getController() {
-        return this.adminsController.getController();
-    }
-
-    /**
-     * Return classesManageTableView object
-     * @return TableView
-     */
-    public TableView<ClassesNH> getClassesManageTableView() {
-        return classesManageTableView;
-    }
-
-    /**
-     * Return Observable list with table items
-     * @return ObservableList
-     */
-    public ObservableList<ClassesNH> getClassesNHObservableList() {
-        return classesNHObservableList;
     }
 }

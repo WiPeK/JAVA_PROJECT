@@ -1,13 +1,10 @@
 package pl.wipek.client.admin;
 
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -15,9 +12,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import pl.wipek.client.Controller;
 import pl.wipek.client.admin.dialogs.EditClassifiedsDialogController;
 import pl.wipek.common.Action;
 import pl.wipek.db.ClassifiedsNH;
@@ -30,28 +24,7 @@ import java.util.Set;
  * @author Krzysztof Adamczyk on 24.05.2017.
  * Managing event after click on Managing classifieds button
  */
-public class AdminClassifiedsController {
-
-    /**
-     * @see EditClassifiedsDialogController
-     */
-    private EditClassifiedsDialogController editClassifiedsDialogController;
-
-    /**
-     * Contains path to fxml file with view
-     */
-    private final static String classifiedsEditFXMLPath = "/views/classifiedsEdit.fxml";
-
-    /**
-     * @see TableView
-     */
-    private TableView<ClassifiedsNH> classifiedsManageTableView;
-
-    /**
-     * @see ObservableList
-     * Contains ClassifiedsNH items
-     */
-    private ObservableList<ClassifiedsNH> classifiedsNHObservableList = FXCollections.observableArrayList();
+public final class AdminClassifiedsController extends AdminsAbstractController<ClassifiedsNH> {
 
     /**
      * @see ComboBox
@@ -65,31 +38,28 @@ public class AdminClassifiedsController {
      */
     private TextField searchInput;
 
-    /**
-     * @see AdminsController
-     */
-    private AdminsController adminsController;
-
     public AdminClassifiedsController(AdminsController adminsController) {
-        this.adminsController = adminsController;
+        super(adminsController);
+        this.fxmlPath = "/views/classifiedsEdit.fxml";
     }
 
     /**
-     * Event on buttonManageClassifieds button click
+     * Event on manage button click
      * Setting up center of Controller rootBorderPane
+     *
      * @param event ActionEvent button click
      */
-    @FXML
-    public void buttonManageClassifiedsAction(ActionEvent event) {
+    @Override
+    public void manageButtonAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
         vBox.setMinWidth(754);
         Label title = new Label("Ogłoszenia");
 
-        this.classifiedsManageTableView = this.getTable();
-        this.classifiedsManageTableView.setPrefHeight(630);
+        this.tableView = this.getTable();
+        this.tableView.setPrefHeight(630);
 
-        vBox.getChildren().addAll(title, this.getSearchBar(), classifiedsManageTableView);
+        vBox.getChildren().addAll(title, this.getSearchBar(), tableView);
         scrollPane.setContent(vBox);
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
@@ -99,14 +69,14 @@ public class AdminClassifiedsController {
      * @return TableView
      */
     @FXML
-    private TableView<ClassifiedsNH> getTable() {
+    protected TableView<ClassifiedsNH> getTable() {
         TableView<ClassifiedsNH> classifiedsManageTableView = new TableView<>();
         classifiedsManageTableView.setEditable(true);
 
-        this.classifiedsNHObservableList.clear();
+        this.observableList.clear();
 
         Set<Object> classifiedsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllClassifieds", "FROM Classifieds c ORDER BY idClassifieds DESC"));
-        classifiedsObjects.forEach(i -> this.classifiedsNHObservableList.add(new ClassifiedsNH((Classifieds)i)));
+        classifiedsObjects.forEach(i -> this.observableList.add(new ClassifiedsNH((Classifieds)i)));
 
         TableColumn<ClassifiedsNH, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idClassifieds"));
@@ -127,7 +97,8 @@ public class AdminClassifiedsController {
             TableRow<ClassifiedsNH> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
                 if(e.getButton() == MouseButton.PRIMARY && e.getClickCount() == 2) {
-                    this.classifiedsTableRowClick(row.getItem());
+                    this.setDialogAbstractController(new EditClassifiedsDialogController(row.getItem(), this));
+                    this.tableRowClickAction(row.getItem());
                 }
             });
             return row;
@@ -135,28 +106,8 @@ public class AdminClassifiedsController {
 
         classifiedsManageTableView.getColumns().addAll(idColumn, adminNameSurname, bodyColumn);
         classifiedsManageTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        classifiedsManageTableView.setItems(this.classifiedsNHObservableList);
+        classifiedsManageTableView.setItems(this.observableList);
         return classifiedsManageTableView;
-    }
-
-    /**
-     * Event on classifiedsManageTableView row click
-     * @param item ClassifiedsNH from table row
-     */
-    @FXML
-    private void classifiedsTableRowClick(ClassifiedsNH item) {
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(classifiedsEditFXMLPath));
-            this.editClassifiedsDialogController = new EditClassifiedsDialogController(item, this);
-            loader.setController(this.editClassifiedsDialogController);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
-            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, (e) -> Platform.runLater(editClassifiedsDialogController::handleWindowShownEvent));
-            stage.show();
-        }catch (Exception e) {
-            Controller.getLogger().error(e);
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -173,7 +124,10 @@ public class AdminClassifiedsController {
         this.searchCriterium = new ComboBox<>(FXCollections.observableArrayList(Arrays.asList(optionsArray)));
         searchCriterium.setPromptText("Wybierz kryterium wyszukiwania");
         Button newClassifieds = new Button("Dodaj nowe ogłoszenie");
-        newClassifieds.setOnAction(ae -> this.classifiedsTableRowClick(new ClassifiedsNH()));
+        newClassifieds.setOnAction(ae -> {
+            this.setDialogAbstractController(new EditClassifiedsDialogController(null, this));
+            this.tableRowClickAction(new ClassifiedsNH());
+        });
         hBox.getChildren().addAll(searchInput, searchCriterium, newClassifieds);
         return hBox;
     }
@@ -194,8 +148,8 @@ public class AdminClassifiedsController {
                     this.searchByBody();
                 }
                 else {
-                    this.classifiedsManageTableView.setItems(this.classifiedsNHObservableList);
-                    this.classifiedsManageTableView.refresh();
+                    this.tableView.setItems(this.observableList);
+                    this.tableView.refresh();
                 }
             }
         }
@@ -207,17 +161,17 @@ public class AdminClassifiedsController {
     @FXML
     private void searchByBody() {
         if(this.searchInput.getText().equals("")) {
-            this.classifiedsManageTableView.setItems(this.classifiedsNHObservableList);
-            this.classifiedsManageTableView.refresh();
+            this.tableView.setItems(this.observableList);
+            this.tableView.refresh();
         } else {
             ObservableList<ClassifiedsNH> tmpList = FXCollections.observableArrayList();
-            this.classifiedsNHObservableList.forEach(i -> {
+            this.observableList.forEach(i -> {
                 if(i.getBody().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
                     tmpList.add(i);
                 }
             });
-            this.classifiedsManageTableView.setItems(tmpList);
-            this.classifiedsManageTableView.refresh();
+            this.tableView.setItems(tmpList);
+            this.tableView.refresh();
         }
     }
 
@@ -227,42 +181,17 @@ public class AdminClassifiedsController {
     @FXML
     private void searchByAdmin() {
         if(this.searchInput.getText().equals("")) {
-            this.classifiedsManageTableView.setItems(this.classifiedsNHObservableList);
-            this.classifiedsManageTableView.refresh();
+            this.tableView.setItems(this.observableList);
+            this.tableView.refresh();
         } else {
             ObservableList<ClassifiedsNH> tmpList = FXCollections.observableArrayList();
-            this.classifiedsNHObservableList.forEach(i -> {
+            this.observableList.forEach(i -> {
                 if(i.getAdmin().getUser().getName().toLowerCase().contains(this.searchInput.getText().toLowerCase()) || i.getAdmin().getUser().getSurname().toLowerCase().contains(this.searchInput.getText().toLowerCase())) {
                     tmpList.add(i);
                 }
             });
-            this.classifiedsManageTableView.setItems(tmpList);
-            this.classifiedsManageTableView.refresh();
+            this.tableView.setItems(tmpList);
+            this.tableView.refresh();
         }
-    }
-
-    /**
-     * Return classifiedsManageTableView object
-     * @return TableView
-     */
-    public TableView<ClassifiedsNH> getClassifiedsManageTableView() {
-        return classifiedsManageTableView;
-    }
-
-    /**
-     * Return Observable list with table items
-     * @return ObservableList
-     */
-    public ObservableList<ClassifiedsNH> getClassifiedsNHObservableList() {
-        return classifiedsNHObservableList;
-    }
-
-    /**
-     * @see Controller
-     * Return Controller Object
-     * @return Controller
-     */
-    public Controller getController() {
-        return this.adminsController.getController();
     }
 }

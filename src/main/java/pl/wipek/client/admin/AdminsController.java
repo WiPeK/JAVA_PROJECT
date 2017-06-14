@@ -17,6 +17,8 @@ public class AdminsController {
      */
     private Controller controller;
 
+    private AdminsAbstractController adminsAbstractController;
+
     /**
      * @see AdminUsersController
      */
@@ -154,8 +156,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageUsersAction(ActionEvent event){
-        this.adminUsersController = new AdminUsersController(this);
-        this.adminUsersController.buttonManageUsersAction(event);
+        this.adminsAbstractController = new AdminUsersController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
@@ -163,8 +165,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageSubstitutesAction(ActionEvent event) {
-        this.adminSubstitutesController = new AdminSubstitutesController(this);
-        this.adminSubstitutesController.buttonManageSubstitutesAction(event);
+        this.adminsAbstractController = new AdminSubstitutesController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**

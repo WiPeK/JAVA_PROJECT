@@ -24,17 +24,7 @@ import java.util.Set;
  * @author Krzysztof Adamczyk on 05.06.2017.
  * Managing dialog when we can operate on subjects which is teaching in semesters by teacher in class
  */
-public class EditCarriedDialogController {
-
-    /**
-     * @see AdminCarriedController
-     */
-    private AdminCarriedController adminCarriedController;
-
-    /**
-     * @see CarriedSubjectsNH
-     */
-    private CarriedSubjectsNH carried;
+public class EditCarriedDialogController extends DialogAbstractController<CarriedSubjectsNH> {
 
     /**
      * @see ComboBox
@@ -65,42 +55,12 @@ public class EditCarriedDialogController {
     private ComboBox<SubjectsNH> subjectComboBox;
 
     /**
-     * @see Button
-     * Button respondend for deleting CarriedSubjects entity
-     * on action EditCarriedDialogController.deleteButtonAction
-     */
-    @FXML
-    private Button deleteButton;
-
-    /**
-     * @see Button
-     * Button is hiding dialog
-     */
-    @FXML
-    private Button disableButton;
-
-    /**
-     * @see Button
-     * On action calling method which validate inputs data end save or update entity
-     */
-    @FXML
-    private Button saveButton;
-
-    /**
-     * Status managing object
-     * true when objects is create
-     * false when objects is editing
-     */
-    private boolean creating;
-
-    /**
      * Default template date to showing dates
      */
     private DateFormat date = new SimpleDateFormat("dd/MM/yyyy");
 
     public EditCarriedDialogController(CarriedSubjectsNH carried, AdminCarriedController adminCarriedController) {
-        this.adminCarriedController = adminCarriedController;
-        this.carried = carried;
+        super(carried, adminCarriedController);
     }
 
     /**
@@ -109,7 +69,7 @@ public class EditCarriedDialogController {
      */
     @FXML
     public void handleWindowShownEvent() {
-        this.creating = this.carried.getIdCarriedSubject() == 0;
+        this.creating = this.item.getIdCarriedSubject() == 0;
         this.setUpTeacherComboBox();
         this.setUpClassComboBox();
         this.setUpSemesterComboBox();
@@ -125,8 +85,8 @@ public class EditCarriedDialogController {
      */
     private void setUpSubjectComboBox() {
         ObservableList<SubjectsNH> subjectToComboBox = FXCollections.observableArrayList();
-        Set<Object> subjectsObjects = this.adminCarriedController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects sb"));
-        subjectToComboBox.add(this.carried.getSubject());
+        Set<Object> subjectsObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects sb"));
+        subjectToComboBox.add(this.item.getSubject());
         subjectsObjects.forEach(i -> subjectToComboBox.add(new SubjectsNH((Subjects) i)));
 
         this.subjectComboBox.setItems(subjectToComboBox);
@@ -154,12 +114,12 @@ public class EditCarriedDialogController {
             public SubjectsNH fromString(String string) {
                 String[] splited = string.split("\\s+");
                 Optional<SubjectsNH> optSubject = subjectToComboBox.stream().filter(i -> i.getIdSubject() == Integer.parseInt(splited[0])).findFirst();
-                carried.setSubject(optSubject.orElse(null));
+                item.setSubject(optSubject.orElse(null));
                 return null;
             }
         });
 
-        this.subjectComboBox.setValue(this.carried.getSubject());
+        this.subjectComboBox.setValue(this.item.getSubject());
     }
 
     /**
@@ -169,8 +129,8 @@ public class EditCarriedDialogController {
     private void setUpSemesterComboBox() {
         ObservableList<SemestersNH> listToComboBox = FXCollections.observableArrayList();
 
-        Set<Object> semestersObjects = this.adminCarriedController.getController().getRelationHelper().getAllAsSet(new Action("getAllSemesters", "FROM Semesters sm"));
-        listToComboBox.add(this.carried.getSemester());
+        Set<Object> semestersObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllSemesters", "FROM Semesters sm"));
+        listToComboBox.add(this.item.getSemester());
         for (Object semObject : semestersObjects) {
             Semesters tmp = (Semesters) semObject;
             if(tmp.getEndDate().compareTo(new Date()) > 0) {
@@ -209,12 +169,12 @@ public class EditCarriedDialogController {
             public SemestersNH fromString(String string) {
                 String[] splited = string.split("\\s+");
                 Optional<SemestersNH> optSemester = listToComboBox.stream().filter(i -> i.getIdSemester() == Integer.parseInt(splited[0])).findFirst();
-                carried.setSemester(optSemester.orElse(null));
+                item.setSemester(optSemester.orElse(null));
                 return null;
             }
         });
 
-        this.semesterComboBox.setValue(this.creating ? null : this.carried.getSemester());
+        this.semesterComboBox.setValue(this.creating ? null : this.item.getSemester());
     }
 
     /**
@@ -223,8 +183,8 @@ public class EditCarriedDialogController {
      */
     private void setUpClassComboBox() {
         ObservableList<ClassesNH> listToClasses = FXCollections.observableArrayList();
-        Set<Object> classesObjects = this.adminCarriedController.getController().getRelationHelper().getAllAsSet(new Action("getAllClasses", "FROM Classes cl"));
-        listToClasses.add(this.carried.getClasses());
+        Set<Object> classesObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllClasses", "FROM Classes cl"));
+        listToClasses.add(this.item.getClasses());
         classesObjects.forEach(i -> listToClasses.add(new ClassesNH((Classes) i)));
 
         this.classComboBox.setItems(listToClasses);
@@ -253,12 +213,12 @@ public class EditCarriedDialogController {
             public ClassesNH fromString(String string) {
                 String[] splited = string.split("\\s+");
                 Optional<ClassesNH> optClasses = listToClasses.stream().filter(i -> i.getIdClass() == Integer.parseInt(splited[0])).findFirst();
-                carried.setClasses(optClasses.orElse(null));
+                item.setClasses(optClasses.orElse(null));
                 return null;
             }
         });
 
-        this.classComboBox.setValue(this.creating ? null : this.carried.getClasses());
+        this.classComboBox.setValue(this.creating ? null : this.item.getClasses());
     }
 
     /**
@@ -267,7 +227,7 @@ public class EditCarriedDialogController {
      */
     private void setUpTeacherComboBox() {
         ObservableList<UsersNH> listToTeacher = FXCollections.observableArrayList();
-        Set<Object> teacherObjects = this.adminCarriedController.getController().getRelationHelper().getAllAsSet(new Action("getAllTeachers", "FROM Teachers tch"));
+        Set<Object> teacherObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllTeachers", "FROM Teachers tch"));
         teacherObjects.forEach(i -> listToTeacher.add(new UsersNH(((Teachers)i).getUser())));
 
         this.teacherComboBox.setItems(listToTeacher);
@@ -300,12 +260,12 @@ public class EditCarriedDialogController {
             public UsersNH fromString(String string) {
                 String[] splited = string.split("\\s+");
                 Optional<UsersNH> optUser = listToTeacher.stream().filter(i -> i.getIdUser() == Integer.parseInt(splited[0])).findFirst();
-                carried.setTeacher(optUser.map(UsersNH::getTeacher).orElse(null));
+                item.setTeacher(optUser.map(UsersNH::getTeacher).orElse(null));
                 return null;
             }
         });
 
-        this.teacherComboBox.setValue(this.creating ? null : this.carried.getTeacher().getUser());
+        this.teacherComboBox.setValue(this.creating ? null : this.item.getTeacher().getUser());
     }
 
     /**
@@ -313,7 +273,7 @@ public class EditCarriedDialogController {
      * Sending request to server for deleting CarriedSubjects entity
      * @param event ActionEvent
      */
-    private void deleteButtonAction(ActionEvent event) {
+    protected void deleteButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie");
         alert.setHeaderText("Usuwanie nauczanego przedmiotu");
@@ -321,12 +281,12 @@ public class EditCarriedDialogController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent()) {
-            Controller.getLogger().info("Deleting CarriedSubject: " + this.carried);
-            this.carried.setAction(new Action("remove"));
-            this.adminCarriedController.getController().getClient().requestServer(this.carried);
+            Controller.getLogger().info("Deleting CarriedSubject: " + this.item);
+            this.item.setAction(new Action("remove"));
+            this.adminController.getController().getClient().requestServer(this.item);
             Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-            this.adminCarriedController.getCarriedSubjectsNHObservableList().remove(this.carried);
-            this.adminCarriedController.getCarriedSubjectsNHTableView().refresh();
+            this.adminController.getObservableList().remove(this.item);
+            this.adminController.getTableView().refresh();
             alertInfo.setTitle("Informacja");
             alertInfo.setHeaderText("Usuwanie nauczanego przedmiotu");
             alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
@@ -342,15 +302,15 @@ public class EditCarriedDialogController {
      * Sending request to server for saving or updating CarriedSubjects entity with related sets
      * @param event ActionEvent
      */
-    private void saveButtonAction(ActionEvent event) {
+    protected void saveButtonAction(ActionEvent event) {
         if(this.teacherComboBox.getValue() != null && this.classComboBox.getValue() != null && this.semesterComboBox.getValue() != null && this.subjectComboBox.getValue() != null) {
-            this.carried.setSubject(this.subjectComboBox.getValue());
-            this.carried.setClasses(this.classComboBox.getValue());
-            this.carried.setSemester(this.semesterComboBox.getValue());
-            this.carried.setTeacher(this.teacherComboBox.getValue().getTeacher());
-            this.carried.setAction(new Action("saveOrUpdate"));
+            this.item.setSubject(this.subjectComboBox.getValue());
+            this.item.setClasses(this.classComboBox.getValue());
+            this.item.setSemester(this.semesterComboBox.getValue());
+            this.item.setTeacher(this.teacherComboBox.getValue().getTeacher());
+            this.item.setAction(new Action("saveOrUpdate"));
 
-            CarriedSubjects result = (CarriedSubjects) this.adminCarriedController.getController().getClient().requestServer(this.carried);
+            CarriedSubjects result = (CarriedSubjects) this.adminController.getController().getClient().requestServer(this.item);
             if(result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
@@ -358,9 +318,9 @@ public class EditCarriedDialogController {
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
                 Controller.getLogger().info((this.creating ? "Saving CarriedSubject: " : "Updating CarriedSubject: ") + result);
-                this.adminCarriedController.getCarriedSubjectsNHObservableList().removeAll(this.adminCarriedController.getCarriedSubjectsNHObservableList());
-                this.adminCarriedController.getCarriedSubjectsNHTableView().setItems(null);
-                this.adminCarriedController.buttonManageCarriedAction(new ActionEvent());
+                this.adminController.getObservableList().clear();
+                this.adminController.getTableView().setItems(null);
+                this.adminController.manageButtonAction(new ActionEvent());
                 ((Node)event.getSource()).getScene().getWindow().hide();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -368,7 +328,7 @@ public class EditCarriedDialogController {
                 alert.setHeaderText("Problem z aktualizacją nauczanych przedmiotów");
                 alert.setContentText("Wystąpił błąd z aktualizacją nauczanych przedmiotów. Spróbuj ponownie.");
                 alert.showAndWait();
-                Controller.getLogger().info((this.creating ? "Error in saving CarriedSubject: " : "Error in updating CarriedSubject: ") + this.carried);
+                Controller.getLogger().info((this.creating ? "Error in saving CarriedSubject: " : "Error in updating CarriedSubject: ") + this.item);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

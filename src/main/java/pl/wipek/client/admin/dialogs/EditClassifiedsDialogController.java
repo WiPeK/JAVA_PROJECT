@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Created by Krzysztof Adamczyk on 24.05.2017.
  * Managing work with Classifieds entities
  */
-public class EditClassifiedsDialogController extends DialogPane {
+public final class EditClassifiedsDialogController extends DialogAbstractController<ClassifiedsNH> {
 
     /**
      * @see TextArea
@@ -34,48 +34,8 @@ public class EditClassifiedsDialogController extends DialogPane {
     @FXML
     private Label addedByLabel;
 
-    /**
-     * @see Button
-     * Button respond for deleting Classified entity
-     * on action EditClassifiedsDialogController.deleteClassifiedsButtonAction
-     */
-    @FXML
-    private Button deleteClassifiedsButton;
-
-    /**
-     * @see Button
-     * Button is hiding dialog
-     */
-    @FXML
-    private Button disableButton;
-
-    /**
-     * @see Button
-     * On action calling method which validate inputs data end save or update entity
-     */
-    @FXML
-    private Button saveButton;
-
-    /**
-     * @see ClassifiedsNH
-     */
-    private ClassifiedsNH classifieds;
-
-    /**
-     * @see AdminClassifiedsController
-     */
-    private AdminClassifiedsController adminClassifiedsController;
-
-    /**
-     * Status managing object
-     * true when objects is create
-     * false when objects is editing
-     */
-    private boolean creating;
-
-    public EditClassifiedsDialogController(ClassifiedsNH classifieds, AdminClassifiedsController adminClassifiedsController) throws Exception {
-        this.classifieds = classifieds;
-        this.adminClassifiedsController = adminClassifiedsController;
+    public EditClassifiedsDialogController(ClassifiedsNH classifieds, AdminClassifiedsController adminClassifiedsController) {
+        super(classifieds, adminClassifiedsController);
     }
 
     /**
@@ -84,11 +44,11 @@ public class EditClassifiedsDialogController extends DialogPane {
      */
     @FXML
     public void handleWindowShownEvent() {
-        this.creating = this.classifieds.getIdClassifieds() == 0;
-        this.addedByLabel.setText(!creating ? "Dodane przez: " + this.classifieds.getAdmin().getUser().getName() + " " + this.classifieds.getAdmin().getUser().getSurname() : "");
-        this.deleteClassifiedsButton.setDisable(creating);
-        this.bodyTextArea.setText(creating ? "" : this.classifieds.getBody());
-        this.deleteClassifiedsButton.setOnAction(this::deleteClassifiedsButtonAction);
+        this.creating = this.item.getIdClassifieds() == 0;
+        this.addedByLabel.setText(!creating ? "Dodane przez: " + this.item.getAdmin().getUser().getName() + " " + this.item.getAdmin().getUser().getSurname() : "");
+        this.deleteButton.setDisable(creating);
+        this.bodyTextArea.setText(creating ? "" : this.item.getBody());
+        this.deleteButton.setOnAction(this::deleteButtonAction);
         this.disableButton.setOnAction(e -> ((Node)(e.getSource())).getScene().getWindow().hide());
         this.saveButton.setOnAction(this::saveButtonAction);
     }
@@ -99,15 +59,15 @@ public class EditClassifiedsDialogController extends DialogPane {
      * @param actionEvent ActionEvent
      */
     @FXML
-    private void saveButtonAction(ActionEvent actionEvent) {
+    protected void saveButtonAction(ActionEvent actionEvent) {
         if(Validator.validate(this.bodyTextArea.getText(), "minLength:3|maxLength:5000")) {
-            this.classifieds.setBody(this.bodyTextArea.getText());
-            if(this.classifieds.getAdmin() == null) {
-                this.classifieds.setAdmin(Controller.getUser().getAdmin());
+            this.item.setBody(this.bodyTextArea.getText());
+            if(this.item.getAdmin() == null) {
+                this.item.setAdmin(Controller.getUser().getAdmin());
             }
-            this.classifieds.setAction(new Action("saveOrUpdate"));
+            this.item.setAction(new Action("saveOrUpdate"));
 
-            ClassifiedsNH result = (ClassifiedsNH) this.adminClassifiedsController.getController().getClient().requestServer(this.classifieds);
+            ClassifiedsNH result = (ClassifiedsNH) this.adminController.getController().getClient().requestServer(this.item);
             if(result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
@@ -115,12 +75,12 @@ public class EditClassifiedsDialogController extends DialogPane {
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
                 Controller.getLogger().info((this.creating ? "Saving Classifieds: " : "Updating Classifieds: ") + result);
-                this.adminClassifiedsController.getClassifiedsNHObservableList().removeAll(this.adminClassifiedsController.getClassifiedsNHObservableList());
-                this.adminClassifiedsController.getClassifiedsManageTableView().setItems(null);
-                Set<Object> classifiedsObjects = this.adminClassifiedsController.getController().getRelationHelper().getAllAsSet(new Action("getAllClassifieds", "FROM Classifieds c ORDER BY idClassifieds DESC"));
-                classifiedsObjects.forEach(i -> this.adminClassifiedsController.getClassifiedsNHObservableList().add(new ClassifiedsNH((Classifieds)i)));
-                this.adminClassifiedsController.getClassifiedsManageTableView().setItems(this.adminClassifiedsController.getClassifiedsNHObservableList());
-                this.adminClassifiedsController.getClassifiedsManageTableView().refresh();
+                this.adminController.getObservableList().clear();
+                this.adminController.getTableView().setItems(null);
+                Set<Object> classifiedsObjects = this.adminController.getController().getRelationHelper().getAllAsSet(new Action("getAllClassifieds", "FROM Classifieds c ORDER BY idClassifieds DESC"));
+                classifiedsObjects.forEach(i -> this.adminController.getObservableList().add(new ClassifiedsNH((Classifieds)i)));
+                this.adminController.getTableView().setItems(this.adminController.getObservableList());
+                this.adminController.getTableView().refresh();
                 ((Node)actionEvent.getSource()).getScene().getWindow().hide();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -128,7 +88,7 @@ public class EditClassifiedsDialogController extends DialogPane {
                 alert.setHeaderText("Problem z aktualizacją ogłoszeń");
                 alert.setContentText("Wystąpił błąd z aktualizacją ogłoszeń. Spróbuj ponownie.");
                 alert.showAndWait();
-                Controller.getLogger().info((this.creating ? "Error in saving Classifieds: " : "Error in updating Classifieds: ") + this.classifieds);
+                Controller.getLogger().info((this.creating ? "Error in saving Classifieds: " : "Error in updating Classifieds: ") + this.item);
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -141,11 +101,12 @@ public class EditClassifiedsDialogController extends DialogPane {
 
     /**
      * Event on deleteButton action
-     * Sending request to server for deleting Classifieds entity
-     * @param actionEvent ActionEvent
+     * Sending request to server for deleting entity with related sets
+     *
+     * @param event ActionEvent
      */
-    @FXML
-    private void deleteClassifiedsButtonAction(ActionEvent actionEvent) {
+    @Override
+    protected void deleteButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie");
         alert.setHeaderText("Usuwanie ogłoszenia");
@@ -153,19 +114,19 @@ public class EditClassifiedsDialogController extends DialogPane {
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent()) {
-            this.classifieds.setAction(new Action("remove"));
-            Controller.getLogger().info("Deleting classifieds: " + this.classifieds);
-            this.adminClassifiedsController.getController().getClient().requestServer(this.classifieds);
+            this.item.setAction(new Action("remove"));
+            Controller.getLogger().info("Deleting classifieds: " + this.item);
+            this.adminController.getController().getClient().requestServer(this.item);
             Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-            this.adminClassifiedsController.getClassifiedsNHObservableList().remove(this.classifieds);
-            this.adminClassifiedsController.getClassifiedsManageTableView().refresh();
+            this.adminController.getObservableList().remove(this.item);
+            this.adminController.getTableView().refresh();
             alertInfo.setTitle("Informacja");
             alertInfo.setHeaderText("Usuwanie ogłoszenia");
             alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
             alertInfo.showAndWait();
-            ((Node)actionEvent.getSource()).getScene().getWindow().hide();
+            ((Node)event.getSource()).getScene().getWindow().hide();
         }else{
-            actionEvent.consume();
+            event.consume();
         }
     }
 }

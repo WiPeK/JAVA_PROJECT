@@ -1,8 +1,6 @@
 package pl.wipek.client.admin;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -26,47 +24,32 @@ import java.util.Set;
  * @author Krzysztof Adamczyk on 24.05.2017.
  * Managing event after click Managing Subjects button
  */
-public class AdminSubjectsController {
-
-    /**
-     * @see AdminsController
-     */
-    private AdminsController adminsController;
-
-    /**
-     * @see TableView
-     */
-    private TableView<SubjectsNH> subjectsManageTableView;
-
-    /**
-     * @see ObservableList
-     * Contains SubjectsNH items
-     */
-    private ObservableList<SubjectsNH> subjectsNHObservableList = FXCollections.observableArrayList();
+public final class AdminSubjectsController extends AdminsAbstractController<SubjectsNH> {
 
     public AdminSubjectsController(AdminsController adminsController) {
-        this.adminsController = adminsController;
+        super(adminsController);
     }
 
     /**
-     * Event on buttonManageSubjects button click
+     * Event on manage button click
      * Setting up center of Controller rootBorderPane
+     *
      * @param event ActionEvent button click
      */
-    @FXML
-    public void buttonManageSubjectsAction(ActionEvent event) {
+    @Override
+    public void manageButtonAction(ActionEvent event) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
         vBox.setMinWidth(754);
         Label title = new Label("Przedmioty");
 
-        this.subjectsManageTableView = this.getTable();
-        this.subjectsManageTableView.setPrefHeight(530);
+        this.tableView = this.getTable();
+        this.tableView.setPrefHeight(530);
 
         Button newSubject = new Button("Dodaj nowy przedmiot");
         newSubject.setOnAction(ae -> this.subjectsTableRowClick(new SubjectsNH()));
 
-        vBox.getChildren().addAll(title, newSubject, this.subjectsManageTableView);
+        vBox.getChildren().addAll(title, newSubject, this.tableView);
         scrollPane.setContent(vBox);
         this.adminsController.getController().getRootBorderPane().setCenter(scrollPane);
     }
@@ -76,12 +59,12 @@ public class AdminSubjectsController {
      * @return TableView
      */
     @FXML
-    private TableView<SubjectsNH> getTable() {
+    protected TableView<SubjectsNH> getTable() {
         TableView<SubjectsNH> subjectsTableView = new TableView<>();
         subjectsTableView.setEditable(true);
 
         Set<Object> subjectsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects s"));
-        subjectsObjects.forEach(i -> this.subjectsNHObservableList.add(new SubjectsNH((Subjects) i)));
+        subjectsObjects.forEach(i -> this.observableList.add(new SubjectsNH((Subjects) i)));
 
         TableColumn<SubjectsNH, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idSubject"));
@@ -101,9 +84,9 @@ public class AdminSubjectsController {
             return row;
         });
 
-        this.subjectsNHObservableList.clear();
+        this.observableList.clear();
         subjectsTableView.getColumns().addAll(idColumn, nameColumn);
-        subjectsTableView.setItems(this.subjectsNHObservableList);
+        subjectsTableView.setItems(this.observableList);
         return subjectsTableView;
     }
 
@@ -125,10 +108,10 @@ public class AdminSubjectsController {
                 alert.setHeaderText("Aktualizacja przedmiotów");
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
-                this.subjectsNHObservableList.removeAll(this.subjectsNHObservableList);
+                this.observableList.removeAll(this.observableList);
                 Set<Object> subjectsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects s"));
-                subjectsObjects.forEach(i -> this.subjectsNHObservableList.add(new SubjectsNH((Subjects) i)));
-                this.subjectsManageTableView.setItems(this.subjectsNHObservableList);
+                subjectsObjects.forEach(i -> this.observableList.add(new SubjectsNH((Subjects) i)));
+                this.tableView.setItems(this.observableList);
                 Controller.getLogger().info("Edytowano lub dodano przedmiot");
             }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -148,10 +131,10 @@ public class AdminSubjectsController {
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
                 Controller.getLogger().info("Deleting Subject: " + subjects);
-                this.subjectsNHObservableList.removeAll(this.subjectsNHObservableList);
+                this.observableList.removeAll(this.observableList);
                 Set<Object> subjectsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects s"));
-                subjectsObjects.forEach(i -> this.subjectsNHObservableList.add(new SubjectsNH((Subjects) i)));
-                this.subjectsManageTableView.setItems(this.subjectsNHObservableList);
+                subjectsObjects.forEach(i -> this.observableList.add(new SubjectsNH((Subjects) i)));
+                this.tableView.setItems(this.observableList);
                 Controller.getLogger().info("Usunięto przedmiot");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -200,7 +183,7 @@ public class AdminSubjectsController {
 
         dialog.getDialogPane().setContent(grid);
 
-        Platform.runLater(() -> name.requestFocus());
+        Platform.runLater(name::requestFocus);
 
         dialog.setResultConverter(dialogButton -> new Pair<>(dialogButton, name.getText()));
 

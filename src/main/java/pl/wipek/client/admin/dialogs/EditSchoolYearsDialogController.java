@@ -20,17 +20,7 @@ import java.util.Optional;
  * @author Krzysztof Adamczyk on 28.05.2017.
  * Managing work with school years and semesters
  */
-public class EditSchoolYearsDialogController {
-
-    /**
-     * @see SchoolYearsNH
-     */
-    private SchoolYearsNH schoolYears;
-
-    /**
-     * @see AdminSchoolYearsController
-     */
-    private AdminSchoolYearsController adminSchoolYearsController;
+public class EditSchoolYearsDialogController extends DialogAbstractController<SchoolYearsNH> {
 
     /**
      * @see Label
@@ -88,38 +78,8 @@ public class EditSchoolYearsDialogController {
     @FXML
     private DatePicker semTEndDatePicker;
 
-    /**
-     * @see Button
-     * Button respondend for deleting SchoolYear entity
-     * on action EditSchoolYearDialogController.deleteButtonAction
-     */
-    @FXML
-    private Button deleteButton;
-
-    /**
-     * @see Button
-     * Button is hiding dialog
-     */
-    @FXML
-    private Button disableButton;
-
-    /**
-     * @see Button
-     * On action calling method which validate inputs data end save or update entity
-     */
-    @FXML
-    private Button saveButton;
-
-    /**
-     * Status managing object
-     * true when objects is create
-     * false when objects is editing
-     */
-    private boolean creating;
-
     public EditSchoolYearsDialogController(SchoolYearsNH schoolYears, AdminSchoolYearsController adminSchoolYearsController) {
-        this.schoolYears = schoolYears;
-        this.adminSchoolYearsController = adminSchoolYearsController;
+        super(schoolYears, adminSchoolYearsController);
     }
 
     /**
@@ -128,15 +88,15 @@ public class EditSchoolYearsDialogController {
      */
     @FXML
     public void handleWindowShownEvent() {
-        this.creating = this.schoolYears.getIdSchoolYear() == 0;
-        this.yearHeadLabel.setText(creating ? "Nowy rok" : "Edycja " + this.schoolYears.getName());
+        this.creating = this.item.getIdSchoolYear() == 0;
+        this.yearHeadLabel.setText(creating ? "Nowy rok" : "Edycja " + this.item.getName());
         this.deleteButton.setDisable(creating);
-        this.yearNameTextField.setText(creating ? "" : this.schoolYears.getName());
-        this.startDatePicker.setValue(creating ? LocalDate.now() : this.schoolYears.getStartDateAsLocalDate());
-        this.endDatePicker.setValue(creating ? LocalDate.now() : this.schoolYears.getEndDateAsLocalDate());
+        this.yearNameTextField.setText(creating ? "" : this.item.getName());
+        this.startDatePicker.setValue(creating ? LocalDate.now() : this.item.getStartDateAsLocalDate());
+        this.endDatePicker.setValue(creating ? LocalDate.now() : this.item.getEndDateAsLocalDate());
         SemestersNH[] semesters = new SemestersNH[2];
         int it = 0;
-        for (SemestersNH sem: this.schoolYears.getSemesters()) {
+        for (SemestersNH sem: this.item.getSemesters()) {
             semesters[it++] = sem;
         }
         this.semStartDatePicker.setValue(creating ? LocalDate.now() : semesters[0].getStartDateAsLocalDate());
@@ -154,14 +114,14 @@ public class EditSchoolYearsDialogController {
      * Sending request to server for saving or updating Classifieds entity with related sets
      * @param event ActionEvent
      */
-    private void saveButtonAction(ActionEvent event) {
+    protected void saveButtonAction(ActionEvent event) {
         if(Validator.validate(this.yearNameTextField.getText(), "minLength:2|maxLength:50")
                 && this.isEndDateAfterStartDate(this.startDatePicker.getValue(), this.endDatePicker.getValue())
                 && this.isEndDateAfterStartDate(this.semStartDatePicker.getValue(), this.semEndDatePicker.getValue())
                 && this.isEndDateAfterStartDate(this.semTStartDatePicker.getValue(), this.semTEndDatePicker.getValue())) {
 
             SchoolYears schoolYears = new SchoolYears();
-            schoolYears.setIdSchoolYear(this.schoolYears.getIdSchoolYear());
+            schoolYears.setIdSchoolYear(this.item.getIdSchoolYear());
             schoolYears.setName(this.yearNameTextField.getText());
             schoolYears.setStartDateFromLocalDate(this.startDatePicker.getValue());
             schoolYears.setEndDateFromLocalDate(this.endDatePicker.getValue());
@@ -177,7 +137,7 @@ public class EditSchoolYearsDialogController {
             schoolYears.getSemesters().add(secondSemesters);
 
             schoolYears.setAction(new Action("saveOrUpdate"));
-            SchoolYears result = (SchoolYears)this.adminSchoolYearsController.getController().getClient().requestServer(schoolYears);
+            SchoolYears result = (SchoolYears)this.adminController.getController().getClient().requestServer(schoolYears);
             if(result != null) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
@@ -186,14 +146,14 @@ public class EditSchoolYearsDialogController {
                 alert.showAndWait();
                 Controller.getLogger().info((this.creating ? "Saving SchoolYear: " : "Updating SchoolYear: ") + result);
                 ((Node)event.getSource()).getScene().getWindow().hide();
-                this.adminSchoolYearsController.buttonManageSchoolYears(new ActionEvent());
+                this.adminController.manageButtonAction(new ActionEvent());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");
                 alert.setHeaderText("Problem z aktualizacją roku");
                 alert.setContentText("Wystąpił błąd z aktualizacją roku. Spróbuj ponownie.");
                 alert.showAndWait();
-                Controller.getLogger().info((this.creating ? "Error in saving SchoolYear: " : "Error in updating SchoolYear: ") + this.schoolYears);
+                Controller.getLogger().info((this.creating ? "Error in saving SchoolYear: " : "Error in updating SchoolYear: ") + this.item);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -209,25 +169,25 @@ public class EditSchoolYearsDialogController {
      * Sending request to server for deleting SchoolYear entity
      * @param event ActionEvent
      */
-    private void deleteButtonAction(ActionEvent event) {
+    protected void deleteButtonAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Usuwanie");
-        alert.setHeaderText("Usuwanie rocznika " + this.schoolYears.getName());
+        alert.setHeaderText("Usuwanie rocznika " + this.item.getName());
         alert.setContentText("Czy na pewno chcesz wykonać czynność?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent()) {
             if (result.get() == ButtonType.OK){
-                this.schoolYears.setAction(new Action("remove"));
-                this.adminSchoolYearsController.getController().getClient().requestServer(this.schoolYears);
-                this.adminSchoolYearsController.getSchYrsNHObservableList().remove(this.schoolYears);
-                this.adminSchoolYearsController.getSchYrsManageTableView().refresh();
+                this.item.setAction(new Action("remove"));
+                this.adminController.getController().getClient().requestServer(this.item);
+                this.adminController.getObservableList().remove(this.item);
+                this.adminController.getTableView().refresh();
                 Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
                 alertInfo.setTitle("Informacja");
                 alertInfo.setHeaderText("Usuwanie rocznika");
                 alertInfo.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alertInfo.showAndWait();
-                Controller.getLogger().info("Deleting classifieds: " + this.schoolYears);
+                Controller.getLogger().info("Deleting classifieds: " + this.item);
                 ((Node)event.getSource()).getScene().getWindow().hide();
             } else {
                 event.consume();
