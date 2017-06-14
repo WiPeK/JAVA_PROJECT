@@ -20,46 +20,6 @@ public class AdminsController {
     private AdminsAbstractController adminsAbstractController;
 
     /**
-     * @see AdminUsersController
-     */
-    private AdminUsersController adminUsersController;
-
-    /**
-     * @see AdminClassifiedsController
-     */
-    private AdminClassifiedsController adminClassifiedsController;
-
-    /**
-     * @see AdminSubstitutesController
-     */
-    private AdminSubstitutesController adminSubstitutesController;
-
-    /**
-     * @see AdminSubjectsController
-     */
-    private AdminSubjectsController adminSubjectsController;
-
-    /**
-     * @see AdminSchoolYearsController
-     */
-    private AdminSchoolYearsController adminSchoolYearsController;
-
-    /**
-     * @see AdminCarriedController
-     */
-    private AdminCarriedController adminCarriedController;
-
-    /**
-     * @see AdminClassesController
-     */
-    private AdminClassesController adminClassesController;
-
-    /**
-     * @see AdminGradesController
-     */
-    private AdminGradesController adminGradesController;
-
-    /**
      * @see AdminStatisticsController
      */
     private AdminStatisticsController adminStatisticsController;
@@ -138,8 +98,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageGradesAction(ActionEvent event) {
-        this.adminGradesController = new AdminGradesController(this);
-        this.adminGradesController.buttonStudentGradesAction(event);
+        this.adminsAbstractController = new AdminGradesController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
@@ -147,8 +107,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageCarriedAction(ActionEvent event) {
-        this.adminCarriedController = new AdminCarriedController(this);
-        this.adminCarriedController.buttonManageCarriedAction(event);
+        this.adminsAbstractController = new AdminCarriedController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
@@ -174,8 +134,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageClassifiedsAction(ActionEvent event) {
-        this.adminClassifiedsController = new AdminClassifiedsController(this);
-        this.adminClassifiedsController.buttonManageClassifiedsAction(event);
+        this.adminsAbstractController = new AdminClassifiedsController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
@@ -183,8 +143,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageSchoolYearsAction(ActionEvent event) {
-        this.adminSchoolYearsController = new AdminSchoolYearsController(this);
-        this.adminSchoolYearsController.buttonManageSchoolYears(event);
+        this.adminsAbstractController = new AdminSchoolYearsController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
@@ -192,8 +152,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageSubjectsAction(ActionEvent event) {
-        this.adminSubjectsController = new AdminSubjectsController(this);
-        this.adminSubjectsController.buttonManageSubjectsAction(event);
+        this.adminsAbstractController = new AdminSubjectsController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
@@ -201,8 +161,8 @@ public class AdminsController {
      * @param event ActionEvent
      */
     private void buttonManageClassesAction(ActionEvent event) {
-        this.adminClassesController = new AdminClassesController(this);
-        this.adminClassesController.buttonManageClassesAction(event);
+        this.adminsAbstractController = new AdminClassesController(this);
+        this.adminsAbstractController.manageButtonAction(event);
     }
 
     /**
