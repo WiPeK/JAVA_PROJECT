@@ -35,9 +35,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <!--<TextField fx:id="emailTextField" layoutX="86.0" layoutY="16.0" onKeyPressed="#waitForValidEmailAndPassword" prefHeight="25.0" prefWidth="170.0" promptText="example@example.com" text="wipekxxx@gmail.com" />-->
+            <TextField fx:id="emailTextField" layoutX="86.0" layoutY="16.0" onKeyPressed="#waitForValidEmailAndPassword" prefHeight="25.0" prefWidth="170.0" promptText="example@example.com" text="wipekxxx@gmail.com" />
             <!--<TextField fx:id="emailTextField" layoutX="86.0" layoutY="16.0" onKeyPressed="#waitForValidEmailAndPassword" prefHeight="25.0" prefWidth="170.0" promptText="example@example.com" text="faustyna.szwabe@gmail.com" />-->
-            <TextField fx:id="emailTextField" layoutX="86.0" layoutY="16.0" onKeyPressed="#waitForValidEmailAndPassword" prefHeight="25.0" prefWidth="170.0" promptText="example@example.com" text="egon.fut@gmail.com" />
+            <!--<TextField fx:id="emailTextField" layoutX="86.0" layoutY="16.0" onKeyPressed="#waitForValidEmailAndPassword" prefHeight="25.0" prefWidth="170.0" promptText="example@example.com" text="egon.fut@gmail.com" />-->
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="50.0" prefWidth="270.0">

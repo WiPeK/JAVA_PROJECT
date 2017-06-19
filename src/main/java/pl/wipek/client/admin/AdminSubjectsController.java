@@ -58,6 +58,7 @@ public final class AdminSubjectsController extends AdminsAbstractController<Subj
      * Creating table with SubjectsNH objects
      * @return TableView
      */
+    @Override
     @FXML
     protected TableView<SubjectsNH> getTable() {
         TableView<SubjectsNH> subjectsTableView = new TableView<>();
@@ -83,8 +84,6 @@ public final class AdminSubjectsController extends AdminsAbstractController<Subj
             });
             return row;
         });
-
-        this.observableList.clear();
         subjectsTableView.getColumns().addAll(idColumn, nameColumn);
         subjectsTableView.setItems(this.observableList);
         return subjectsTableView;
@@ -108,7 +107,7 @@ public final class AdminSubjectsController extends AdminsAbstractController<Subj
                 alert.setHeaderText("Aktualizacja przedmiotów");
                 alert.setContentText("Wykonywana przez Ciebie akcja zakończona sukcesem!");
                 alert.showAndWait();
-                this.observableList.removeAll(this.observableList);
+                this.observableList.clear();
                 Set<Object> subjectsObjects = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllSubjects", "FROM Subjects s"));
                 subjectsObjects.forEach(i -> this.observableList.add(new SubjectsNH((Subjects) i)));
                 this.tableView.setItems(this.observableList);

@@ -29,7 +29,7 @@ public class Server {
     /**
      * Log4j2 logger using to log events to file
      */
-    private final static Logger log = LogManager.getRootLogger();
+    private final static Logger logger = LogManager.getRootLogger();
 
     /**
      * @author Krzysztof Adamczyk
@@ -53,25 +53,27 @@ public class Server {
             ip = InetAddress.getLocalHost().getHostAddress();
             serverSocket = new ServerSocket(this.portNumber);
         }catch (Exception e) {
-            log.error(e);
+            logger.error(e);
         }
 
-        log.info("Start server at the port number: " + this.portNumber + " ip: " + ip + " max number of clients: " + this.maxNumberOfClients);
+        logger.info("Start server at the port number: " + this.portNumber + " ip: " + ip + " max number of clients: " + this.maxNumberOfClients);
         final ExecutorService pool = Executors.newFixedThreadPool(this.maxNumberOfClients);
 
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
 
-                Thread serverThread = new Thread(() -> {
-                    pool.submit(new ClientTask(socket));
-                });
+                Thread serverThread = new Thread(() -> pool.submit(new ClientTask(socket)));
                 serverThread.start();
 
             } catch (Exception e) {
-                log.error(e);
+                logger.error(e);
                 break;
             }
         }
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }

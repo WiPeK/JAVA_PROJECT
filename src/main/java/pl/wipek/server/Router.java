@@ -20,7 +20,7 @@ class Router {
     private static EntityManager entityManager;
 
     /**
-     * @author Krszysztof Adamczyk
+     * @author Krzysztof Adamczyk
      * managing action writed in received object and executing them
      * @param received object received from socket
      * @return Object depending on the action to execute otherwise null
@@ -88,6 +88,7 @@ class Router {
         Users user = new Users((UsersNH)received);
         UsersNH usersNH = (UsersNH)received;
         List resultList;
+        Server.getLogger().info("Action users: " + action);
         switch(action) {
             case "login":
                 result = UserAuth.tryLogIn(user);
@@ -125,6 +126,7 @@ class Router {
 
     private static Boolean removeUserWithChildren(Users user) {
         Boolean result;
+        Server.getLogger().info("Remove user with related: " + user);
         entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -134,12 +136,14 @@ class Router {
 
     private static Object saveOrUpdateUser(Users user, UsersNH usersNH) {
         Object result = null;
+        Server.getLogger().info("Save or update user: " + user);
         if(user.getIdUser() == 0) {
             entityManager.persist(user);
             entityManager.flush();
             entityManager.refresh(user);
         }else {
             entityManager.merge(user);
+            entityManager.flush();
         }
 
         if(usersNH.getTeacher() != null && (usersNH.getTeacher().getAction() == null || !usersNH.getTeacher().getAction().getAction().equals("remove"))) {
@@ -157,6 +161,7 @@ class Router {
 
     private static Object manageTeacherInUser(Users user, UsersNH usersNH) {
         Object result;
+        Server.getLogger().info("Manage teacher in user: " + usersNH);
         if(usersNH.getType().equals("")) {
             usersNH = removeTeacherFromUser(usersNH);
         } else {
@@ -186,6 +191,7 @@ class Router {
 
     private static Object manageAdminInUser(Users user, UsersNH usersNH) {
         Object result;
+        Server.getLogger().info("Manage admin in user: " + usersNH);
         if(usersNH.getType().equals("")) {
             usersNH = removeAdminFromUsers(usersNH);
         }else {
@@ -215,6 +221,7 @@ class Router {
 
     private static Object manageStudentInUser(Users user, UsersNH usersNH) {
         Object result;
+        Server.getLogger().info("Manage student in user: " + usersNH);
         if(usersNH.getType().equals("")) {
             usersNH = removeStudentFromUser(usersNH);
         } else {
@@ -242,6 +249,7 @@ class Router {
     }
 
     private static UsersNH removeTeacherFromUser(UsersNH usersNH) {
+        Server.getLogger().info("Remove teacher from user: " + usersNH);
         Teachers teachers = new Teachers(usersNH.getTeacher());
         entityManager.remove(entityManager.find(Teachers.class, teachers.getIdTeacher()));
         entityManager.flush();
@@ -250,6 +258,7 @@ class Router {
     }
 
     private static UsersNH removeAdminFromUsers(UsersNH usersNH) {
+        Server.getLogger().info("Remove admin from user: " + usersNH);
         Admins admins = new Admins(usersNH.getAdmin());
         entityManager.remove(entityManager.find(Admins.class, admins.getIdAdmin()));
         entityManager.flush();
@@ -258,6 +267,7 @@ class Router {
     }
 
     private static UsersNH removeStudentFromUser(UsersNH usersNH) {
+        Server.getLogger().info("Remove user: " + usersNH);
         Students students = new Students(usersNH.getStudent());
         entityManager.remove(entityManager.find(Students.class, students.getIdStudent()));
         entityManager.flush();
@@ -269,6 +279,7 @@ class Router {
         Object result;
         String action = ((AdminsNH) received).getAction().getAction();
         Admins admin = new Admins((AdminsNH)received);
+        Server.getLogger().info("Action admins: " + action);
         switch (action) {
             case "getUserToAdmin":
                 admin.setUser(admin.getUser());
@@ -289,6 +300,7 @@ class Router {
         String action = ((StudentsNH) received).getAction().getAction();
         Students student = new Students((StudentsNH)received);
         StudentsNH studentsNH = (StudentsNH)received;
+        Server.getLogger().info("Action students: " + action);
         switch (action) {
             case "getStudentsClassesToStudent":
                 studentsNH.setStudentsClasses(getStudentsClassesToStudent(student));
@@ -341,6 +353,7 @@ class Router {
         String action = ((SchoolYearsNH)received).getAction().getAction();
         SchoolYears schoolYears = new SchoolYears((SchoolYearsNH)received);
         SchoolYearsNH schoolYearsNH = (SchoolYearsNH)received;
+        Server.getLogger().info("Action school years nh: " + action);
         switch (action) {
             case "getSemestersToYear":
                 Set<Semesters> semesters = new HashSet<>(entityManager.createQuery("FROM Semesters s WHERE s.schoolYear = :year", Semesters.class)
@@ -362,6 +375,7 @@ class Router {
         Object result = null;
         String action = ((SchoolYears)received).getAction().getAction();
         SchoolYears schoolYears = (SchoolYears)received;
+        Server.getLogger().info("Action school years: " + action);
         switch (action) {
             case "saveOrUpdate":
                 result = saveOrUpdateSchoolYear(schoolYears);
@@ -373,6 +387,7 @@ class Router {
 
     private static Object saveOrUpdateSchoolYear(SchoolYears schoolYears) {
         Object result;
+        Server.getLogger().info("Remove school year: " + schoolYears);
         if(schoolYears.getIdSchoolYear() == 0) {
             entityManager.persist(schoolYears);
             entityManager.flush();
@@ -386,6 +401,7 @@ class Router {
     }
 
     private static Set<Semesters> saveOrUpdateSemester(Set<Semesters> semesters) {
+        Server.getLogger().info("Save or update semester: " + semesters);
         for (Semesters semester : semesters) {
             entityManager.clear();
             if(semester.getIdSemester() == 0) {
@@ -405,6 +421,7 @@ class Router {
 
     private static Boolean removeSchoolYear(SchoolYears schoolYears) {
         Boolean result;
+        Server.getLogger().info("Remove school year: " + schoolYears);
         entityManager.remove(entityManager.find(SchoolYears.class, schoolYears.getIdSchoolYear()));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -417,6 +434,7 @@ class Router {
         String action = ((GradesNH)received).getAction().getAction();
         Grades grades = new Grades((GradesNH)received);
         GradesNH gradesNH = (GradesNH)received;
+        Server.getLogger().info("Action grades: " + action);
         switch (action) {
             case "getPartialGradesToGrades":
                 Set<PartialGrades> partialGrades = new HashSet<>(entityManager.createQuery("FROM PartialGrades pg WHERE pg.grade = :grade", PartialGrades.class)
@@ -438,6 +456,7 @@ class Router {
         Object result = null;
         String action = ((PartialGradesNH) received).getAction().getAction();
         PartialGrades partialGrades = new PartialGrades((PartialGradesNH) received);
+        Server.getLogger().info("Action partial grades: " + action);
         switch (action) {
             case "update":
                 entityManager.merge(partialGrades);
@@ -460,6 +479,7 @@ class Router {
         String action = ((TeachersNH) received).getAction().getAction();
         Teachers teachers = new Teachers((TeachersNH)received);
         TeachersNH teachersNH = (TeachersNH)received;
+        Server.getLogger().info("Action teachers: " + action);
         switch (action) {
             case "getCarriedToTeacher":
                 Set<CarriedSubjects> carriedSubjects = new HashSet<>(entityManager.createQuery("FROM CarriedSubjects cs WHERE cs.teacher = :teacher", CarriedSubjects.class)
@@ -509,6 +529,7 @@ class Router {
         String action = ((CarriedSubjectsNH)received).getAction().getAction();
         CarriedSubjects carriedSubjects = new CarriedSubjects((CarriedSubjectsNH)received);
         CarriedSubjectsNH carriedSubjectsNH = (CarriedSubjectsNH)received;
+        Server.getLogger().info("Action carried subjects: " + action);
         switch (action) {
             case "getSemesterToCarriedSubject":
                 carriedSubjectsNH.setSemester(new SemestersNH(carriedSubjects.getSemester()));
@@ -526,6 +547,7 @@ class Router {
 
     private static Boolean removeCarriedSubject(CarriedSubjects carriedSubjects) {
         Boolean result;
+        Server.getLogger().info("Remove carried subject: " + carriedSubjects);
         entityManager.remove(entityManager.find(CarriedSubjects.class, carriedSubjects.getIdCarriedSubject()));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -535,6 +557,7 @@ class Router {
 
     private static Object actionForSaveOrUpdateCarriedSubject(CarriedSubjects carriedSubjects) {
         Object result;
+        Server.getLogger().info("Save or update carried subject: " + carriedSubjects);
         if(carriedSubjects.getIdCarriedSubject() == 0) {
             entityManager.persist(carriedSubjects);
             entityManager.flush();
@@ -552,6 +575,7 @@ class Router {
         Object result;
         String action = ((StudentsClassesNH) received).getAction().getAction();
         StudentsClasses studentsClasses = new StudentsClasses((StudentsClassesNH) received);
+        Server.getLogger().info("Action students classes: " + action);
         switch (action) {
             case "getClassToStudentsClasses":
                 studentsClasses.setClasses(studentsClasses.getClasses());
@@ -566,6 +590,7 @@ class Router {
         String action = ((ClassesNH) received).getAction().getAction();
         Classes classes = new Classes((ClassesNH)received);
         ClassesNH rec = (ClassesNH)received;
+        Server.getLogger().info("Action classes: " + action);
         switch (action) {
             case "getSemesterToClass":
                 classes.setSemester(classes.getSemester());
@@ -603,6 +628,7 @@ class Router {
 
     private static Object removeClasses(Classes classes) {
         Boolean result;
+        Server.getLogger().info("Remove class: " + classes);
         entityManager.remove(entityManager.find(Classes.class, classes.getIdClass()));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -612,6 +638,7 @@ class Router {
 
     private static ClassesNH saveOrUpdateClasses(ClassesNH rec) {
         Classes classes = new Classes(rec);
+        Server.getLogger().info("Save or update class: " + classes);
         classes.setStudentsClasses(new HashSet<>(0));
         if(classes.getIdClass() == 0) {
             entityManager.persist(classes);
@@ -640,6 +667,7 @@ class Router {
         Object result;
         String action = ((SemestersNH) received).getAction().getAction();
         Semesters semester = new Semesters((SemestersNH)received);
+        Server.getLogger().info("Action semesters: " + action);
         switch (action) {
             case "getYearToSemester":
                 semester.setSchoolYear(semester.getSchoolYear());
@@ -653,6 +681,7 @@ class Router {
         Object result = null;
         String action = ((ClassifiedsNH) received).getAction().getAction();
         Classifieds classified = new Classifieds((ClassifiedsNH)received);
+        Server.getLogger().info("Action classiefieds: " + action);
         switch (action) {
             case "getAdminToClassifieds":
                 classified.setAdmin(classified.getAdmin());
@@ -670,6 +699,7 @@ class Router {
 
     private static Object saveOrUpdateClassified(Classifieds classified) {
         Object result;
+        Server.getLogger().info("Save or update classified: " + classified);
         if(classified.getIdClassifieds() == 0) {
             entityManager.persist(classified);
             entityManager.flush();
@@ -685,6 +715,7 @@ class Router {
 
     private static Object removeClassified(Classifieds classifieds) {
         Boolean result;
+        Server.getLogger().info("Remove classified: " + classifieds);
         entityManager.remove(entityManager.find(Classifieds.class, classifieds.getIdClassifieds()));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -696,6 +727,7 @@ class Router {
         Object result = null;
         String action = ((SubstitutesNH) received).getAction().getAction();
         Substitutes substitute = new Substitutes((SubstitutesNH)received);
+        Server.getLogger().info("Action substitutes: " + action);
         switch (action) {
             case "getAdminToSubstitutes":
                 substitute.setAdmin(substitute.getAdmin());
@@ -713,6 +745,7 @@ class Router {
 
     private static Object saveOrUpdateSubstitute(Substitutes substitute) {
         Object result;
+        Server.getLogger().info("Save or update substitute: " + substitute);
         if(substitute.getIdSubstitute() == 0) {
             entityManager.persist(substitute);
             entityManager.flush();
@@ -728,6 +761,7 @@ class Router {
 
     private static Object removeSubstitute(Substitutes substitute) {
         Boolean result;
+        Server.getLogger().info("Remove substitute: " + substitute);
         entityManager.remove(entityManager.find(Substitutes.class, substitute.getIdSubstitute()));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -739,6 +773,7 @@ class Router {
         Object result = null;
         String action = ((SubjectsNH) received).getAction().getAction();
         Subjects subjects = new Subjects((SubjectsNH)received);
+        Server.getLogger().info("Action subjects: " + action);
         switch (action) {
             case "saveOrUpdate":
                 result = new SubjectsNH((Subjects)saveOrUpdateSubject(subjects));
@@ -752,6 +787,7 @@ class Router {
 
     private static Object saveOrUpdateSubject(Subjects subjects) {
         Object result;
+        Server.getLogger().info("Save or update subject: " + subjects);
         if(subjects.getIdSubject() == 0) {
             entityManager.persist(subjects);
             entityManager.flush();
@@ -767,6 +803,7 @@ class Router {
 
     private static Object removeSubject(Subjects subjects) {
         Boolean result;
+        Server.getLogger().info("Remove subject: " + subjects);
         entityManager.remove(entityManager.find(Subjects.class, subjects.getIdSubject()));
         result = Boolean.TRUE;
         entityManager.flush();
@@ -776,7 +813,9 @@ class Router {
 
     private static Object actionForAction(Object received) {
         Object result = null;
-        switch (((Action) received).getAction()) {
+        String action = ((Action) received).getAction();
+        Server.getLogger().info("Action (action): " + action);
+        switch (action) {
             case "getAllClassifieds":
             case "getAllSubstitutes":
             case "getAllSubjects":

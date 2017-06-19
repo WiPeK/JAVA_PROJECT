@@ -10,15 +10,10 @@
             <property name="hibernate.connection.username" value="JAVA"/>
             <property name="hibernate.connection.password" value="root"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.enable_lazy_load_no_trans" value="true" />
             <property name="hibernate.connection.pool_size" value="99"/>
             <property name="hibernate.id.new_generator_mappings" value="true" />
-            <!--<property name="hibernate.dbcp.initialSize" value="5"/>-->
-            <!--<property name="hibernate.dbcp.maxTotal" value="20"/>-->
-            <!--<property name="hibernate.dbcp.maxIdle" value="10"/>-->
-            <!--<property name="hibernate.dbcp.minIdle" value="5"/>-->
-            <!--<property name="hibernate.dbcp.maxWaitMillis" value="-1"/>-->
         </properties>
     </persistence-unit>
 </persistence>

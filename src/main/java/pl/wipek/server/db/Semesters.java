@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Krzysztof Adamczyk on 15.04.2017.
+ * @author Krzysztof Adamczyk on 15.04.2017.
  */
 @Entity
 @Table(name = "SEMESTERS")
@@ -165,7 +165,6 @@ public class Semesters implements Serializable {
                 "idSemester=" + idSemester +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", schoolYear=" + schoolYear +
                 '}';
     }
 }

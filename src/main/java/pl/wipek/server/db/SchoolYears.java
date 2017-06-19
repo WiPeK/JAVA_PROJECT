@@ -154,7 +154,6 @@ public class SchoolYears implements Serializable {
                 ", name='" + (name != null ? name : "") + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", semesters=" + semesters +
                 '}';
     }
 }

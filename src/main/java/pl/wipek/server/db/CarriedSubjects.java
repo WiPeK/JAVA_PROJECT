@@ -241,13 +241,7 @@ public class CarriedSubjects implements Serializable {
     @Override
     public String toString() {
         return "CarriedSubjects{" +
-                "idCarriedSubject=" + idCarriedSubject +
-                ", teacher=" + teacher +
-                ", classes=" + classes +
-                ", semester=" + semester +
-                ", subject=" + subject +
-                ", grades=" + grades +
-                '}';
+                "idCarriedSubject=" + idCarriedSubject + '}';
     }
 
 }
