@@ -136,6 +136,7 @@ class TeachersController {
 
                 ScrollPane scrollPane = new ScrollPane();
                 Set<GradesNH> grades = carriedSubjects.getGrades();
+
                 TableView<TeacherGradesTable> teacherGradesTableTable = this.getTeacherTable(grades);
                 teacherGradesTableTable.setPrefHeight(630);
 
@@ -171,7 +172,11 @@ class TeachersController {
     @FXML
     private TableView<TeacherGradesTable> getTeacherTable(Set<GradesNH> grades) {
         ObservableList<TeacherGradesTable> teacherGradesTables = FXCollections.observableArrayList();
-        grades.forEach(i -> teacherGradesTables.add(new TeacherGradesTable(i)));
+        for (GradesNH grade : grades) {
+            grade.getStudent().setAction(new Action("getUserToStudent"));
+            grade.setStudent((StudentsNH) controller.getRelationHelper().getRelated(grade.getStudent()));
+            teacherGradesTables.add(new TeacherGradesTable(grade));
+        }
 
         TableView<TeacherGradesTable> table = new TableView<>();
 

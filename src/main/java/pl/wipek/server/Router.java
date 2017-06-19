@@ -296,9 +296,16 @@ class Router {
             case "getGradesToStudent":
                 studentsNH.setGrades(getGradesToStudent(student));
                 break;
+            case "getUserToStudent":
+                studentsNH.setUser(getUserToStudent(student));
         }
         result = studentsNH;
         return result;
+    }
+
+    private static UsersNH getUserToStudent(Students student) {
+        Users user = entityManager.createQuery("FROM Users u WHERE u.student.idStudent = :student", Users.class).setParameter("student", student.getIdStudent()).getSingleResult();
+        return new UsersNH(user);
     }
 
     private static Set<GradesNH> getGradesToStudent(Students student) {

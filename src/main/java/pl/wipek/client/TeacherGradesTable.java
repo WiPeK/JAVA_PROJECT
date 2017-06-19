@@ -58,6 +58,7 @@ public class TeacherGradesTable {
 
     TeacherGradesTable(GradesNH grades) {
         UsersNH user = grades.getStudent().getUser();
+        System.out.println(user);
         this.grade = grades;
         this.studentNameSurname = user.getName() + " " + user.getSurname();
         this.endGrade = grades.getEndGrade() == null ? 0 : grades.getEndGrade();

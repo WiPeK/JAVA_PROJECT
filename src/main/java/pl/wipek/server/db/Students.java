@@ -28,7 +28,9 @@ public class Students implements Serializable {
 
     public Students(StudentsNH studentsNH) {
         this.idStudent = studentsNH.getIdStudent();
-        this.user = new Users(studentsNH.getUser());
+        if(studentsNH.getUser() != null) {
+            this.user = new Users(studentsNH.getUser());
+        }
     }
 
     @Id

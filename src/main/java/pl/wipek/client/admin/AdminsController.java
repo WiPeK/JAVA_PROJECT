@@ -33,7 +33,7 @@ public class AdminsController {
      * @throws Exception
      */
     @FXML
-    public void leftBarForAdmin() throws Exception {
+    public void leftBarForAdmin(){
         VBox vBox = new VBox();
         Button buttonManageUsers = new Button("Zarządzaj użytkownikami");
         buttonManageUsers.getStyleClass().add("classbutton");
@@ -89,7 +89,7 @@ public class AdminsController {
         buttonStatistics.setPrefWidth(270);
         buttonStatistics.setPrefHeight(40);
 
-        vBox.getChildren().addAll(buttonManageUsers, buttonManageClassifieds, buttonManageSubstitutes, buttonManageSchoolYears, buttonManageSubjects, buttonManageClasses, buttonManageCarried, buttonManageGrades, buttonStatistics);
+        vBox.getChildren().addAll(buttonManageUsers, buttonManageClassifieds, buttonManageSubstitutes, buttonManageSchoolYears, buttonManageSubjects, buttonManageClasses, buttonManageCarried, buttonManageGrades);//, buttonStatistics
         this.controller.getLeftBar().getLeftBarVBox().getChildren().add(vBox);
     }
 
