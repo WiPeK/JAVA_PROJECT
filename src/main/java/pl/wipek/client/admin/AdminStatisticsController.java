@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 /**
- * @author Krzysztof Adamczyk on 08.06.2017.
+ * @author Jarosław Składanowski on 08.06.2017.
  * Showing statictics
  */
 public class AdminStatisticsController {
@@ -44,10 +44,12 @@ public class AdminStatisticsController {
         Label title = new Label("Statystyki");
         ScrollPane scrollPane = new ScrollPane();
         VBox scrPnVBox = new VBox();
-        scrPnVBox.getChildren().addAll(this.getAmountBar());
+        scrPnVBox.getChildren().addAll(this.getAmountBar(),this.getAvgStats());
         scrollPane.setContent(scrPnVBox);
         vBox.getChildren().addAll(title, scrollPane);
         this.adminsController.getController().getRootBorderPane().setCenter(vBox);
+
+
     }
 
     /**
@@ -72,7 +74,7 @@ public class AdminStatisticsController {
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle("Statystyki ilościowe");
         barChart.getData().add(series);
-        barChart.resize(600, 200);
+        barChart.resize(1200, 200);
         return barChart;
     }
 
@@ -81,4 +83,23 @@ public class AdminStatisticsController {
         categories.addAll(Arrays.asList(names));
         return categories;
     }
+    private LineChart<String,Number> getAvgStats() {
+        //Set<Object> stats = this.adminsController.getController().getRelationHelper().getAllAsSet(new Action("getAllTeachers"));
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis(1.0,6.0,0.25);
+        xAxis.setLabel("Lata");
+        yAxis.setLabel("Średnia");
+        LineChart<String, Number> lineChart = new LineChart<String, Number>(xAxis, yAxis);
+        lineChart.setTitle("Średnie uczniów na przestrzeni lat");
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Średnie");
+        series.getData().add(new XYChart.Data("2015",4.55));
+        lineChart.getData().add(series);
+        lineChart.resize(1200,200);
+
+        return lineChart;
+    }
+
+
+
 }
