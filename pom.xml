@@ -82,6 +82,101 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<descriptorRefs>-->
+                        <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                    <!--</descriptorRefs>-->
+                    <!--<archive>-->
+                        <!--<manifest>-->
+                            <!--<mainClass>pl.wipek.server.ServerMain</mainClass>-->
+                        <!--</manifest>-->
+                        <!--<finalName>Server.jar</finalName>-->
+                    <!--</archive>-->
+                    <!--<includes>-->
+                        <!--<include>pl.wipek</include>-->
+                    <!--</includes>-->
+                    <!--<excludes>-->
+                        <!--<exclude>pl.wipek.client</exclude>-->
+                    <!--</excludes>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>Server</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+
+                        <configuration>
+                            <classifier>server</classifier>
+                            <includes>
+                                <include>pl.wipek</include>
+                            </includes>
+                            <excludes>
+                                <exclude>pl.wipek.client</exclude>
+                            </excludes>
+                            <archive>
+                                <manifest>
+                                    <mainClass>pl.wipek.server.ServerMain</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                        <!--<finalName>Server.jar</finalName>-->
+                        <!--<descriptorRefs>-->
+                        <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                        <!--</descriptorRefs>-->
+
+                    </execution>
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+                <!--<version>3.0.2</version>-->
+
+                <!--<executions>-->
+                    <execution>
+                        <id>Client</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <classifier>client</classifier>
+                            <includes>
+                                <include>pl.wipek</include>
+                            </includes>
+                            <excludes>
+                                <exclude>pl.wipek.server.ClientTask</exclude>
+                                <exclude>pl.wipek.server.Router</exclude>
+                                <exclude>pl.wipek.server.Server</exclude>
+                                <exclude>pl.wipek.server.ServerMain</exclude>
+                                <exclude>pl.wipek.server.UserAuth</exclude>
+                                <exclude>pl.wipek.server.db.HibernateUtil</exclude>
+                            </excludes>
+                            <archive>
+                                <manifest>
+                                    <mainClass>pl.wipek.client.Main</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                        <!--<finalName>Client.jar</finalName>-->
+                        <!--<descriptorRefs>-->
+                            <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                        <!--</descriptorRefs>-->
+
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>

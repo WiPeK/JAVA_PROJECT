@@ -1,6 +1,8 @@
 package pl.wipek.helpers;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import java.util.Base64;
+import java.util.Base64.Encoder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,6 +54,6 @@ public class Hasher {
         final Random random = new SecureRandom();
         byte[] salt = new byte[32];
         random.nextBytes(salt);
-        return Base64.encode(salt);
+        return Base64.getEncoder().encodeToString(salt);
     }
 }
