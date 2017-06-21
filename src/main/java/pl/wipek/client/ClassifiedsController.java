@@ -22,7 +22,7 @@ class ClassifiedsController{
     /**
      * title of bar shown on the top
      */
-    private final static String barTitle = "OGŁOSZENIA";
+    private final static String barTitle = "OGLOSZENIA";
 
     @FXML
     private ScrollPane centerScrollPane;

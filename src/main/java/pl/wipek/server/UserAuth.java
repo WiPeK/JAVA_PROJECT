@@ -58,10 +58,11 @@ class UserAuth {
         } catch (Exception e) {
             logger.error(e);
             e.printStackTrace();
+            return null;
         }
         return result;
     }
-//todo remove auth key
+
     /**
      * @author Krzysztof Adamczyk
      * trying to logging out user

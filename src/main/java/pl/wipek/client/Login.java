@@ -47,9 +47,6 @@ public class Login {
      */
     private Controller controller;
 
-    //todo disable button in production
-
-
     /**
      * @author Krzysztof Adamczyk
      * @param controller

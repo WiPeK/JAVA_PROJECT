@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="394.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <header>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="82.0" prefWidth="394.0">
+         <children>
+            <VBox prefHeight="82.0" prefWidth="394.0">
+               <children>
+                  <Label fx:id="createOrEditLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="394.0" text="#" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="editedUserNameSurnameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="393.0" text="#">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+    </header>
+    <content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="443.0" prefWidth="394.0">
+         <children>
+            <VBox prefHeight="442.0" prefWidth="375.0">
+               <children>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Imię" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <TextField fx:id="userNameTextBox" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="Wpisz imię..." />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Nazwisko" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <TextField fx:id="userSurnameTextBox" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="Wpisz nazwisko..." />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Email" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <TextField fx:id="userEmailTextBox" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="Wpisz email..." />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Pesel" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <TextField fx:id="userPeselTextBox" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="Wpisz pesel..." />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Hasło" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <PasswordField fx:id="userPasswordField" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="********" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Typ użytkownika" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <ComboBox fx:id="userTypeComboBox" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="Wybierz rolę" visibleRowCount="3" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label fx:id="userTitleLabel" alignment="CENTER_RIGHT" disable="true" prefHeight="48.0" prefWidth="231.0" text="Tytuł" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <TextField fx:id="userTitleField" disable="true" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0" promptText="Wpisz tytuł..." />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label fx:id="createDateLabel" alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Data stworzenia" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <Label fx:id="userCreateDateLabel" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label fx:id="lastLoginLabel" alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Ostatnie logowanie" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <Label fx:id="userLastLoginDateLabel" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="39.0" prefWidth="480.0">
+                     <children>
+                        <Label fx:id="lastLogoutLabel" alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="231.0" text="Ostatnie wylogowanie" />
+                        <AnchorPane prefHeight="39.0" prefWidth="251.0">
+                           <children>
+                              <Label fx:id="userLastLogoutLabel" layoutX="6.0" layoutY="4.0" prefHeight="30.0" prefWidth="233.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="45.0" prefWidth="375.0">
+                     <children>
+                        <AnchorPane prefHeight="45.0" prefWidth="72.0">
+                           <children>
+                              <Button fx:id="deleteButton" layoutX="14.0" layoutY="1.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="50.0" text="Usuń" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="45.0" prefWidth="131.0">
+                           <children>
+                              <Button fx:id="disableButton" layoutX="14.0" layoutY="1.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="143.0" text="Anuluj" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="45.0" prefWidth="86.0">
+                           <children>
+                              <Button fx:id="saveButton" layoutX="13.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="138.0" text="Zapisz" />
+                           </children></AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+    </content>
+</DialogPane>

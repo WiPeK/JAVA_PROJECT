@@ -21,7 +21,7 @@ public class Config {
     /**
      * path to config file containing ip and port to connect with server
      */
-    private final String configPath = "app.txt";
+    private final String configPath = "/app.txt";
 
     /**
      * @author Krzysztof Adamczyk
@@ -30,7 +30,7 @@ public class Config {
      */
     public ArrayList<String> readConfig() {
         Scanner in = null;
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>(0);
         try{
             ClassLoader classLoader = getClass().getClassLoader();
             File config = new File(classLoader.getResource(this.configPath).getFile());

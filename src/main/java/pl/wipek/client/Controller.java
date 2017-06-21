@@ -63,7 +63,7 @@ public class Controller {
      * Contains readed config file
      * @see Config#readConfig()
      */
-    private ArrayList<String> config;
+    private ArrayList<String> config = new ArrayList<>(0);
 
     /**
      * @see LeftBar
@@ -104,10 +104,14 @@ public class Controller {
     @FXML
     void handleWindowShownEvent() {
         try{
-            this.config = new Config().readConfig();
-            if(config.isEmpty()) {
-                throw new Exception("Config file empty");
-            }
+//            this.config = new Config().readConfig();
+            this.config.add("127.0.0.1");
+            this.config.add("54321");
+//            if(config.isEmpty()) {
+//                this.config.add("127.0.0.1");
+//                this.config.add("54321");
+//                logger.info("Config file empty");
+//            }
             this.client = new Client(this.config.get(0), Integer.parseInt(this.config.get(1)));
             this.relationHelper = new RelationHelper(this.client);
 

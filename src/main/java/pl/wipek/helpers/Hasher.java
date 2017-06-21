@@ -1,7 +1,6 @@
 package pl.wipek.helpers;
 
 import java.util.Base64;
-import java.util.Base64.Encoder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

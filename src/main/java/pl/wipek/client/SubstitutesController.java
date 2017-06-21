@@ -23,7 +23,7 @@ class SubstitutesController {
     /**
      * title of bar shown on the top
      */
-    private final static String barTitle = "ZASTĘPSTWA";
+    private final static String barTitle = "ZASTEPSTWA";
 
     /**
      * main scrollPane containing all elements

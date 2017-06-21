@@ -664,16 +664,34 @@ class Router {
     }
 
     private static Object actionForSemesters(Object received) {
-        Object result;
+        Object result = null;
         String action = ((SemestersNH) received).getAction().getAction();
         Semesters semester = new Semesters((SemestersNH)received);
         Server.getLogger().info("Action semesters: " + action);
         switch (action) {
             case "getYearToSemester":
                 semester.setSchoolYear(semester.getSchoolYear());
+                result = new SemestersNH(semester);
+                break;
+            case "getGradesToSemester":
+                List<CarriedSubjects> carriedSubjects = entityManager.createQuery("FROM CarriedSubjects cs WHERE cs.semester = :semester", CarriedSubjects.class)
+                        .setParameter("semester", semester).getResultList();
+                Set<CarriedSubjectsNH> carriedSubjectsNHSet = new HashSet<>(0);
+                for (CarriedSubjects i : carriedSubjects) {
+                    Set<GradesNH> gr = new HashSet<>(0);
+                    for (Grades x: i.getGrades()) {
+                        gr.add(new GradesNH(x));
+                    }
+                    CarriedSubjectsNH tmp = new CarriedSubjectsNH(i);
+                    tmp.setGrades(gr);
+                    carriedSubjectsNHSet.add(tmp);
+                }
+                SemestersNH res = (SemestersNH) received;
+                res.setCarriedSubjects(carriedSubjectsNHSet);
+                result = res;
                 break;
         }
-        result = new SemestersNH(semester);
+
         return result;
     }
 

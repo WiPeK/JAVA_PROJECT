@@ -1,0 +1,9 @@
+pl.wipek.client
+pl.wipek.client.admin
+pl.wipek.client.admin.dialogs
+pl.wipek.common
+pl.wipek.db
+pl.wipek.helpers
+pl.wipek.server
+pl.wipek.server.db
+pl.wipek.validators
