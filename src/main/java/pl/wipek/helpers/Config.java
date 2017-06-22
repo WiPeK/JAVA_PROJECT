@@ -21,7 +21,7 @@ public class Config {
     /**
      * path to config file containing ip and port to connect with server
      */
-    private final String configPath = "/app.txt";
+    private final String configPath = "../app.txt";
 
     /**
      * @author Krzysztof Adamczyk

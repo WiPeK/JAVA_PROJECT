@@ -1,0 +1,144 @@
+22:38:58.996 2017-06-22 [main] INFO   - Start server at the port number: 54321 ip: 192.168.10.101 max number of clients: 10000
+22:38:58.996 2017-06-22 [main] INFO   - Start server at the port number: 54321 ip: 192.168.10.101 max number of clients: 10000
+22:39:05.858 2017-06-22 [main] INFO   - Start client
+22:39:05.858 2017-06-22 [main] INFO   - Start client
+22:39:06.880 2017-06-22 [JavaFX Application Thread] ERROR  - java.lang.NullPointerException
+22:39:06.880 2017-06-22 [JavaFX Application Thread] ERROR  - java.lang.NullPointerException
+22:39:07.088 2017-06-22 [Thread-1] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+22:39:07.088 2017-06-22 [Thread-1] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+22:39:09.477 2017-06-22 [Thread-1] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+22:39:09.477 2017-06-22 [Thread-1] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+22:39:11.804 2017-06-22 [pool-2-thread-1] INFO   - Start new thread with connection
+22:39:11.804 2017-06-22 [pool-2-thread-1] INFO   - Start new thread with connection
+22:39:11.805 2017-06-22 [pool-2-thread-1] INFO   - Server: Connect with: /127.0.0.1:65259
+22:39:11.805 2017-06-22 [pool-2-thread-1] INFO   - Server: Connect with: /127.0.0.1:65259
+22:39:13.734 2017-06-22 [pool-2-thread-1] INFO   - Action (action): getAllClassifieds
+22:39:13.734 2017-06-22 [pool-2-thread-1] INFO   - Action (action): getAllClassifieds
+22:39:14.727 2017-06-22 [pool-2-thread-1] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+22:39:14.727 2017-06-22 [pool-2-thread-1] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+22:39:15.532 2017-06-22 [JavaFX Application Thread] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+22:39:15.532 2017-06-22 [JavaFX Application Thread] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+22:39:15.590 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.590 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.604 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.604 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.613 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.613 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.624 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.624 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.632 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.632 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.640 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.640 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.650 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.650 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.658 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.658 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.671 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.671 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.684 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.684 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.698 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.698 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.707 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.707 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.714 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.714 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.729 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.729 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.743 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.743 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.750 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.750 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.757 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.757 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.763 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.763 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.770 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.770 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.779 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.779 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.798 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.798 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.812 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.812 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.820 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.820 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.832 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.832 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.846 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.846 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.856 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.856 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.865 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.865 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.874 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.874 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.882 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.882 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.888 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.888 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.895 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.895 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.900 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.900 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.905 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.905 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.911 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.911 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.917 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.917 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.922 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.922 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.927 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.927 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.937 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.937 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.943 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.943 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.950 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.950 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.955 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.955 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.961 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.961 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.968 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.968 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.973 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.973 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.978 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.978 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.984 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.984 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.992 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.992 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.997 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:15.997 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:16.004 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:16.004 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:16.010 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:16.010 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:16.016 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:16.016 2017-06-22 [pool-2-thread-1] INFO   - Action classiefieds: getAdminToClassifieds
+22:39:21.781 2017-06-22 [pool-2-thread-1] INFO   - Action users: login
+22:39:21.781 2017-06-22 [pool-2-thread-1] INFO   - Action users: login
+22:39:21.840 2017-06-22 [JavaFX Application Thread] INFO   - Login success
+22:39:21.840 2017-06-22 [JavaFX Application Thread] INFO   - Login success
+22:39:23.325 2017-06-22 [JavaFX Application Thread] INFO   - Success login
+22:39:23.325 2017-06-22 [JavaFX Application Thread] INFO   - Success login
+22:39:23.339 2017-06-22 [pool-2-thread-1] INFO   - Action users: getStudentToUser
+22:39:23.339 2017-06-22 [pool-2-thread-1] INFO   - Action users: getStudentToUser
+22:39:23.349 2017-06-22 [pool-2-thread-1] INFO   - Action users: getTeacherToUser
+22:39:23.349 2017-06-22 [pool-2-thread-1] INFO   - Action users: getTeacherToUser
+22:39:23.361 2017-06-22 [pool-2-thread-1] INFO   - Action users: getAdminToUser
+22:39:23.361 2017-06-22 [pool-2-thread-1] INFO   - Action users: getAdminToUser
+22:39:38.635 2017-06-22 [pool-2-thread-1] INFO   - Action (action): getAllUsers
+22:39:38.635 2017-06-22 [pool-2-thread-1] INFO   - Action (action): getAllUsers
+22:39:53.153 2017-06-22 [pool-2-thread-1] INFO   - Action users: logOut
+22:39:53.153 2017-06-22 [pool-2-thread-1] INFO   - Action users: logOut
+22:39:53.216 2017-06-22 [JavaFX Application Thread] INFO   - Log out
+22:39:53.216 2017-06-22 [JavaFX Application Thread] INFO   - Log out
+22:39:53.245 2017-06-22 [pool-2-thread-1] INFO   - Disconnect: /127.0.0.1:65259
+22:39:53.245 2017-06-22 [pool-2-thread-1] INFO   - Disconnect: /127.0.0.1:65259
+22:39:53.246 2017-06-22 [JavaFX Application Thread] INFO   - Close app
+22:39:53.246 2017-06-22 [JavaFX Application Thread] INFO   - Close app
